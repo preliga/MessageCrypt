@@ -1,0 +1,16 @@
+{% extends 'user/menu.html.twig' %}
+
+{% block content %}
+
+    <div align="center">
+        <h2 class="header-page">Profile</h2>
+        {% form_theme form 'bootstrap_3_layout.html.twig' %}
+        <div style="width: 300px;">
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            {{ form_end(form) }}
+        </div>
+    </div>
+
+
+{% endblock %}

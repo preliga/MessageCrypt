@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>{% block title %}MessageCrypt{% endblock %}</title>
+
+        <link rel="icon" type="image/x-icon" href="{{ asset('images/favicon.ico') }}" />
+
+
+        <link rel="stylesheet" href="{{ asset('css/library/bootstrap.min.css') }}" />
+        <link rel="stylesheet" href="{{ asset('css/library/jquery-ui.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/main.css') }}">
+        {% block stylesheets %}{% endblock %}
+    </head>
+    <body>
+    {% block body %}
+            {% block menu %}{% endblock %}
+
+            {% for flash_message in app.session.flashbag('notice') %}
+                <div class="alert alert-success">
+                    {{ flash_message }}
+                </div>
+            {% endfor %}
+
+            {% for flash_message in app.session.flashbag('error') %}
+                <div class="alert alert-danger">
+                    {{ flash_message }}
+                </div>
+            {% endfor %}
+
+            {% block content %}{% endblock %}
+        {% endblock %}
+
+        <script type="text/javascript" src="{{ asset('js/library/jquery.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('js/library/bootstrap.min.js') }}"></script>
+        <script src="{{ asset('js/library/jquery-1.12.4.js') }}"></script>
+        <script src="{{ asset('js/library/jquery-ui.js') }}"></script>
+        <script src="{{ asset('js/common.js') }}"></script>
+
+        {% block javascripts %}
+
+        {% endblock %}
+    </body>
+</html>

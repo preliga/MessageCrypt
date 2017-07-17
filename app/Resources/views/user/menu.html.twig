@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block menu %}
+    <div class="navbar navbar-inverse navbar-twitch" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="{{ path('user_home_index') }}">
+                    <span class="glyphicon glyphicon-link"></span>
+                    <span class="logo">
+                        <B>
+                            <span class="full-nav">
+                                MessageCrypt
+                            </span>
+                        </B>
+                    </span>
+                </a>
+            </div>
+
+
+            <div class="">
+                <ul class="nav navbar-nav">
+                    <li class="{% if app.request.attributes.get('_route') == 'user_home_index' %}active{% endif %}" >
+                        <a href="{{ path('user_home_index') }}">
+						<span class="small-nav" data-toggle="tooltip" data-placement="right" title="Home">
+							<span class="glyphicon glyphicon-home"></span>
+						</span>
+                            <span class="full-nav"> Home </span>
+                        </a>
+                    </li>
+                    <li class="{% if app.request.attributes.get('_route') == 'user_profile_index' %}active{% endif %}">
+                        <a href="{{ path('user_profile_index') }}">
+						<span class="small-nav" data-toggle="tooltip" data-placement="right" title="Logout">
+							<span class="glyphicon glyphicon-user"></span>
+						</span>
+                            <span class="full-nav"> Profile </span>
+                        </a>
+                    </li>
+                    <li class="{% if app.request.attributes.get('_route') == 'user_friends_index' %}active{% endif %}">
+                        <a href="{{ path('user_friends_index') }}">
+						<span class="small-nav" data-toggle="tooltip" data-placement="right" title="Logout">
+							<span class="glyphicon glyphicon-off"></span>
+						</span>
+                            <span class="full-nav"> Frineds </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('logout') }}">
+						<span class="small-nav" data-toggle="tooltip" data-placement="right" title="Logout">
+							<span class="glyphicon glyphicon-off"></span>
+						</span>
+                            <span class="full-nav"> Logout </span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
