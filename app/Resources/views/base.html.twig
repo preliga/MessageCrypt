@@ -16,14 +16,12 @@
     <body>
     {% block body %}
             {% block menu %}{% endblock %}
-
-            {% for flash_message in app.session.flashbag('notice') %}
+            {% for flash_message in app.flashes('notice')  %}
                 <div class="alert alert-success">
                     {{ flash_message }}
                 </div>
             {% endfor %}
-
-            {% for flash_message in app.session.flashbag('error') %}
+            {% for flash_message in app.flashes('error') %}
                 <div class="alert alert-danger">
                     {{ flash_message }}
                 </div>

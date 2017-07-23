@@ -33,8 +33,13 @@
         <option name="fixed"/>
       </options>
     </field>
-    <field name="birthdate" type="datetime" column="birthDate" nullable="true"/>
+    <field name="birthdate" type="date" column="birthDate" nullable="true"/>
     <field name="images" type="string" column="images" length="50" nullable="true">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="brochure" type="string" column="brochure" length="50" nullable="true">
       <options>
         <option name="fixed"/>
       </options>

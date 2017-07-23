@@ -8,15 +8,12 @@
 
 namespace AppBundle\Controller\User;
 
+
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Entity\User;
+use AppBundle\Form\UserType;
 
 class ProfileController extends Controller
 {
@@ -26,43 +23,53 @@ class ProfileController extends Controller
     public function indexAction(Request $request)
     {
         $user = $this->getUser();
+        $password = $user->getPassword();
+        $brochureName = $user->getBrochure();
 
-        $form = $this->doForm($user);
-
+        $form = $this->createForm(UserType::class, $user); //$this->doForm($user);
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid())
+        if($form->isSubmitted())
         {
-            // Get Data
-            $name = $form['name']->getData();
-            $lastName = $form['lastName']->getData();
-            $email = $form['email']->getData();
-            $username = $form['username']->getData();
-            $passwordFirst = $form['password']['first']->getData();
-            $passwordSecond = $form['password']['second']->getData();
-            $birthDate = $form['birthDate']->getData();
+            if( $form->isValid()) {
+                $passwordFirst = $form['password']['first']->getData();
+                $passwordSecond = $form['password']['second']->getData();
 
-            $user = $this->getUser();
-            $user->setName($name);
-            $user->setLastname($lastName);
-            $user->setEmail($email);
-            $user->setUsername($username);
-            $user->setBirthDate($birthDate);
+                if (!empty($passwordFirst) && $passwordFirst == $passwordSecond) {
+                    $encoder = $this->container->get('security.encoder_factory')->getEncoder($user);
+                    $password = $encoder->encodePassword($passwordFirst, $user->getSalt());
+                }
 
-            if(!empty($passwordFirst) && $passwordFirst == $passwordSecond)
-            {
-                $encoder = $this->container->get('security.encoder_factory')->getEncoder($user);
-                $newPassword = $encoder->encodePassword($passwordFirst, $user->getSalt());
+                $user->setPassword($password);
 
-                $user->setPassword($newPassword);
+                // brochure
+                $brochure = $user->getBrochure();
+                if(!empty($brochure)) {
+                    $brochureName = md5(uniqid()) . '.' . $brochure->guessExtension();
+                    $brochure->move(
+                        $this->getParameter('brochures_directory'),
+                        $brochureName
+                    );
+
+                }
+
+                $user->setBrochure($brochureName);
+                /////
+
+                $em = $this->getDoctrine()->getManager();
+                $em->flush();
+                $this->addFlash(
+                    'notice',
+                    'Save form'
+                );
             }
-
-            $em = $this->getDoctrine()->getManager();
-            $em->flush();
-            $this->addFlash(
-                'notice',
-                'Save form'
-            );
+            else
+            {
+                $this->addFlash(
+                    'error',
+                    'Form is not valid'
+                );
+            }
         }
 
         return $this->render('user/profile/index.html.twig',
@@ -73,97 +80,111 @@ class ProfileController extends Controller
         );
     }
 
-    private function doForm($user)
-    {
-        $form = $this->createFormBuilder($user)
-            ->add(
-                'name',
-                TextType::class,
-                [
-                    'attr' =>
-                        [
-                            'class' => 'form-control',
-                            'placeholder' => 'Name'
-                        ]
-                ]
-            )
-            ->add(
-                'lastName',
-                TextType::class,
-                [
-                    'attr' =>
-                        [
-                            'class' => 'form-control',
-                            'placeholder' => 'Last name'
-                        ]
-                ]
-            )
-            ->add(
-                'email',
-                EmailType::class,
-                [
-                    'required'   => true,
-                    'attr' =>
-                        [
-                            'class' => 'form-control',
-                            'placeholder' => 'E-mail'
-                        ]
-                ]
-            )
-            ->add(
-                'username',
-                TextType::class,
-                [
-                    'required'   => true,
-                    'attr' =>
-                        [
-                            'class' => 'form-control',
-                            'placeholder' => 'Username'
-                        ]
-                ]
-            )
-            ->add(
-                'password',
-                RepeatedType::class,
-                [
-                    'type' => PasswordType::class,
-                    'invalid_message' => "The password fields must match.",
-                    'first_options'  => ['label' => 'Password'],
-                    'second_options' => ['label' => 'Repeat Password'],
-                    'options' => [
-                        'attr' => [
-                            'class' => 'password-field'
-                        ],
-                    ],
-                ]
-            )
-            ->add(
-                'birthDate',
-                DateType::class,
-                [
-                    'widget' => 'single_text',
-                    'html5' => false,
-                    'attr' =>
-                        [
-                            'class' => 'js-datepicker'
-                        ]
-                ]
-            )
-            ->add(
-                'save',
-                SubmitType::class,
-                [
-                    'label' => 'Save',
-                    'attr' =>
-                        [
-                            'class' => 'btn btn-primary',
-                            'style' => 'margin-bottom:15px; width: 300px; height: 50px'
-                        ]
-                ]
-            )
-            ->getForm()
-        ;
-
-        return $form;
-    }
+//    private function doForm($user)
+//    {
+//        $form = $this->createFormBuilder($user)
+//            ->add(
+//                'name',
+//                TextType::class,
+//                [
+//                    'attr' =>
+//                        [
+//                            'class' => 'form-control',
+//                            'placeholder' => 'Name'
+//                        ]
+//                ]
+//            )
+//            ->add(
+//                'lastName',
+//                TextType::class,
+//                [
+//                    'attr' =>
+//                        [
+//                            'class' => 'form-control',
+//                            'placeholder' => 'Last name'
+//                        ]
+//                ]
+//            )
+//            ->add(
+//                'email',
+//                EmailType::class,
+//                [
+//                    'required'   => true,
+//                    'attr' =>
+//                        [
+//                            'class' => 'form-control',
+//                            'placeholder' => 'E-mail'
+//                        ]
+//                ]
+//            )
+//            ->add(
+//                'username',
+//                TextType::class,
+//                [
+//                    'required'   => true,
+//                    'attr' =>
+//                        [
+//                            'class' => 'form-control',
+//                            'placeholder' => 'Username'
+//                        ]
+//                ]
+//            )
+//            ->add(
+//                'password',
+//                RepeatedType::class,
+//                [
+//                    'required'   => false,
+//                    'type' => PasswordType::class,
+//                    'invalid_message' => "The password fields must match.",
+//                    'first_options'  => ['label' => 'Password'],
+//                    'second_options' => ['label' => 'Repeat Password'],
+//                    'options' => [
+//                        'attr' => [
+//                            'class' => 'password-field'
+//                        ],
+//                    ],
+//                ]
+//            )
+//            ->add(
+//                'birthDate',
+//                DateType::class,
+//                [
+//                    'widget' => 'single_text',
+//                    'html5' => false,
+//                    'attr' =>
+//                        [
+//                            'class' => 'js-datepicker'
+//                        ]
+//                ]
+//            )
+//            ->add(
+//                'brochure',
+//                FileType::class,
+//                [
+//                    'label' => 'Brochure (PDF file)',
+////                    'widget' => 'single_text',
+////                    'html5' => false,
+////                    'attr' =>
+////                        [
+////                            'class' => 'js-datepicker'
+////                        ]
+//                ]
+//            )
+//            ->add(
+//                'save',
+//                SubmitType::class,
+//                [
+//                    'label' => 'Save',
+//                    'attr' =>
+//                        [
+//                            'class' => 'btn btn-primary',
+//                            'style' => 'margin-bottom:15px; width: 300px; height: 50px'
+//                        ]
+//                ]
+//            )
+//            ->getForm()
+//        ;
+//
+//        return $form;
+//    }
 }
