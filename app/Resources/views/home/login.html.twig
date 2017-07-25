@@ -1,7 +1,9 @@
 {% extends 'home.html.twig' %}
 
 {% block content %}
-
+    <h1 class="page-header">
+        Login
+    </h1>
     <form id="login-form" action="{{ path('login_check') }}" method="post" role="form" style="display: block;">
         <div class="form-group">
             <input type="text" required name="_username" id="username" tabindex="1" class="form-control" placeholder="Username" value="">

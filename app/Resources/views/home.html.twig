@@ -30,18 +30,19 @@
                             <div class="panel panel-login">
                                 <div class="panel-body">
                                     <div>
-                                        <div style="float: left; width: 50%;">
-                                            <h2 class="page-header">
-                                                <a href="{{ path('login') }}"> Login </a>
-                                            </h2>
-                                        </div>
-                                        <div style="float: right; width: 50%;">
-                                            <h2 class="page-header">
-                                                <a href="{{ path('register') }}"> Register </a>
-                                            </h2>
-                                        </div>
+                                        <ul class="nav nav-tabs">
+                                            <li role="presentation" {% if app.request.attributes.get("_route") == 'login' %} class="active" {% endif %}>
+                                                    <a href="{{ path('login') }}"> Login </a>
+                                            </li>
+                                            <li role="presentation" {% if app.request.attributes.get("_route") == 'register' %} class="active" {% endif %}>
+                                                    <a href="{{ path('register') }}"> Register </a>
+                                            </li>
+                                        </ul>
                                     </div>
-                                    {% block content %}{% endblock %}
+                                    <div class="panel panel-default">
+                                            {% block content %}{% endblock %}
+
+                                    </div>
                                 </div>
                             </div>
                         </div>

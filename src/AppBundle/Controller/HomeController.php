@@ -19,12 +19,18 @@ class HomeController extends Controller
     {
         $error = $authUtils->getLastAuthenticationError();
 
+        if(!empty($error))
+        {
+            $this->addFlash(
+                'error',
+                $error->getMessage()
+            );
+        }
         $lastUsername = $authUtils->getLastUsername();
 
         return $this->render('home/login.html.twig',
             [
                 'last_username' => $lastUsername,
-                'error' => $error,
             ]
         );
     }
