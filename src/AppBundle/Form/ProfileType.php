@@ -23,14 +23,20 @@ use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
-class UserType extends AbstractType
+class ProfileType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-//        die(var_dump($options));
-//        die(var_dump($this->configureOptions()->getParameter('brochures_directory')));
-        
         $builder
+            ->add(
+                'avatar',
+                FileType::class,
+                [
+                    'required' => false,
+                    'label' => "Avatar",
+                    'data_class' => null,
+                ]
+            )
             ->add(
                 'name',
                 TextType::class,
@@ -112,12 +118,6 @@ class UserType extends AbstractType
                     'required' => false,
                     'label' => "Brochure (PDF file)",
                     'data_class' => null,
-                    'attr' =>
-                        [
-//                            'class' => 'form-control',
-                        ]
-//                    'data_class' => 'Symfony\Component\HttpFoundation\File\File',
-//                    'property_path' => '/uploads/brochures/'
                 ]
             )
             ->add(

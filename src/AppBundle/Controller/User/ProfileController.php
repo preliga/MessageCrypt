@@ -13,7 +13,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\User;
-use AppBundle\Form\UserType;
+use AppBundle\Form\ProfileType;
 
 class ProfileController extends Controller
 {
@@ -25,13 +25,15 @@ class ProfileController extends Controller
         $user = $this->getUser();
         $password = $user->getPassword();
         $brochureName = $user->getBrochure();
+        $avatarName = $user->getAvatar();
 
-        $form = $this->createForm(UserType::class, $user); //$this->doForm($user);
+        $form = $this->createForm(ProfileType::class, $user); //$this->doForm($user);
         $form->handleRequest($request);
 
         if($form->isSubmitted())
         {
             if( $form->isValid()) {
+                // password
                 $passwordFirst = $form['password']['first']->getData();
                 $passwordSecond = $form['password']['second']->getData();
 
@@ -39,8 +41,8 @@ class ProfileController extends Controller
                     $encoder = $this->container->get('security.encoder_factory')->getEncoder($user);
                     $password = $encoder->encodePassword($passwordFirst, $user->getSalt());
                 }
-
                 $user->setPassword($password);
+                /////
 
                 // brochure
                 $brochure = $user->getBrochure();
@@ -52,10 +54,23 @@ class ProfileController extends Controller
                     );
 
                 }
-
                 $user->setBrochure($brochureName);
                 /////
 
+                // avatar
+                $avatar = $user->getAvatar();
+                if(!empty($avatar)) {
+                    $avatarName = md5(uniqid()) . '.' . $avatar->guessExtension();
+                    $avatar->move(
+                        $this->getParameter('avatars_directory'),
+                        $avatarName
+                    );
+
+                }
+                $user->setAvatar($avatarName);
+                /////
+                ///
+                ///
                 $em = $this->getDoctrine()->getManager();
                 $em->flush();
                 $this->addFlash(

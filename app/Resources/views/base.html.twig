@@ -15,20 +15,20 @@
     </head>
     <body>
     {% block body %}
-            {% block menu %}{% endblock %}
-            {% for flash_message in app.flashes('notice')  %}
-                <div class="alert alert-success">
-                    {{ flash_message }}
-                </div>
-            {% endfor %}
-            {% for flash_message in app.flashes('error') %}
-                <div class="alert alert-danger">
-                    {{ flash_message }}
-                </div>
-            {% endfor %}
+        {% block menu %}{% endblock %}
+        {% for flash_message in app.flashes('notice')  %}
+            <div class="alert alert-success">
+                {{ flash_message }}
+            </div>
+        {% endfor %}
+        {% for flash_message in app.flashes('error') %}
+            <div class="alert alert-danger">
+                {{ flash_message }}
+            </div>
+        {% endfor %}
 
-            {% block content %}{% endblock %}
-        {% endblock %}
+        {% block content %}{% endblock %}
+    {% endblock %}
 
         <script type="text/javascript" src="{{ asset('js/library/jquery.min.js') }}"></script>
         <script type="text/javascript" src="{{ asset('js/library/bootstrap.min.js') }}"></script>

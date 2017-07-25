@@ -34,7 +34,7 @@
       </options>
     </field>
     <field name="birthdate" type="date" column="birthDate" nullable="true"/>
-    <field name="images" type="string" column="images" length="50" nullable="true">
+    <field name="avatar" type="string" column="avatar" length="50" nullable="true">
       <options>
         <option name="fixed"/>
       </options>

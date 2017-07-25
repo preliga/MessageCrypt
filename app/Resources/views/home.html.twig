@@ -8,7 +8,47 @@
         <link rel="icon" type="image/x-icon" href="{{ asset('images/favicon.ico') }}" />
     </head>
     <body background="images/background.jpg">
-        {% block body %}{% endblock %}
+        {% block body %}
+            <div align="center">
+                <h1 class="page-header">
+                    MessageCrypt
+                </h1>
+                {% for flash_message in app.flashes('notice')  %}
+                    <div class="alert alert-success">
+                        {{ flash_message }}
+                    </div>
+                {% endfor %}
+                {% for flash_message in app.flashes('error') %}
+                    <div class="alert alert-danger">
+                        {{ flash_message }}
+                    </div>
+                {% endfor %}
+
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6 col-md-offset-3">
+                            <div class="panel panel-login">
+                                <div class="panel-body">
+                                    <div>
+                                        <div style="float: left; width: 50%;">
+                                            <h2 class="page-header">
+                                                <a href="{{ path('login') }}"> Login </a>
+                                            </h2>
+                                        </div>
+                                        <div style="float: right; width: 50%;">
+                                            <h2 class="page-header">
+                                                <a href="{{ path('register') }}"> Register </a>
+                                            </h2>
+                                        </div>
+                                    </div>
+                                    {% block content %}{% endblock %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endblock %}
         {% block javascripts %}{% endblock %}
     </body>
 </html>
