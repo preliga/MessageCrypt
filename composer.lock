@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "ae370919c1e1d5a354c0851cb7d7c664",
+    "content-hash": "7aebba662f8a3c420f166f7c690da2e5",
     "packages": [
         {
             "name": "bmatzner/jquery-bundle",
@@ -1033,6 +1033,67 @@
                 "sql"
             ],
             "time": "2014-01-12T16:20:24+00:00"
+        },
+        {
+            "name": "jgm/tablebundle",
+            "version": "v1.3.3",
+            "target-dir": "JGM/TableBundle",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jangemue/TableBundle.git",
+                "reference": "a8affb304c2f57dedd23241d9fdfca6ecf1b0925"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jangemue/TableBundle/zipball/a8affb304c2f57dedd23241d9fdfca6ecf1b0925",
+                "reference": "a8affb304c2f57dedd23241d9fdfca6ecf1b0925",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/common": ">=2.3",
+                "php": ">=5.3.9",
+                "symfony/config": ">=2.5",
+                "symfony/dependency-injection": ">=2.5",
+                "symfony/http-foundation": ">=2.5",
+                "symfony/http-kernel": ">=2.5",
+                "symfony/security": ">=2.5",
+                "symfony/symfony": ">=2.5",
+                "symfony/templating": ">=2.5",
+                "symfony/yaml": ">=2.5"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.3-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "JGM\\TableBundle": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jan Mühlig",
+                    "email": "mail@janmuehlig.de"
+                }
+            ],
+            "description": "Bundle for creating data tables for symfony application.",
+            "keywords": [
+                "bundle",
+                "data table",
+                "filter",
+                "pagination",
+                "search",
+                "simple tables",
+                "symfony",
+                "table"
+            ],
+            "time": "2016-08-18T11:54:24+00:00"
         },
         {
             "name": "kriswallsmith/assetic",

@@ -8,6 +8,8 @@
 
 namespace AppBundle\Controller\User;
 
+//use AppBundle\Entity\User;
+use AppBundle\Table\FriendsSearchTableType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,7 +21,33 @@ class FriendsController extends Controller
      */
     public function indexAction(Request $request)
     {
-        return $this->render('user/home/index.html.twig',
+        return $this->render('user/friends/index.html.twig',
+            [
+            ]
+        );
+    }
+
+    /**
+     * @Route("/user/friends/search", name="user_friends_search")
+     */
+    public function searchAction(Request $request)
+    {
+        $table = $this->get('jgm.table')->createTable(new FriendsSearchTableType());
+
+        return $this->render('user/friends/search.html.twig',
+            [
+                'userTable' => $table->createView()
+            ]
+        );
+    }
+
+    /**
+     * @Route("/user/friends/invitations", name="user_friends_invitations")
+     */
+    public function invitationsAction(Request $request)
+    {
+
+        return $this->render('user/friends/invitations.html.twig',
             [
             ]
         );

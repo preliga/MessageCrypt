@@ -1,13 +1,12 @@
 {% extends 'user/menu.html.twig' %}
 
 {% block content %}
-
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6 col-md-offset-3">
-                <div class="panel panel-login">
-                    <div class="panel-body">
-                        <div align="center">
+    {#<div class="container">#}
+        {#<div class="row">#}
+            {#<div class="col-md-6 col-md-offset-3">#}
+                {#<div class="panel panel-custom-horrible-red">#}
+                    {#<div class="panel-body">#}
+                        {#<div align="center">#}
                             <h2 class="page-header">Profile</h2>
                             {% form_theme form 'bootstrap_3_layout.html.twig' %}
                             {% if user.avatar %}
@@ -15,7 +14,6 @@
                                     <img src="{{ asset('uploads/avatars/' ~ user.avatar) }}">
                                 </div>
                             {%  endif %}
-
 
                             <div style="width: 300px;">
                                 {{ form_start(form) }}
@@ -70,22 +68,10 @@
                                 <br>
                                 {{ form_end(form) }}
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-
-
-
-
-
-
-
-
-
-
+                        {#</div>#}
+                    {#</div>#}
+                {#</div>#}
+            {#</div>#}
+        {#</div>#}
+    {#</div>#}
 {% endblock %}

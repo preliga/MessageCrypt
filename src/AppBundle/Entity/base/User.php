@@ -58,9 +58,9 @@ class User
     protected $password;
 
     /**
-     * @var \DateTime
+     * @var \Date
      *
-     * @ORM\Column(name="birthDate", type="datetime", nullable=true)
+     * @ORM\Column(name="birthDate", type="date", nullable=true)
      */
     protected $birthdate;
 

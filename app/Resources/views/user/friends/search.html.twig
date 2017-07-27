@@ -1,0 +1,33 @@
+{% extends 'user/friends/base.html.twig' %}
+{% block tab %}
+    <h1 class="page-header">Search</h1>
+    {{  filter_begin( userTable ) }}
+        <div class="form-inline">
+            <div class="form-group">
+                {#{{ filter_label( userTable.filters.name ) }}#}
+                {{ filter_widget( userTable.filters.name ) }}
+            </div>
+            <div class="form-group">
+                {#{{ filter_label( userTable.filters.lastName ) }}#}
+                {{ filter_widget( userTable.filters.lastName ) }}
+            </div>
+            <div class="form-group">
+                {#{{ filter_label( userTable.filters.birthDate ) }}#}
+                {{ filter_widget( userTable.filters.birthDate  ) }}
+            </div>
+            <div class="form-group">
+                {#{{ filter_label( userTable.filters.username ) }}#}
+                {{ filter_widget( userTable.filters.username ) }}
+            </div>
+            <div class="form-group">
+                {#{{ filter_label( userTable.filters.email ) }}#}
+                {{ filter_widget( userTable.filters.email ) }}
+            </div>
+            {{ filter_submit_button( userTable ) }}
+            {{ filter_reset_link( userTable ) }}
+        </div>
+    {{ filter_end( userTable ) }}
+    <br>
+
+    {{ table( userTable ) }}
+{% endblock %}

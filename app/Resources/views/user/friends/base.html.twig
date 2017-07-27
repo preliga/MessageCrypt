@@ -1,0 +1,21 @@
+{% extends 'user/menu.html.twig' %}
+{% block content %}
+
+<div>
+    <ul class="nav nav-tabs">
+        <li role="presentation" {% if app.request.attributes.get("_route") == 'user_friends_index' %} class="active" {% endif %}>
+            <a href="{{ path('user_friends_index') }}"> Friends </a>
+        </li>
+        <li role="presentation" {% if app.request.attributes.get("_route") == 'user_friends_search' %} class="active" {% endif %}>
+            <a href="{{ path('user_friends_search') }}"> Search </a>
+        </li>
+        <li role="presentation" {% if app.request.attributes.get("_route") == 'user_friends_invitations' %} class="active" {% endif %}>
+            <a href="{{ path('user_friends_invitations') }}"> Invitations </a>
+        </li>
+    </ul>
+</div>
+<div class="panel-default">
+    {% block tab %}{% endblock %}
+</div>
+
+{% endblock %}

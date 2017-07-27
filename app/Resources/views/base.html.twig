@@ -14,21 +14,30 @@
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
-    {% block body %}
-        {% block menu %}{% endblock %}
-        {% for flash_message in app.flashes('notice')  %}
-            <div class="alert alert-success">
-                {{ flash_message }}
+        {% block body %}
+            {% block menu %}{% endblock %}
+            {% for flash_message in app.flashes('notice')  %}
+                <div class="alert alert-success">
+                    {{ flash_message }}
+                </div>
+            {% endfor %}
+            {% for flash_message in app.flashes('error') %}
+                <div class="alert alert-danger">
+                    {{ flash_message }}
+                </div>
+            {% endfor %}
+            <div class="container">
+                <div class="row">
+                    <div class="panel panel-custom-horrible-red">
+                        <div class="panel-body ">
+                            <div align="center">
+                                {% block content %}{% endblock %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        {% endfor %}
-        {% for flash_message in app.flashes('error') %}
-            <div class="alert alert-danger">
-                {{ flash_message }}
-            </div>
-        {% endfor %}
-
-        {% block content %}{% endblock %}
-    {% endblock %}
+        {% endblock %}
 
         <script type="text/javascript" src="{{ asset('js/library/jquery.min.js') }}"></script>
         <script type="text/javascript" src="{{ asset('js/library/bootstrap.min.js') }}"></script>
@@ -36,8 +45,6 @@
         <script src="{{ asset('js/library/jquery-ui.js') }}"></script>
         <script src="{{ asset('js/common.js') }}"></script>
 
-        {% block javascripts %}
-
-        {% endblock %}
+        {% block javascripts %}{% endblock %}
     </body>
 </html>
