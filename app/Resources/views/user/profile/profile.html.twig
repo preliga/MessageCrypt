@@ -1,0 +1,51 @@
+{% extends 'user/menu.html.twig' %}
+
+{% block content %}
+    <h2 class="page-header">Profile</h2>
+    <div>
+        <div class="col-md-8">
+            {% if user.avatar %}
+                <div>
+                    <img src="{{ asset('uploads/avatars/' ~ user.avatar) }}">
+                </div>
+                <br>
+            {% endif %}
+            <br>
+            <div>
+                {% if user.brochure %}
+                    <a href="{{ asset('uploads/brochures/' ~ user.brochure) }}" target="_blank">View brochure (PDF)</a>
+                {% endif %}
+            </div>
+            <br>
+        </div>
+
+        <div class="col-md-4">
+
+            <div>
+                <label> Name </label>
+                <br>
+                <span> {{ user.name }} </span>
+            </div>
+            <br>
+            <div>
+                <label> Last name </label>
+                <br>
+                <span> {{ user.lastName }} </span>
+            </div>
+            <br>
+            <div>
+                <label> Email </label>
+                <br>
+                <span> {{ user.email }} </span>
+            </div>
+            <br>
+            <div>
+                <label> Birth date </label>
+                <br>
+                <span>  {{ user.birthDate|date("Y-m-d") }} </span>
+            </div>
+            <br>
+        </div>
+        <br>
+    </div>
+{% endblock %}

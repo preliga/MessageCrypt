@@ -1,0 +1,74 @@
+{% extends 'user/menu.html.twig' %}
+
+{% block content %}
+    <h2 class="page-header">Profile</h2>
+    {% form_theme form 'bootstrap_3_layout.html.twig' %}
+    <div>
+        {{ form_start(form) }}
+        <div class="col-md-8">
+            {% if user.avatar %}
+                <div>
+                    <img src="{{ asset('uploads/avatars/' ~ user.avatar) }}">
+                </div>
+                <br>
+            {% endif %}
+            <div>
+                {{ form_label(form.avatar) }}
+                {{ form_errors(form.avatar) }}
+                {{ form_widget(form.avatar) }}
+            </div>
+            <br>
+            <div>
+                {{ form_label(form.brochure) }}
+                {% if user.brochure %}
+                    <a href="{{ asset('uploads/brochures/' ~ user.brochure) }}" target="_blank">View brochure (PDF)</a>
+                {% endif %}
+                {{ form_errors(form.brochure) }}
+                {{ form_widget(form.brochure) }}
+            </div>
+            <br>
+        </div>
+
+        <div class="col-md-4">
+
+            <div>
+                {{ form_label(form.name) }}
+                {{ form_errors(form.name) }}
+                {{ form_widget(form.name) }}
+            </div>
+            <br>
+            <div>
+                {{ form_label(form.lastName) }}
+                {{ form_errors(form.lastName) }}
+                {{ form_widget(form.lastName) }}
+            </div>
+            <br>
+            <div>
+                {{ form_label(form.email) }}
+                {{ form_errors(form.email) }}
+                {{ form_widget(form.email) }}
+            </div>
+            <br>
+            <div>
+                {{ form_label(form.username) }}
+                {{ form_errors(form.username) }}
+                {{ form_widget(form.username) }}
+            </div>
+            <br>
+            <div>
+                {#{{ form_label(form.password) }}#}
+                {{ form_errors(form.password) }}
+                {{ form_widget(form.password) }}
+            </div>
+            <div>
+                {{ form_label(form.birthDate) }}
+                {{ form_errors(form.birthDate) }}
+                {{ form_widget(form.birthDate) }}
+            </div>
+            <br>
+            <br>
+        </div>
+        <br>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

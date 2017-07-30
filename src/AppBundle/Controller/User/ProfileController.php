@@ -18,9 +18,9 @@ use AppBundle\Form\ProfileType;
 class ProfileController extends Controller
 {
     /**
-     * @Route("/user/profile/index", name="user_profile_index")
+     * @Route("/user/profile/myprofile", name="user_profile_myprofile")
      */
-    public function indexAction(Request $request)
+    public function myprofileAction(Request $request)
     {
         $user = $this->getUser();
         $password = $user->getPassword();
@@ -87,7 +87,7 @@ class ProfileController extends Controller
             }
         }
 
-        return $this->render('user/profile/index.html.twig',
+        return $this->render('user/profile/myprofile.html.twig',
             [
                 'user' => $user,
                 'form' => $form->createView()
@@ -95,111 +95,25 @@ class ProfileController extends Controller
         );
     }
 
-//    private function doForm($user)
-//    {
-//        $form = $this->createFormBuilder($user)
-//            ->add(
-//                'name',
-//                TextType::class,
-//                [
-//                    'attr' =>
-//                        [
-//                            'class' => 'form-control',
-//                            'placeholder' => 'Name'
-//                        ]
-//                ]
-//            )
-//            ->add(
-//                'lastName',
-//                TextType::class,
-//                [
-//                    'attr' =>
-//                        [
-//                            'class' => 'form-control',
-//                            'placeholder' => 'Last name'
-//                        ]
-//                ]
-//            )
-//            ->add(
-//                'email',
-//                EmailType::class,
-//                [
-//                    'required'   => true,
-//                    'attr' =>
-//                        [
-//                            'class' => 'form-control',
-//                            'placeholder' => 'E-mail'
-//                        ]
-//                ]
-//            )
-//            ->add(
-//                'username',
-//                TextType::class,
-//                [
-//                    'required'   => true,
-//                    'attr' =>
-//                        [
-//                            'class' => 'form-control',
-//                            'placeholder' => 'Username'
-//                        ]
-//                ]
-//            )
-//            ->add(
-//                'password',
-//                RepeatedType::class,
-//                [
-//                    'required'   => false,
-//                    'type' => PasswordType::class,
-//                    'invalid_message' => "The password fields must match.",
-//                    'first_options'  => ['label' => 'Password'],
-//                    'second_options' => ['label' => 'Repeat Password'],
-//                    'options' => [
-//                        'attr' => [
-//                            'class' => 'password-field'
-//                        ],
-//                    ],
-//                ]
-//            )
-//            ->add(
-//                'birthDate',
-//                DateType::class,
-//                [
-//                    'widget' => 'single_text',
-//                    'html5' => false,
-//                    'attr' =>
-//                        [
-//                            'class' => 'js-datepicker'
-//                        ]
-//                ]
-//            )
-//            ->add(
-//                'brochure',
-//                FileType::class,
-//                [
-//                    'label' => 'Brochure (PDF file)',
-////                    'widget' => 'single_text',
-////                    'html5' => false,
-////                    'attr' =>
-////                        [
-////                            'class' => 'js-datepicker'
-////                        ]
-//                ]
-//            )
-//            ->add(
-//                'save',
-//                SubmitType::class,
-//                [
-//                    'label' => 'Save',
-//                    'attr' =>
-//                        [
-//                            'class' => 'btn btn-primary',
-//                            'style' => 'margin-bottom:15px; width: 300px; height: 50px'
-//                        ]
-//                ]
-//            )
-//            ->getForm()
-//        ;
-//
-//        return $form;
-//    }
+    /**
+     * @Route("/user/profile/profile/{id}", name="user_profile_profile")
+     */
+    public function profileAction($id, Request $request)
+    {
+        $user = $this->getDoctrine()
+            ->getRepository('AppBundle:User')
+            ->find($id)
+        ;
+
+        $form = $this->createForm(ProfileType::class, $user); //$this->doForm($user);
+        $form->handleRequest($request);
+
+
+        return $this->render('user/profile/profile.html.twig',
+            [
+                'user' => $user,
+//                'form' => $form->createView()
+            ]
+        );
+    }
 }

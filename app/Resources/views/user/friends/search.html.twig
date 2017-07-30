@@ -28,6 +28,19 @@
         </div>
     {{ filter_end( userTable ) }}
     <br>
+    <div class="table table-hover">
+        {{ table( userTable ) }}
+    </div>
 
-    {{ table( userTable ) }}
+{% endblock %}
+
+{% block pagescripts %}
+<script>
+    $(".goProfile").on('click', function () {
+        var id = $(this).attr('id');
+        var url = "{{  path('user_profile_profile', {'id': 'id'}) }}";
+        url = url.replace('id', id);
+        $(location).attr('href',url);
+    })
+</script>
 {% endblock %}

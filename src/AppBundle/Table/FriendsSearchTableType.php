@@ -12,6 +12,7 @@ use JGM\TableBundle\Table\DataSource\EntityDataSource;
 use JGM\TableBundle\Table\Filter\FilterBuilder;
 use JGM\TableBundle\Table\Filter\Type\FilterTypeInterface;
 use JGM\TableBundle\Table\Pagination\Type\PaginationTypeInterface;
+use JGM\TableBundle\Table\Row\Row;
 use JGM\TableBundle\Table\TableBuilder;
 use JGM\TableBundle\Table\Type\AbstractTableType;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -31,8 +32,14 @@ class FriendsSearchTableType extends AbstractTableType implements FilterTypeInte
             ;
     }
 
+    public function getRowAttributes(Row $row)
+    {
+        return ['id' => $row->getEntity()->getId(), 'class' => 'goProfile'];
+    }
+
     public function getDataSource(ContainerInterface $container)
     {
+//        $container->setParameter('id', 15);
         return new EntityDataSource('AppBundle:User');
     }
 
@@ -45,7 +52,7 @@ class FriendsSearchTableType extends AbstractTableType implements FilterTypeInte
     {
         $resolver->setDefaults([
             'form_attr' => ['class' => 'form-inline'],
-            'attr' => ['class' => 'table table-striped'],
+            'attr' => ['class' => 'table table-striped table-hover', 'style' => 'cursor: pointer'],
             'empty_value' => 'There is no user...'
         ]);
     }
