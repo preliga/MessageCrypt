@@ -24,22 +24,23 @@ class FriendsSearchTableType extends AbstractTableType implements FilterTypeInte
     public function buildTable(TableBuilder $builder)
     {
         $builder
-            ->add('text', 'name', ['label' => 'Name'])
-            ->add('text', 'lastName', ['label' => 'Last name'])
-            ->add('date', 'birthDate', ['label' => 'Birth date'])
-            ->add('text', 'username', ['label' => 'Username'])
-            ->add('text', 'email', ['label' => 'Email'])
+            ->add('image', 'avatar', ['label' => 'Avatar', 'attr' => ['class' => 'goProfile']])
+            ->add('text', 'name', ['label' => 'Name', 'attr' => ['class' => 'goProfile']])
+            ->add('text', 'lastName', ['label' => 'Last name', 'attr' => ['class' => 'goProfile']])
+            ->add('date', 'birthDate', ['label' => 'Birth date', 'format' => 'Y-m-d','attr' => ['class' => 'goProfile']])
+            ->add('text', 'username', ['label' => 'Username', 'attr' => ['class' => 'goProfile']])
+            ->add('text', 'email', ['label' => 'Email', 'attr' => ['class' => 'goProfile']])
+            ->add('button', 'id', ['label' => '', 'label_btn' => '<i class="fa fa-paper-plane-o" aria-hidden="true"></i> Send invitation', 'attr_btn' => ['class' => 'btn btn-info']])
             ;
     }
 
     public function getRowAttributes(Row $row)
     {
-        return ['id' => $row->getEntity()->getId(), 'class' => 'goProfile'];
+        return ['id' => $row->getEntity()->getId(), 'class' => 'searchTableRow'];
     }
 
     public function getDataSource(ContainerInterface $container)
     {
-//        $container->setParameter('id', 15);
         return new EntityDataSource('AppBundle:User');
     }
 
@@ -51,8 +52,8 @@ class FriendsSearchTableType extends AbstractTableType implements FilterTypeInte
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'form_attr' => ['class' => 'form-inline'],
-            'attr' => ['class' => 'table table-striped table-hover', 'style' => 'cursor: pointer'],
+            'head_attr' => ['class' => 'table-head', 'style' => 'text-align: center;', 'align' => 'center'],
+            'attr' => ['class' => 'table table-striped table-hover', 'style' => 'cursor: pointer; text-align: center;'],
             'empty_value' => 'There is no user...'
         ]);
     }
@@ -86,7 +87,7 @@ class FriendsSearchTableType extends AbstractTableType implements FilterTypeInte
     public function configurePaginationOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'rows_per_page' => 3,
+            'rows_per_page' => 20,
             'max_pages' => 10,
         ]);
     }

@@ -4,13 +4,29 @@
 <div>
     <ul class="nav nav-tabs">
         <li role="presentation" {% if app.request.attributes.get("_route") == 'user_friends_index' %} class="active" {% endif %}>
-            <a href="{{ path('user_friends_index') }}"> Friends </a>
+            <a href="{{ path('user_friends_index') }}">
+                <span style="color: black;">
+                    <i class="fa fa-users" aria-hidden="true"></i>
+                    My friends
+                </span>
+            </a>
         </li>
         <li role="presentation" {% if app.request.attributes.get("_route") == 'user_friends_search' %} class="active" {% endif %}>
-            <a href="{{ path('user_friends_search') }}"> Search </a>
+            <a href="{{ path('user_friends_search') }}">
+                <span style="color: black;">
+                    <i class="fa fa-search" aria-hidden="true"></i>
+                    Search
+                </span>
+            </a>
         </li>
         <li role="presentation" {% if app.request.attributes.get("_route") == 'user_friends_invitations' %} class="active" {% endif %}>
-            <a href="{{ path('user_friends_invitations') }}"> Invitations </a>
+            <a href="{{ path('user_friends_invitations') }}">
+                <span style="color: black;">
+                    <i class="fa fa-envelope-open-o" aria-hidden="true"></i>
+                    Invitations
+                </span>
+            </a>
+
         </li>
     </ul>
 </div>

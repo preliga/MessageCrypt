@@ -11,3 +11,22 @@ body {
     color: #ffffff;
     border-color: #ff0000;
 }
+
+/*Menu*/
+/*i{*/
+    /*!*width: 50px;*!*/
+    /*!*height: 40px;*!*/
+/*}*/
+/*/////////*/
+
+/*Tabelka*/
+td{
+    vertical-align: middle !important;
+}
+th{
+    text-align: center ;
+}
+tr.searchTableRow{
+    height: 100px;
+}
+/*/////////*/

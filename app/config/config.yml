@@ -67,3 +67,9 @@ swiftmailer:
     username: '%mailer_user%'
     password: '%mailer_password%'
     spool: { type: memory }
+
+
+jgm_table:
+    columns:
+        image: 'AppBundle\Table\Column\AvatarColumn'
+        button: 'AppBundle\Table\Column\ButtonColumn'

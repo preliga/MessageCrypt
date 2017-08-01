@@ -1,6 +1,7 @@
 {% extends 'user/friends/base.html.twig' %}
 {% block tab %}
     <h1 class="page-header">Search</h1>
+
     {{  filter_begin( userTable ) }}
         <div class="form-inline">
             <div class="form-group">
@@ -37,7 +38,7 @@
 {% block pagescripts %}
 <script>
     $(".goProfile").on('click', function () {
-        var id = $(this).attr('id');
+        var id = $(this).parent().attr('id');
         var url = "{{  path('user_profile_profile', {'id': 'id'}) }}";
         url = url.replace('id', id);
         $(location).attr('href',url);
