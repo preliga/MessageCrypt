@@ -105,14 +105,27 @@ class ProfileController extends Controller
             ->find($id)
         ;
 
+        $friend1 = $this->getDoctrine()
+            ->getRepository('AppBundle:Friend')
+            ->findOneBy(['userid1' => $this->getUser(), 'userid2' => $user])
+        ;
+
+        $friend2 = $this->getDoctrine()
+            ->getRepository('AppBundle:Friend')
+            ->findOneBy(['userid1' => $user, 'userid2' => $this->getUser()])
+        ;
+
+
         $form = $this->createForm(ProfileType::class, $user); //$this->doForm($user);
         $form->handleRequest($request);
 
 
         return $this->render('user/profile/profile.html.twig',
             [
+                'ownUser' => $this->getUser(),
                 'user' => $user,
-//                'form' => $form->createView()
+                'friend1' => $friend1,
+                'friend2' => $friend2
             ]
         );
     }

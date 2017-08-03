@@ -20,6 +20,13 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class FriendsSearchTableType extends AbstractTableType implements FilterTypeInterface, PaginationTypeInterface
 {
+    private $friends;
+
+    public function __construct($friends)
+    {
+        $this->friends = $friends;
+    }
+
     // Table
     public function buildTable(TableBuilder $builder)
     {
@@ -30,7 +37,7 @@ class FriendsSearchTableType extends AbstractTableType implements FilterTypeInte
             ->add('date', 'birthDate', ['label' => 'Birth date', 'format' => 'Y-m-d','attr' => ['class' => 'goProfile']])
             ->add('text', 'username', ['label' => 'Username', 'attr' => ['class' => 'goProfile']])
             ->add('text', 'email', ['label' => 'Email', 'attr' => ['class' => 'goProfile']])
-            ->add('button', 'id', ['label' => '', 'label_btn' => '<i class="fa fa-paper-plane-o" aria-hidden="true"></i> Send invitation', 'attr_btn' => ['class' => 'btn btn-info']])
+            ->add('searchbuttons', 'id', ['label' => '', 'friends' => $this->friends])
             ;
     }
 

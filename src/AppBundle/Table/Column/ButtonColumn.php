@@ -8,7 +8,6 @@
 
 namespace AppBundle\Table\Column;
 
-
 use JGM\TableBundle\Table\Column\AbstractColumn;
 use JGM\TableBundle\Table\Row\Row;
 use Symfony\Component\Config\Definition\Exception\Exception;
@@ -32,26 +31,9 @@ class ButtonColumn extends AbstractColumn
     {
         $value = $this->getValue($row); // Returns the value of the property with the same name as the column at this row.
 
-//        if ($value === null || (is_string($value) && strlen($value) === 0)) {
-//            $value = $this->options['alt_image']; // Get the value of the option 'alt_image', whose default is 'not_found.png'
-//        }
-
-//        $path = "uploads/avatars/$value";
-//        if(!file_exists($path)){
-//            return "";
-//        } else {
-//            return "<img src='/$path' alt='{$this->options['alt_text']}' width='100px'/>";
-//        }
-
         $html = "";
 
-
-
         if($this->options['countButtons'] > 1){
-//            if(is_array($label) && is_array($class) && is_array($style) && is_array($other)){
-//                throw new Exception("Label, class, style must be array when count buttons is more than 1");
-//            }
-
             for($i = 0; $i < $this->options['countButtons']; $i++)
             {
                 $label = !empty($this->options['label_btn'][$i]) ? $this->options['label_btn'][$i] : "";

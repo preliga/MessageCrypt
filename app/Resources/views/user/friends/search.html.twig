@@ -43,5 +43,12 @@
         url = url.replace('id', id);
         $(location).attr('href',url);
     })
+
+    $(".sendInvitation").on('click', function () {
+        var userId = $(this).attr('id');
+        var url = "{{  path('user_friends_sendInvitations', {'userId': 'userId'}) }}";
+        url = url.replace('userId', userId);
+        $(location).attr('href',url);
+    })
 </script>
 {% endblock %}

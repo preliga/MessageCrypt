@@ -36,7 +36,7 @@ class AvatarColumn extends AbstractColumn
 
         $path = "uploads/avatars/$value";
         if(!file_exists($path)){
-            return "";
+            return "<img src='/images/empty.png' alt='{$this->options['alt_text']}' width='100px'/>";
         } else {
             return "<img src='/$path' alt='{$this->options['alt_text']}' width='100px'/>";
         }
