@@ -34,11 +34,47 @@ class FriendsController extends Controller
      */
     public function searchAction(Request $request)
     {
-//        $friends = $this->getDoctrine()
-//            ->getRepository('AppBundle:Friend')
-//            ->findOneBy(['userid1' => $this->getUser(), 'userid2' => $userId]);
 
-        $table = $this->get('jgm.table')->createTable(new FriendsSearchTableType([]));
+        $query = $this->getDoctrine()
+            ->getRepository('AppBundle:Friend')
+            ->createQueryBuilder('f')
+            ->where('f.userid1 = :user1')
+            ->setParameter('user1', $this->getUser() )
+            ->getQuery();
+
+        $friends1 = $query->getResult();
+
+        $query = $this->getDoctrine()
+            ->getRepository('AppBundle:Friend')
+            ->createQueryBuilder('f')
+            ->where('f.userid2 = :user2')
+            ->setParameter('user2', $this->getUser() )
+            ->getQuery();
+
+        $friends2 = $query->getResult();
+
+        $friends = [];
+
+        foreach($friends1 as $f)
+        {
+            if(empty($friends[$f->getUserId2()->getId()])) {
+                $friends[$f->getUserId2()->getId()] = [];
+            }
+
+            $friends[$f->getUserId2()->getId()]['friend1'] = $f;
+        }
+
+        foreach($friends2 as $f)
+        {
+            if(empty($friends[$f->getUserId1()->getId()])) {
+                $friends[$f->getUserId1()->getId()] = [];
+            }
+
+            $friends[$f->getUserId1()->getId()]['friend2'] = $f;
+        }
+
+//        die(dump($friends));
+        $table = $this->get('jgm.table')->createTable(new FriendsSearchTableType($friends));
 
         return $this->render('user/friends/search.html.twig',
             [
@@ -61,9 +97,9 @@ class FriendsController extends Controller
 
 
     /**
-     * @Route("/user/friends/removeFriend/{userId}", name="user_friends_removeFriend")
+     * @Route("/user/friends/removeFriend/{userId}/{redirected}", name="user_friends_removeFriend")
      */
-    public function removeFriendAction($userId, Request $request)
+    public function removeFriendAction($userId, $redirected = 'profile', Request $request)
     {
         if ($userId == $this->getUser()->getId()) {
             $this->addFlash(
@@ -99,14 +135,21 @@ class FriendsController extends Controller
             'Friend have been removed.'
         );
 
-        return $this->redirectToRoute('user_profile_profile', ['id' => $userId]);
+        if($redirected == 'profile')
+        {
+            return $this->redirectToRoute('user_profile_profile', ['id' => $userId]);
+        } elseif($redirected == 'search') {
+            return $this->redirectToRoute('user_friends_search');
+        }
+
+
     }
 
 
     /**
-     * @Route("/user/friends/sendInvitations/{userId}", name="user_friends_sendInvitations")
+     * @Route("/user/friends/sendInvitations/{userId}/{redirected}", name="user_friends_sendInvitations")
      */
-    public function sendInvitationsAction($userId, Request $request)
+    public function sendInvitationsAction($userId, $redirected = 'profile', Request $request)
     {
         if ($userId == $this->getUser()->getId()) {
             $this->addFlash(
@@ -147,13 +190,18 @@ class FriendsController extends Controller
         }
 
 
-        return $this->redirectToRoute('user_profile_profile', ['id' => $userId]);
+        if($redirected == 'profile')
+        {
+            return $this->redirectToRoute('user_profile_profile', ['id' => $userId]);
+        } elseif($redirected == 'search') {
+            return $this->redirectToRoute('user_friends_search');
+        }
     }
 
     /**
-     * @Route("/user/friends/confirmInvitation/{userId}", name="user_friends_confirmInvitation")
+     * @Route("/user/friends/confirmInvitation/{userId}/{redirected}", name="user_friends_confirmInvitation")
      */
-    public function confirmInvitationAction($userId, Request $request)
+    public function confirmInvitationAction($userId, $redirected = 'profile', Request $request)
     {
         $user1 = $this->getUser();
         $user2 = $this->getDoctrine()
@@ -162,9 +210,9 @@ class FriendsController extends Controller
 
         $friend = $this->getDoctrine()
             ->getRepository('AppBundle:Friend')
-            ->findOneBy(['userid1' => $user2), 'userid2' => $user1]);
+            ->findOneBy(['userid1' => $user2, 'userid2' => $user1]);
 
-        if(!empty($friend)) {
+        if (!empty($friend)) {
 
             $friend1 = new Friend();
             $friend1->setUserid1($user1);
@@ -184,6 +232,12 @@ class FriendsController extends Controller
                 'This user did not send invitation to you.'
             );
         }
-        return $this->redirectToRoute('user_profile_profile', ['id' => $userId]);
+
+        if($redirected == 'profile')
+        {
+            return $this->redirectToRoute('user_profile_profile', ['id' => $userId]);
+        } elseif($redirected == 'search') {
+            return $this->redirectToRoute('user_friends_search');
+        }
     }
 }

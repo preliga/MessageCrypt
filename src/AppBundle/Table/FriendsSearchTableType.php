@@ -30,6 +30,22 @@ class FriendsSearchTableType extends AbstractTableType implements FilterTypeInte
     // Table
     public function buildTable(TableBuilder $builder)
     {
+        $friends = $this->friends;
+        $conditions = [
+            'sendInvitation' => function($value) use ($friends){
+                return empty($friends[$value]);
+            },
+            'confirmInvitation' => function($value) use ($friends){
+                return !empty($friends[$value]) && empty($friends[$value]['friend1']) && !empty($friends[$value]['friend2']);
+            },
+            'cancelInvitation' => function($value) use ($friends){
+                return !empty($friends[$value]) && (!empty($friends[$value]['friend1']) && empty($friends[$value]['friend2']) || empty($friends[$value]['friend1']) && !empty($friends[$value]['friend2']));
+            },
+            'removeFriend' => function($value) use ($friends){
+                return !empty($friends[$value]) && !empty($friends[$value]['friend1']) && !empty($friends[$value]['friend2']);
+            },
+        ];
+
         $builder
             ->add('image', 'avatar', ['label' => 'Avatar', 'attr' => ['class' => 'goProfile']])
             ->add('text', 'name', ['label' => 'Name', 'attr' => ['class' => 'goProfile']])
@@ -37,7 +53,7 @@ class FriendsSearchTableType extends AbstractTableType implements FilterTypeInte
             ->add('date', 'birthDate', ['label' => 'Birth date', 'format' => 'Y-m-d','attr' => ['class' => 'goProfile']])
             ->add('text', 'username', ['label' => 'Username', 'attr' => ['class' => 'goProfile']])
             ->add('text', 'email', ['label' => 'Email', 'attr' => ['class' => 'goProfile']])
-            ->add('searchbuttons', 'id', ['label' => '', 'friends' => $this->friends])
+            ->add('searchbuttons', 'id', ['label' => '', 'conditions' => $conditions])
             ;
     }
 

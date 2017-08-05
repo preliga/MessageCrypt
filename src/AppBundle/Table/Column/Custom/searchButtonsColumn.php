@@ -20,7 +20,12 @@ class searchButtonsColumn extends AbstractColumn
 
         // Add a new option named 'alt_image' to the existing options 'label', 'attr', etc
         $optionsResolver->setDefaults(array(
-            'friends' => [],
+            'conditions' => [
+                'sendInvitation' => function($value){return true;},
+                'confirmInvitation' => function($value){return true;},
+                'cancelInvitation' => function($value){return true;},
+                'removeFriend' => function($value){return true;},
+            ]
         ));
     }
 
@@ -31,32 +36,22 @@ class searchButtonsColumn extends AbstractColumn
 
         $html = "";
 
-        $html .= "<button id={$value} class='btn btn-info sendInvitation'> <i class=\"fa fa-paper-plane-o\" aria-hidden=\"true\"></i> Send invitation </button>";
-        $html .= "<button id={$value} class='btn btn-danger removeFriend'> <i class=\"fa fa-times\" aria-hidden=\"true\"></i> Remove friend</button>";
+        if($this->options['conditions']['sendInvitation']($value)) {
+            $html .= "<button id={$value} class='btn btn-info sendInvitation'> <i class=\"fa fa-paper-plane-o\" aria-hidden=\"true\"></i> Send invitation </button><br>";
+        }
 
+        if($this->options['conditions']['confirmInvitation']($value)) {
+            $html .= "<button id={$value} class='btn btn-success confirmInvitation'> <i class=\"fa fa-check\" aria-hidden=\"true\"></i> Confirm invitation</button><br>";
+        }
 
-//        if($this->options['countButtons'] > 1){
-//            for($i = 0; $i < $this->options['countButtons']; $i++)
-//            {
-//                $label = !empty($this->options['label_btn'][$i]) ? $this->options['label_btn'][$i] : "";
-//                $class = !empty($this->options['attr_btn']['class'][$i]) ? "class='{$this->options['attr_btn']['class'][$i]}'" : "";
-//                $style = !empty($this->options['attr_btn']['style'][$i]) ? "style='{$this->options['attr_btn']['style'][$i]}'" : "";
-//                $other = !empty($this->options['attr_btn']['other'][$i]) ? $this->options['attr_btn']['other'][$i] : "";
-//
-//
-//                $html ."<button id={$value} class='{$class}' style='{$style}' {$other}> {$label}</button>";
-//            }
-//        }else {
-//            $label = !empty($this->options['label_btn']) ? $this->options['label_btn'] : "";
-//            $class = !empty($this->options['attr_btn']['class']) ? "class='{$this->options['attr_btn']['class']}'" : "";
-//            $style = !empty($this->options['attr_btn']['style']) ? "style='{$this->options['attr_btn']['style']}'" : "";
-//            $other = !empty($this->options['attr_btn']['other']) ? $this->options['attr_btn']['other'] : "";
-//
-//            $html = "<button id={$value} {$class} {$style} {$other}> {$label}</button>";
-//        }
-//        "<button value={$value} class='{$class}' style='{$style}' > {$label}</button>";
+        if($this->options['conditions']['cancelInvitation']($value)) {
+            $html .= "<button id={$value} class='btn btn-warning removeFriend'> <i class=\"fa fa-times\" aria-hidden=\"true\"></i> Cancel invitation</button><br>";
+        }
+
+        if($this->options['conditions']['removeFriend']($value)) {
+            $html .= "<button id={$value} class='btn btn-danger removeFriend'> <i class=\"fa fa-times\" aria-hidden=\"true\"></i> Remove friend</button><br>";
+        }
 
         return $html;
-
     }
 }

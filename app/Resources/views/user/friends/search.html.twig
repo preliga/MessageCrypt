@@ -42,13 +42,27 @@
         var url = "{{  path('user_profile_profile', {'id': 'id'}) }}";
         url = url.replace('id', id);
         $(location).attr('href',url);
-    })
+    });
 
     $(".sendInvitation").on('click', function () {
         var userId = $(this).attr('id');
-        var url = "{{  path('user_friends_sendInvitations', {'userId': 'userId'}) }}";
+        var url = "{{  path('user_friends_sendInvitations', {'userId': 'userId', 'redirected': 'search'}) }}";
         url = url.replace('userId', userId);
         $(location).attr('href',url);
-    })
+    });
+
+    $(".removeFriend").on('click', function () {
+        var userId = $(this).attr('id');
+        var url = "{{ path('user_friends_removeFriend', {'userId': 'userId', 'redirected': 'search'}) }}";
+        url = url.replace('userId', userId);
+        $(location).attr('href', url);
+    });
+
+    $(".confirmInvitation").on('click', function () {
+        var userId = $(this).attr('id');
+        var url = "{{ path('user_friends_confirmInvitation', {'userId': 'userId', 'redirected': 'search'}) }}";
+        url = url.replace('userId', userId);
+        $(location).attr('href', url);
+    })  ;
 </script>
 {% endblock %}
