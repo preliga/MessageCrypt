@@ -21,28 +21,32 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class FriendsSearchTableType extends AbstractTableType implements FilterTypeInterface, PaginationTypeInterface
 {
     private $friends;
+    private $userId;
 
-    public function __construct($friends)
+    public function __construct($friends, $userId)
     {
         $this->friends = $friends;
+        $this->userId = $userId;
     }
 
     // Table
     public function buildTable(TableBuilder $builder)
     {
         $friends = $this->friends;
+        $userId = $this->userId;
+
         $conditions = [
-            'sendInvitation' => function($value) use ($friends){
-                return empty($friends[$value]);
+            'sendInvitation' => function($value) use ($friends,$userId){
+                return $value != $userId && empty($friends[$value]);
             },
-            'confirmInvitation' => function($value) use ($friends){
-                return !empty($friends[$value]) && empty($friends[$value]['friend1']) && !empty($friends[$value]['friend2']);
+            'confirmInvitation' => function($value) use ($friends,$userId){
+                return $value != $userId && !empty($friends[$value]) && empty($friends[$value]['friend1']) && !empty($friends[$value]['friend2']);
             },
-            'cancelInvitation' => function($value) use ($friends){
-                return !empty($friends[$value]) && (!empty($friends[$value]['friend1']) && empty($friends[$value]['friend2']) || empty($friends[$value]['friend1']) && !empty($friends[$value]['friend2']));
+            'cancelInvitation' => function($value) use ($friends,$userId){
+                return $value != $userId && !empty($friends[$value]) && (!empty($friends[$value]['friend1']) && empty($friends[$value]['friend2']) || empty($friends[$value]['friend1']) && !empty($friends[$value]['friend2']));
             },
-            'removeFriend' => function($value) use ($friends){
-                return !empty($friends[$value]) && !empty($friends[$value]['friend1']) && !empty($friends[$value]['friend2']);
+            'removeFriend' => function($value) use ($friends,$userId){
+                return $value != $userId && !empty($friends[$value]) && !empty($friends[$value]['friend1']) && !empty($friends[$value]['friend2']);
             },
         ];
 

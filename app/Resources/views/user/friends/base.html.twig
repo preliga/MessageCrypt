@@ -3,8 +3,8 @@
 
 <div>
     <ul class="nav nav-tabs">
-        <li role="presentation" {% if app.request.attributes.get("_route") == 'user_friends_index' %} class="active" {% endif %}>
-            <a href="{{ path('user_friends_index') }}">
+        <li role="presentation" {% if app.request.attributes.get("_route") == 'user_friends_myfriends' %} class="active" {% endif %}>
+            <a href="{{ path('user_friends_myfriends') }}">
                 <span style="color: black;">
                     <i class="fa fa-users" aria-hidden="true"></i>
                     My friends

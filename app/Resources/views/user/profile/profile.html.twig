@@ -49,7 +49,7 @@
             <br>
 
             {% if user.id != ownUser.id %}
-                <div>
+                <div class="friendsButtons">
                     {% if friend1 is empty and friend2 is empty  %}
                         <button id='{{ user.id }}' class='btn btn-info sendInvitation'>
                             <i class="fa fa-address-book-o" aria-hidden="true"></i> Send invitation

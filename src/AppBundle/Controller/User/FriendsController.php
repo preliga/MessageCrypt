@@ -8,9 +8,9 @@
 
 namespace AppBundle\Controller\User;
 
-//use AppBundle\Entity\User;
+use AppBundle\Entity\User;
 use AppBundle\Entity\Friend;
-use AppBundle\Entity\Frienddictionary;
+//use AppBundle\Entity\Frienddictionary;
 use AppBundle\Table\FriendsSearchTableType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -19,12 +19,70 @@ use Symfony\Component\HttpFoundation\Request;
 class FriendsController extends Controller
 {
     /**
-     * @Route("/user/friends/index", name="user_friends_index")
+     * @Route("/user/friends/myfriends", name="user_friends_myfriends")
      */
-    public function indexAction(Request $request)
+    public function myfriendsAction(Request $request)
     {
-        return $this->render('user/friends/index.html.twig',
+        $friends1 = $this->getDoctrine()->getManager()
+            ->getRepository(Friend::class)
+            ->findBy(['userid1' =>  $this->getUser()])
+        ;
+        $friends2 = $this->getDoctrine()->getManager()
+            ->getRepository(Friend::class)
+            ->findBy(['userid2' =>  $this->getUser()])
+        ;
+
+//        $query = $this->getDoctrine()
+//            ->getRepository('AppBundle:Friend')
+//            ->createQueryBuilder('f')
+//            ->where('f.userid1 = :user1')
+//            ->setParameter('user1', $this->getUser() )
+//            ->getQuery();
+//
+//        $friends1 = $query->getResult();
+//
+//        $query = $this->getDoctrine()
+//            ->getRepository('AppBundle:Friend')
+//            ->createQueryBuilder('f')
+//            ->where('f.userid2 = :user2')
+//            ->setParameter('user2', $this->getUser() )
+//            ->getQuery();
+//
+//        $friends2 = $query->getResult();
+
+        $friends = [];
+
+        foreach($friends1 as $f)
+        {
+            if(empty($friends[$f->getUserid2()->getId()])) {
+                $friends[$f->getUserid2()->getId()] = [];
+            }
+
+            $friends[$f->getUserId2()->getId()]['friend1'] = $f;
+        }
+
+        foreach($friends2 as $f)
+        {
+            if(empty($friends[$f->getUserid1()->getId()])) {
+                $friends[$f->getUserid1()->getId()] = [];
+            }
+
+            $friends[$f->getUserId1()->getId()]['friend2'] = $f;
+        }
+
+        foreach ($friends as $key => $f)
+        {
+            if(!empty($f['friend1']) && !empty($f['friend2']))
+            {
+                $friends[$key] = $f['friend1']->getUserid2();
+            } else {
+                unset($friends[$key]);
+            }
+        }
+
+        return $this->render('user/friends/myfriends.html.twig',
             [
+                'friends' => $friends
             ]
         );
     }
@@ -34,6 +92,10 @@ class FriendsController extends Controller
      */
     public function searchAction(Request $request)
     {
+
+        $searchParams = $request->query->all();
+        $session = $request->getSession();
+        $session->set('searchParams', $searchParams);
 
         $query = $this->getDoctrine()
             ->getRepository('AppBundle:Friend')
@@ -57,24 +119,23 @@ class FriendsController extends Controller
 
         foreach($friends1 as $f)
         {
-            if(empty($friends[$f->getUserId2()->getId()])) {
-                $friends[$f->getUserId2()->getId()] = [];
+            if(empty($friends[$f->getUserid2()->getId()])) {
+                $friends[$f->getUserid2()->getId()] = [];
             }
 
-            $friends[$f->getUserId2()->getId()]['friend1'] = $f;
+            $friends[$f->getUserid2()->getId()]['friend1'] = $f;
         }
 
         foreach($friends2 as $f)
         {
-            if(empty($friends[$f->getUserId1()->getId()])) {
-                $friends[$f->getUserId1()->getId()] = [];
+            if(empty($friends[$f->getUserid1()->getId()])) {
+                $friends[$f->getUserid1()->getId()] = [];
             }
 
-            $friends[$f->getUserId1()->getId()]['friend2'] = $f;
+            $friends[$f->getUserid1()->getId()]['friend2'] = $f;
         }
 
-//        die(dump($friends));
-        $table = $this->get('jgm.table')->createTable(new FriendsSearchTableType($friends));
+        $table = $this->get('jgm.table')->createTable(new FriendsSearchTableType($friends, $this->getUser()->getId()));
 
         return $this->render('user/friends/search.html.twig',
             [
@@ -106,43 +167,43 @@ class FriendsController extends Controller
                 'error',
                 'This person is you.'
             );
+        } else {
 
-            return $this->redirectToRoute('user_profile_profile', ['id' => $userId]);
+            $friend1 = $this->getDoctrine()
+                ->getRepository('AppBundle:Friend')
+                ->findOneBy(['userid1' => $this->getUser(), 'userid2' => $userId]);
+
+            if (!empty($friend1)) {
+                $em = $this->getDoctrine()->getManager();
+                $em->remove($friend1);
+                $em->flush();
+            }
+
+            $friend2 = $this->getDoctrine()
+                ->getRepository('AppBundle:Friend')
+                ->findOneBy(['userid1' => $userId, 'userid2' => $this->getUser()]);
+
+            if (!empty($friend2)) {
+                $em = $this->getDoctrine()->getManager();
+                $em->remove($friend2);
+                $em->flush();
+            }
+
+            $this->addFlash(
+                'notice',
+                'Friend have been removed.'
+            );
         }
-
-        $friend1 = $this->getDoctrine()
-            ->getRepository('AppBundle:Friend')
-            ->findOneBy(['userid1' => $this->getUser(), 'userid2' => $userId]);
-
-        if (!empty($friend1)) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($friend1);
-            $em->flush();
-        }
-
-        $friend2 = $this->getDoctrine()
-            ->getRepository('AppBundle:Friend')
-            ->findOneBy(['userid1' => $userId, 'userid2' => $this->getUser()]);
-
-        if (!empty($friend2)) {
-            $em = $this->getDoctrine()->getManager();
-            $em->remove($friend2);
-            $em->flush();
-        }
-
-        $this->addFlash(
-            'notice',
-            'Friend have been removed.'
-        );
 
         if($redirected == 'profile')
         {
             return $this->redirectToRoute('user_profile_profile', ['id' => $userId]);
         } elseif($redirected == 'search') {
-            return $this->redirectToRoute('user_friends_search');
+            $session = $request->getSession();
+            $searchParams = $session->get('searchParams');
+
+            return $this->redirectToRoute('user_friends_search', $searchParams);
         }
-
-
     }
 
 
@@ -189,12 +250,14 @@ class FriendsController extends Controller
             );
         }
 
-
         if($redirected == 'profile')
         {
             return $this->redirectToRoute('user_profile_profile', ['id' => $userId]);
         } elseif($redirected == 'search') {
-            return $this->redirectToRoute('user_friends_search');
+            $session = $request->getSession();
+            $searchParams = $session->get('searchParams');
+
+            return $this->redirectToRoute('user_friends_search', $searchParams);
         }
     }
 
@@ -237,7 +300,10 @@ class FriendsController extends Controller
         {
             return $this->redirectToRoute('user_profile_profile', ['id' => $userId]);
         } elseif($redirected == 'search') {
-            return $this->redirectToRoute('user_friends_search');
+            $session = $request->getSession();
+            $searchParams = $session->get('searchParams');
+
+            return $this->redirectToRoute('user_friends_search', $searchParams);
         }
     }
 }

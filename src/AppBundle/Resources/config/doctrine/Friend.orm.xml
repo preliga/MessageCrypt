@@ -11,12 +11,12 @@
     <id name="id" type="integer" column="id">
       <generator strategy="IDENTITY"/>
     </id>
-    <many-to-one field="userid1" target-entity="User" fetch="LAZY">
+    <many-to-one field="userid1" target-entity="User" fetch="EAGER">
       <join-columns>
         <join-column name="userId1" referenced-column-name="id"/>
       </join-columns>
     </many-to-one>
-    <many-to-one field="userid2" target-entity="User" fetch="LAZY">
+    <many-to-one field="userid2" target-entity="User" fetch="EAGER">
       <join-columns>
         <join-column name="userId2" referenced-column-name="id"/>
       </join-columns>

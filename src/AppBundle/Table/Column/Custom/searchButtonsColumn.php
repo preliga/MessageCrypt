@@ -34,7 +34,7 @@ class searchButtonsColumn extends AbstractColumn
 
         $value = $this->getValue($row); // Returns the value of the property with the same name as the column at this row.
 
-        $html = "";
+        $html = "<div class='friendsButtons'>";
 
         if($this->options['conditions']['sendInvitation']($value)) {
             $html .= "<button id={$value} class='btn btn-info sendInvitation'> <i class=\"fa fa-paper-plane-o\" aria-hidden=\"true\"></i> Send invitation </button><br>";
@@ -51,6 +51,8 @@ class searchButtonsColumn extends AbstractColumn
         if($this->options['conditions']['removeFriend']($value)) {
             $html .= "<button id={$value} class='btn btn-danger removeFriend'> <i class=\"fa fa-times\" aria-hidden=\"true\"></i> Remove friend</button><br>";
         }
+
+        $html .= "</div>";
 
         return $html;
     }
