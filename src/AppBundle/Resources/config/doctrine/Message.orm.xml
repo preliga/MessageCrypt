@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="AppBundle\Entity\Message" table="message">
+    <indexes>
+      <index name="message_user2_user_id" columns="userId2"/>
+      <index name="IDX_B6BD307F116AD761" columns="userId1"/>
+    </indexes>
+    <unique-constraints>
+      <unique-constraint name="userId1_userId2" columns="userId1,userId2"/>
+    </unique-constraints>
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <field name="text" type="text" column="text" length="65535" nullable="false">
+      <options>
+        <option name="fixed"/>
+      </options>
+    </field>
+    <field name="date" type="datetime" column="date" nullable="false">
+      <options>
+        <option name="default">CURRENT_TIMESTAMP</option>
+      </options>
+    </field>
+    <many-to-one field="userid1" target-entity="User" fetch="LAZY">
+      <join-columns>
+        <join-column name="userId1" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="userid2" target-entity="User" fetch="LAZY">
+      <join-columns>
+        <join-column name="userId2" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

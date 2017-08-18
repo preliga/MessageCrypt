@@ -1,26 +1,28 @@
 {% extends 'user/friends/base.html.twig' %}
 {% block tab %}
     <h1 class="page-header">My friends</h1>
-    {#<br>#}
     {% for friend in friends %}
-        <div id="{{ friend.id }}" class="panel panel-default myFriend">
-            {% if friend.avatar %}
-                <img src="{{ asset('uploads/avatars/' ~ friend.avatar) }}">
-            {% else %}
-                <img src='/images/empty.png'>
-            {% endif %}
-            <br>
-            <br>
-            <span>{{ friend.name }}</span>
-            <br>
-            <span>{{ friend.lastname }}</span>
+        <div class="panel panel-default myFriend">
+            <div id="{{ friend.id }}" class="goFriend">
+                {% if friend.avatar %}
+                    <img src="{{ asset('uploads/avatars/' ~ friend.avatar) }}">
+                {% else %}
+                    <img src='/images/empty.png'>
+                {% endif %}
+                <br>
+                <br>
+                <span>{{ friend.name }}</span>
+                <br>
+                <span>{{ friend.lastname }}</span>
+            </div>
         </div>
+
     {% endfor %}
 {% endblock %}
 
 {% block pagescripts %}
     <script>
-        $(".myFriend").on('click', function () {
+        $(".goFriend").on('click', function () {
             var id = $(this).attr('id');
             var url = "{{  path('user_profile_profile', {'id': 'id'}) }}";
             url = url.replace('id', id);

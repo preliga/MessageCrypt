@@ -25,4 +25,20 @@ class HomeController extends Controller
             ]
         );
     }
+
+
+
+//    /**
+//     * @Route("/{action}/{params}", name="default_dynamic")
+//     */
+//    public function dynamicAction($action, $params = null)
+//    {
+//        $action = $action . 'Action';
+//        if (method_exists($this, $action)) {
+//            return $this->{$action}($params);
+//        }
+//
+//        return $this->indexAction();
+//    }
+
 }

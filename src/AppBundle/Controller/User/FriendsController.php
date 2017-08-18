@@ -149,9 +149,48 @@ class FriendsController extends Controller
      */
     public function invitationsAction(Request $request)
     {
+        $friends1 = $this->getDoctrine()->getManager()
+            ->getRepository(Friend::class)
+            ->findBy(['userid1' =>  $this->getUser()])
+        ;
+        $friends2 = $this->getDoctrine()->getManager()
+            ->getRepository(Friend::class)
+            ->findBy(['userid2' =>  $this->getUser()])
+        ;
+
+        $friends = [];
+
+        foreach($friends1 as $f)
+        {
+            if(empty($friends[$f->getUserid2()->getId()])) {
+                $friends[$f->getUserid2()->getId()] = [];
+            }
+
+            $friends[$f->getUserId2()->getId()]['friend1'] = $f;
+        }
+
+        foreach($friends2 as $f)
+        {
+            if(empty($friends[$f->getUserid1()->getId()])) {
+                $friends[$f->getUserid1()->getId()] = [];
+            }
+
+            $friends[$f->getUserId1()->getId()]['friend2'] = $f;
+        }
+
+        foreach ($friends as $key => $f)
+        {
+            if(empty($f['friend1']) && !empty($f['friend2']))
+            {
+                $friends[$key] = $f['friend2']->getUserid1();
+            } else {
+                unset($friends[$key]);
+            }
+        }
 
         return $this->render('user/friends/invitations.html.twig',
             [
+                'friends' => $friends
             ]
         );
     }

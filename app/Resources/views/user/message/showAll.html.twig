@@ -1,0 +1,123 @@
+{% extends 'user/menu.html.twig' %}
+
+{% block content %}
+
+    <h2 class="page-header">Message</h2>
+
+    <div class="tabBox">
+
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#tabMessages">Messages</a></li>
+            <li><a href="#tabCryptFunction">Crypt function</a></li>
+            <li><a href="#tabDecryptFunction">Decrypt function</a></li>
+        </ul>
+
+        <div class="tab-content">
+            <div id="tabMessages">
+                <br>
+                <form action="{{  path('user_message_sendMessage', {'friendId': friendId}) }}" method="POST">
+                    <div class="form-group messageBox">
+                        <textarea class="form-control" placeholder="Message" name='textMessage' rows="5"></textarea>
+                        <br>
+                        <button class="btn btn-info sendMessage">Send</button>
+                    </div>
+                </form>
+                <div class="panel-body-scroll">
+                    <ul class="chat">
+                        {% for msg in messages %}
+                            <div class="{% if msg.userid1.id == friendId %} chat-div-left {% else %} chat-div-right {% endif %}">
+                                <li class="{% if msg.userid1.id == friendId %} left {% else %} right {% endif %} clearfix">
+                                    <span class="chat-img {% if msg.userid1.id == friendId %} pull-left {% else %} pull-right {% endif %}">
+                                        {% if msg.userid1.avatar %}
+                                            <img src="{{ asset('uploads/avatars/' ~ msg.userid1.avatar) }}" class="avatarMsg img-circle">
+                                        {% else %}
+                                            <img src='/images/empty.png' class="avatarMsg img-circle">
+                                        {% endif %}
+                                    </span>
+                                    <div class="chat-body clearfix">
+                                        <div class="header">
+                                            {% if msg.userid1.id == friendId %}
+                                                <small class="pull-right text-muted">
+                                                    <span class="glyphicon glyphicon-time"></span>
+                                                    {{ msg.date | date("Y-m-d H:i:s") }}
+                                                </small>
+                                                <strong class="primary-font">
+                                                    <a href="{{ path("user_profile_profile", {'id': msg.userid1.id}) }}">
+                                                        {{ msg.userid1.name }}
+                                                        {{ msg.userid1.lastname }}
+                                                    </a>
+                                                </strong>
+                                            {% else %}
+                                                <strong class="primary-font">
+                                                    <a href="{{ path("user_profile_profile", {'id': msg.userid1.id}) }}">
+                                                        {{ msg.userid1.name }}
+                                                        {{ msg.userid1.lastname }}
+                                                    </a>
+                                                </strong>
+                                                <small class="pull-left text-muted">
+                                                    <span class="glyphicon glyphicon-time"></span>
+                                                    {{ msg.date | date("Y-m-d H:i:s") }}
+                                                </small>
+                                            {% endif %}
+                                        </div>
+                                        <p>
+                                            {{ msg.text }}
+                                        </p>
+                                    </div>
+                                </li>
+                            </div>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <div id="tabCryptFunction" class="tab-pane">
+                <br>
+                <div id="cryptEditor"></div>
+            </div>
+            <div id="tabDecryptFunction" class="tab-pane">
+                <br>
+                <div id="decryptEditor"></div>
+            </div>
+        </div>
+
+    </div>
+
+
+{% endblock %}
+
+{% block pagescripts %}
+    <script>
+
+        $(function(){
+            /**
+             * AuiEditor init
+             */
+            AuiEditorInit('cryptEditor');
+            AuiEditorInit('decryptEditor');
+        });
+
+        $(".sendMessage").on('click', function () {
+
+            var cryptFunction = createCryptFunction();
+
+            try {
+                eval(cryptFunction);
+            }catch (e)
+            {
+                alert(e);
+            }
+
+            return false;
+        });
+
+        function createCryptFunction()
+        {
+            var cryptFunction = $("#cryptFunction").children('textarea').val();
+
+            return "$(function(){" + cryptFunction + "});";
+        }
+
+
+
+    </script>
+{% endblock %}

@@ -1,4 +1,49 @@
 {% extends 'user/friends/base.html.twig' %}
 {% block tab %}
-    asd
+    <h1 class="page-header">Invitations</h1>
+    {% for friend in friends %}
+        <div class="panel panel-default myFriend">
+            <div id="{{ friend.id }}" class="goFriend">
+                {% if friend.avatar %}
+                    <img src="{{ asset('uploads/avatars/' ~ friend.avatar) }}">
+                {% else %}
+                    <img src='/images/empty.png'>
+                {% endif %}
+                <br>
+                <br>
+                <span>{{ friend.name }}</span>
+                <br>
+                <span>{{ friend.lastname }}</span>
+            </div>
+            <div class="friendsButtons">
+                <button id='{{ friend.id }}' class='btn btn-success confirmInvitation'> <i class='fa fa-check' aria-hidden='true'></i> Confirm invitation</button><br>
+                <br>
+                <button id='{{ friend.id }}' class='btn btn-warning removeFriend'> <i class='fa fa-times' aria-hidden='true'></i> Cancel invitation</button><br>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}
+
+{% block pagescripts %}
+    <script>
+        $(".goFriend").on('click', function () {
+            var id = $(this).attr('id');
+            var url = "{{  path('user_profile_profile', {'id': 'id'}) }}";
+            url = url.replace('id', id);
+            $(location).attr('href',url);
+        });
+        $(".removeFriend").on('click', function () {
+            var userId = $(this).attr('id');
+            var url = "{{ path('user_friends_removeFriend', {'userId': 'userId'}) }}";
+            url = url.replace('userId', userId);
+            $(location).attr('href', url);
+        });
+
+        $(".confirmInvitation").on('click', function () {
+            var userId = $(this).attr('id');
+            var url = "{{ path('user_friends_confirmInvitation', {'userId': 'userId'}) }}";
+            url = url.replace('userId', userId);
+            $(location).attr('href', url);
+        });
+    </script>
 {% endblock %}

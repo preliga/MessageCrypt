@@ -54,20 +54,27 @@
                         <button id='{{ user.id }}' class='btn btn-info sendInvitation'>
                             <i class="fa fa-address-book-o" aria-hidden="true"></i> Send invitation
                         </button>
+                        <br><br>
                     {% endif %}
                     {% if friend1 is empty and friend2 is not empty  %}
                         <button id='{{ user.id }}' class='btn btn-success confirmInvitation'>
                             <i class="fa fa-check" aria-hidden="true"></i> Confirm invitation
                         </button>
+                        <br><br>
                     {% endif %}
                     {% if (friend1 is not empty and friend2 is empty) or (friend1 is empty and friend2 is not empty) %}
                         <button id='{{ user.id }}' class='btn btn-warning removeFriend'>
                             <i class="fa fa-times" aria-hidden="true"></i> Cancel invitation
                         </button>
+                        <br><br>
                     {% endif %}
                     {% if friend1 is not empty and friend2 is not empty %}
                         <button id='{{ user.id }}' class='btn btn-danger removeFriend'>
                             <i class="fa fa-times" aria-hidden="true"></i> Remove Friend
+                        </button>
+                        <br><br>
+                        <button id='{{ user.id }}' class='btn btn-default goMessage'>
+                            <i class="fa fa-envelope-open" aria-hidden="true"></i> Message
                         </button>
                     {% endif %}
                 </div>
@@ -98,6 +105,13 @@
             var userId = $(this).attr('id');
             var url = "{{ path('user_friends_confirmInvitation', {'userId': 'userId'}) }}";
             url = url.replace('userId', userId);
+            $(location).attr('href', url);
+        });
+
+        $(".goMessage").on('click', function () {
+            var friendId = $(this).attr('id');
+            var url = "{{ path('user_message_showAll', {'friendId': 'friendId'}) }}";
+            url = url.replace('friendId', friendId);
             $(location).attr('href', url);
         });
     </script>
