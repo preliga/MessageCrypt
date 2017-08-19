@@ -9,9 +9,9 @@
 
 
         <link rel="stylesheet" href="{{ asset('css/library/bootstrap.min.css') }}" />
-        <link rel="stylesheet" href="{{ asset('css/library/jquery-ui.css') }}">
-        <link rel="stylesheet" href="{{ asset('css/library/font-awesome-4.7.0/css/font-awesome.min.css') }}">
-
+        <link rel="stylesheet" href="{{ asset('css/library/jquery-ui.css') }}"/>
+        <link rel="stylesheet" href="{{ asset('css/library/font-awesome-4.7.0/css/font-awesome.min.css') }}"/>
+        <link rel="stylesheet" href="{{ asset('bundles/Alloy/aui-css/css/bootstrap.min.css')}}"/>
         <link rel="stylesheet" href="{{ asset('css/main.css') }}">
         {% block stylesheets %}{% endblock %}
     </head>
@@ -32,7 +32,7 @@
                 <div class="row">
                     <div class="panel panel-custom-horrible-red">
                         <div class="panel-body ">
-                            <div align="center">
+                            <div>
                                 {% block content %}{% endblock %}
                             </div>
                         </div>

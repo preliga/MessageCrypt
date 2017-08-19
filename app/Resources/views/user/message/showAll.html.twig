@@ -72,11 +72,41 @@
             </div>
             <div id="tabCryptFunction" class="tab-pane">
                 <br>
+                <div class="form-group messageBox">
+                    <textarea id='testMessageCrypt' class="form-control" placeholder="Test Message"  rows="5"></textarea>
+                    <br>
+                    <button class="btn btn-success testCrypt" style="margin-bottom: 5px;">TEST</button>
+                    <br>
+                    <input id='keyCrypt' class="form-control" placeholder="Key" type="text" style="width: 80%; float: left;"/>
+                    <button class="btn btn-info createHashCrypt" style="width: 20%"> Hash </button>
+                    <br>
+                </div>
+                function (plainText, key) <br>
+                { <br>
+                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; var cipherText = plainText;
                 <div id="cryptEditor"></div>
+                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return cipherText;
+                <br>
+                }
             </div>
             <div id="tabDecryptFunction" class="tab-pane">
                 <br>
+                <div class="form-group messageBox">
+                    <textarea id='testMessageDecrypt' class="form-control" placeholder="Test Message"  rows="5"></textarea>
+                    <br>
+                    <button class="btn btn-success testDecrypt" style="margin-bottom: 5px;">TEST</button>
+                    <br>
+                    <input id='keyDecrypt' class="form-control" placeholder="Key" type="text" style="width: 80%; float: left;"/>
+                    <button class="btn btn-info createHashDecrypt" style="width: 20%"> Hash </button>
+                    <br>
+                </div>
+                function (cipherText, key) <br>
+                { <br>
+                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; var plainText = cipherText;
                 <div id="decryptEditor"></div>
+                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return plainText;
+                <br>
+                }
             </div>
         </div>
 
@@ -87,7 +117,6 @@
 
 {% block pagescripts %}
     <script>
-
         $(function(){
             /**
              * AuiEditor init
@@ -96,28 +125,86 @@
             AuiEditorInit('decryptEditor');
         });
 
-        $(".sendMessage").on('click', function () {
 
-            var cryptFunction = createCryptFunction();
+        $(".testCrypt").on('click', function () {
+            var functionStr = createCryptFunction();
+            var plainText = $('#testMessageCrypt').val();
+            var key = $('#keyCrypt').val();
 
             try {
-                eval(cryptFunction);
-            }catch (e)
-            {
-                alert(e);
-            }
+                var cryptFunction = new Function('plainText','key',functionStr);
+                var cipherText = cryptFunction(plainText,key);
 
-            return false;
+                createAlert(cipherText,'CipherText');
+            }catch (e){
+                var annotations =  $('#cryptEditorAnnotations').val();
+                createAlert("<p>"+annotations+"</p>", '<h3>Syntax exception</h3>');
+            }
         });
 
-        function createCryptFunction()
-        {
-            var cryptFunction = $("#cryptFunction").children('textarea').val();
+        $(".testDecrypt").on('click', function () {
+            var functionStr = createDecryptFunction();
 
-            return "$(function(){" + cryptFunction + "});";
+            console.log(functionStr);
+            var cipherText = $('#testMessageDecrypt').val();
+            var key = $('#keyDecrypt').val();
+
+            try {
+                var decryptFunction = new Function('cipherText','key',functionStr);
+                var plainText = decryptFunction(cipherText,key);
+                alert(plainText);
+                createAlert(plainText,'PlainText');
+            }catch (e){
+                var annotations =  $('#decryptEditorAnnotations').val();
+                createAlert("<p>"+annotations+"</p>", '<h3>Syntax exception</h3>');
+            }
+        });
+
+        $(".sendMessage").on('click', function () {
+
+            var functionStr = createCryptFunction();
+            var plainText = $('[name="textMessage"]').val();
+            var key = $('#keyCrypt').val();
+
+            try {
+                var cryptFunction = new Function('plainText','key',functionStr);
+                var cipherText = cryptFunction(plainText,key);
+
+                $('[name="textMessage"]').val(cipherText);
+//                createAlert(cipherText,'CipherText');
+            }catch (e){
+                var annotations =  $('#cryptEditorAnnotations').val();
+                createAlert("<p>"+annotations+"</p>", '<h3>Syntax exception</h3>');
+                return false;
+            }
+        });
+
+        $(".createHashCrypt").on('click', function () {
+            createHash('keyCrypt');
+        });
+
+        $(".createHashDecrypt").on('click', function () {
+            createHash('keyDecrypt');
+        });
+
+        function createHash(id)
+        {
+            var keyElement = $('#' + id);
+            var key = keyElement.val();
+
+            var hex = '';
+            for(var i=0;i<key.length;i++) {
+                hex += ''+key.charCodeAt(i).toString(16).toUpperCase();
+            }
+            keyElement.val(hex);
         }
 
-
-
+        function createCryptFunction() {
+            return "var cipherText = plainText; " + $('#cryptEditorTextarea').val() + "return cipherText;";
+        }
+        
+        function createDecryptFunction(){
+            return "var plainText = cipherText; " + $('#decryptEditorTextarea').val() + "return plainText;";
+        }
     </script>
 {% endblock %}

@@ -22,6 +22,14 @@ body
 /*}*/
 /*/////////*/
 
+
+/*Header*/
+h2.page-header{
+    text-align: center;
+}
+/*/////////*/
+
+
 /*Tabelka*/
 td
 {
@@ -97,20 +105,12 @@ div.messageBox>button
 }
 /*/////////*/
 
-/* tools  */
-div.tools
-{
-    text-align: left;
-}
-
-span.showCrypt
-{
-    cursor: pointer;
-    padding: 10px;
-}
-/*/////////*/
-
 /* messagePanel */
+div.header
+{
+    text-align: center ;
+}
+
 .chat
 {
     list-style: none;
