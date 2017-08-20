@@ -91,6 +91,13 @@ div.myFriend>span
 }
 /*/////////*/
 
+/* Form */
+.form-control
+{
+    margin-bottom: 5px;
+}
+/*/////////*/
+
 
 
 /* messageBox */

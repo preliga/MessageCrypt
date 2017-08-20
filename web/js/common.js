@@ -59,6 +59,10 @@ function AuiEditorInit(id) {
 
                 $('#'+id+'Textarea').val(editor.getSession().getValue());
             });
+
+            $('#'+id+'Textarea').on('change', function () {
+                editor.getSession().setValue($('#'+id+'Textarea').val());
+            });
         }
     );
 }
@@ -66,8 +70,13 @@ function AuiEditorInit(id) {
 /**
  * AuiModal init
  */
-function AuiModalInit(body,header,id)
+function AuiModalInit(body,header,id, events)
 {
+    if ( $( "#"+id ).length === 0 )
+    {
+        $('body').append('<div class="yui3-skin-sam"><div id="'+id+'"></div></div>');
+    }
+
     YUI().use(
         'aui-modal',
         function(Y) {
@@ -81,6 +90,11 @@ function AuiModalInit(body,header,id)
                     width: 650
                 }
             ).render();
+
+
+            if(typeof events !== 'undefined') {
+                events(modal);
+            }
         }
     );
 }
@@ -92,10 +106,10 @@ function createAlert(body,header)
 {
     // console.log($('#alert'));
 
-    if ( $( "#alert" ).length === 0 )
-    {
-        $('body').append('<div class="yui3-skin-sam"><div id="alert"></div></div>');
-    }
+    // if ( $( "#alert" ).length === 0 )
+    // {
+    //     $('body').append('<div class="yui3-skin-sam"><div id="alert"></div></div>');
+    // }
 
 
     AuiModalInit(body,header,'alert')
