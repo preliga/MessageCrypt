@@ -60,12 +60,11 @@
                                                 </small>
                                             {% endif %}
                                         </div>
-                                        <p id="textMessage_{{ msg.id }}">
-                                            {{ msg.text }}
-                                        </p>
+                                        <p id="textMessage_{{ msg.id }}">{{ msg.text }}</p>
+                                        <p id="decryptTextMessage_{{ msg.id }}" style="display: none;"></p>
                                     </div>
                                     <button class="btn btn-default decryptMessage" textMessageId="{{ msg.id }}" id="decryptMessage_{{ msg.id }}" >Decrypt</button>
-                                    <button class="btn btn-default cryptMessage" textMessageId="{{ msg.id }}" id="cryptMessage_{{ msg.id }}" hidden>Crypt</button>
+                                    <button class="btn btn-default cryptMessage" textMessageId="{{ msg.id }}" id="backMessage_{{ msg.id }}" style="display: none;">Back</button>
                                 </li>
 
                             </div>
@@ -399,25 +398,28 @@
             var cipherText = $('#textMessage_'+id).html();
             var key = $('#decryptKey').val();
 
+            try {
+                var decryptFunction = new Function('cipherText','key',functionStr);
+                plainText = decryptFunction(cipherText,key);
 
-            console.log(key);
-            console.log(cipherText.length, cipherText);
-            console.log(functionStr, id, cipherText, key);
-
-//            try {
-//                var cryptFunction = new Function('plainText','key',functionStr);
-//                plainText var cipherText = cryptFunction(plainText,key);
-//
-//                $('[name="textMessage"]').val(cipherText);
-//            }catch (e){
-//                var annotations =  $('#cryptEditorAnnotations').val();
-//                createAlert("<p>"+annotations+"</p>", '<h3>Syntax exception</h3>');
-//                return false;
-//            }
+                $('#textMessage_'+id).hide();
+                $('#decryptTextMessage_'+id).html(plainText).show();
+//                console.log(plainText);
+                $(this).hide();
+                $("#backMessage_"+id).show();
+            }catch (e){
+                var annotations =  $('#decryptEditorAnnotations').val();
+                createAlert("<p>"+annotations+"</p>", '<h3>Syntax exception</h3>');
+                return false;
+            }
         });
 
         $(".cryptMessage").on('click', function() {
-
+            var id = $(this).attr('textMessageId');
+            $('#decryptTextMessage_'+id).html("").hide();
+            $('#textMessage_'+id).show();
+            $(this).hide();
+            $("#decryptMessage_"+id).show();
         });
 
         $(".loadFunctionToEditor").on('click', function () {
