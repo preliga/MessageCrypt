@@ -60,75 +60,74 @@
                                                 </small>
                                             {% endif %}
                                         </div>
-                                        <p>
+                                        <p id="textMessage_{{ msg.id }}">
                                             {{ msg.text }}
                                         </p>
                                     </div>
+                                    <button class="btn btn-default decryptMessage" textMessageId="{{ msg.id }}" id="decryptMessage_{{ msg.id }}" >Decrypt</button>
+                                    <button class="btn btn-default cryptMessage" textMessageId="{{ msg.id }}" id="cryptMessage_{{ msg.id }}" hidden>Crypt</button>
                                 </li>
+
                             </div>
                         {% endfor %}
                     </ul>
                 </div>
             </div>
-            <div id="tabCryptFunction" class="tab-pane">
+            <div id="tabCryptFunction" class="tab-pane tab" type="crypt">
                 <br>
                 <div class="form-group messageBox">
-                    <textarea id='testMessageCrypt' class="form-control" placeholder="Test Message"  rows="5"></textarea>
+                    <textarea id='cryptTestMessage' class="form-control" placeholder="Test Message"  rows="5"></textarea>
                     <br>
-                    <button class="btn btn-success testCrypt" style="margin-bottom: 5px;">TEST</button>
+                    <button class="btn btn-success test form-control">TEST</button>
                     <br>
-                    <input id='keyCrypt' class="form-control" placeholder="Key" type="text" style="width: 80%; float: left;"/>
-                    <button class="btn btn-info createHashCrypt form-control" style="width: 20%;"> Hash </button>
+                    <input id='cryptKey' class="form-control" placeholder="Key" type="text" style="width: 80%; float: left;"/>
+                    <button class="btn btn-info createHash form-control" style="width: 20%;"> Hash </button>
                     <br>
 
                     <select id='cryptFunctions' class="form-control" style="width: 40%; float: left;">
                         <option value="-1">Choose function</option>
                     </select>
-                    <button class="btn btn-warning form-control loadCryptFunctionToEditor" style="width: 20%; float: left;">Load</button>
-                    <button class="btn btn-primary form-control saveCryptOpenWindow" style="width: 20%; float: left;">Save</button>
-                    <button class="btn btn-danger form-control clearCryptFunctionsOpenWindow" style="width: 20%; float: left;">Clear all Functions</button>
+                    <button class="btn btn-warning form-control loadFunctionToEditor" style="width: 20%; float: left;">Load</button>
+                    <button class="btn btn-primary form-control saveOpenWindow" style="width: 20%; float: left;">Save</button>
+                    <button class="btn btn-danger form-control clearFunctionsOpenWindow" style="width: 20%; float: left;">Clear all Functions</button>
                     <br>
-                    <div id="updateDiv" hidden>
+                    <div id="cryptUpdateDiv" hidden>
                         <input id='cryptNameFunction' class="form-control" placeholder="Function`s name" type="text" style="width: 50%; float: left;"/>
-                        <button class="btn btn-danger form-control removeCryptFunction" style="width: 25%; float: left;"> Remove </button>
-                        <button class="btn btn-success form-control updateCryptFunction" style="width: 25%; float: left;"> Update </button>
+                        <button class="btn btn-danger form-control removeFunction" style="width: 25%; float: left;"> Remove </button>
+                        <button class="btn btn-success form-control updateFunction" style="width: 25%; float: left;"> Update </button>
                     </div>
-                    <br>
-                    <br>
                 </div>
                 function (plainText, key) <br>
                 { <br>
-                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; var cipherText = plainText;
+                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; var cipherText = plainText; <br>
                 <div id="cryptEditor"></div>
                 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return cipherText;
                 <br>
                 }
             </div>
-            <div id="tabDecryptFunction" class="tab-pane">
+            <div id="tabDecryptFunction" class="tab-pane tab" type="decrypt">
                 <br>
                 <div class="form-group messageBox">
-                    <textarea id='testMessageDecrypt' class="form-control" placeholder="Test Message"  rows="5"></textarea>
+                    <textarea id='decryptTestMessage' class="form-control" placeholder="Test Message"  rows="5"></textarea>
                     <br>
-                    <button class="btn btn-success testDecrypt form-control">TEST</button>
+                    <button class="btn btn-success test form-control">TEST</button>
                     <br>
-                    <input id='keyDecrypt' class="form-control" placeholder="Key" type="text" style="width: 80%; float: left;"/>
-                    <button class="btn btn-info createHashDecrypt" style="width: 20%"> Hash </button>
+                    <input id='decryptKey' class="form-control" placeholder="Key" type="text" style="width: 80%; float: left;"/>
+                    <button class="btn btn-info createHash" style="width: 20%"> Hash </button>
                     <br>
 
                     <select id='decryptFunctions' class="form-control" style="width: 40%; float: left;">
                         <option value="-1">Choose function</option>
                     </select>
-                    <button class="btn btn-warning form-control loadDecryptFunctionToEditor" style="width: 20%; float: left;">Load</button>
-                    <button class="btn btn-primary form-control saveDecryptOpenWindow" style="width: 20%; float: left;">Save</button>
-                    <button class="btn btn-danger form-control clearDecryptFunctionsOpenWindow" style="width: 20%; float: left;">Clear all Functions</button>
+                    <button class="btn btn-warning form-control loadFunctionToEditor" style="width: 20%; float: left;">Load</button>
+                    <button class="btn btn-primary form-control saveOpenWindow" style="width: 20%; float: left;">Save</button>
+                    <button class="btn btn-danger form-control clearFunctionsOpenWindow" style="width: 20%; float: left;">Clear all Functions</button>
                     <br>
-                    <div id="updateDiv" hidden>
+                    <div id="decryptUpdateDiv" hidden>
                         <input id='decryptNameFunction' class="form-control" placeholder="Function`s name" type="text" style="width: 50%; float: left;"/>
-                        <button class="btn btn-danger form-control removeDecryptFunction" style="width: 25%; float: left;"> Remove </button>
-                        <button class="btn btn-success form-control updateDecryptFunction" style="width: 25%; float: left;"> Update </button>
+                        <button class="btn btn-danger form-control removeFunction" style="width: 25%; float: left;"> Remove </button>
+                        <button class="btn btn-success form-control updateFunction" style="width: 25%; float: left;"> Update </button>
                     </div>
-                    <br>
-                    <br>
                 </div>
                 function (cipherText, key) <br>
                 { <br>
@@ -154,18 +153,13 @@
             AuiEditorInit('cryptEditor');
             AuiEditorInit('decryptEditor');
 
-//            loadCryptFunctions();
             loadFunctions("-1", "crypt");
             loadFunctions("-1", "decrypt");
         });
 
-        /*
-            Default
-         */
-
         function createHash(id)
         {
-            var keyElement = $('#' + id);
+            var keyElement = $('#' + id + "Key");
             var key = keyElement.val();
 
             var hex = '';
@@ -177,20 +171,11 @@
 
         function loadFunctions(id, type)
         {
-            if(type === 'crypt')
-            {
-                var functionsStorge = localStorage.cryptFunctions;
-            }
-            else if (type === 'decrypt')
-            {
-                var functionsStorge = localStorage.decryptFunctions;
-            }
-
             var html = "<option value='-1'>Choose function</option>";
 
-            if( typeof functionsStorge !== 'undefined' && functionsStorge !== null )
+            if( typeof localStorage.getItem(type+'Functions') !== 'undefined' && localStorage.getItem(type+'Functions') !== null )
             {
-                var functions = JSON.parse(functionsStorge);
+                var functions = JSON.parse(localStorage.getItem(type+'Functions'));
 
                 functions.forEach(function(item, key){
 
@@ -209,40 +194,24 @@
 
         function saveFunction(type)
         {
-            if(type === 'crypt')
-            {
-                var functionsStorge = localStorage.cryptFunctions;
-            }
-            else if (type === 'decrypt')
-            {
-                var functionsStorge = localStorage.decryptFunctions;
-            }
-
-
-            console.log(functionsStorge);
             var functions;
-            if( typeof functionsStorge === 'undefined' || functionsStorge === null ) {
+            if( typeof localStorage.getItem(type+'Functions') === 'undefined' || localStorage.getItem(type+'Functions') === null ) {
                 functions = [];
             } else {
-                functions = JSON.parse(functionsStorge);
+                functions = JSON.parse(localStorage.getItem(type+'Functions'));
             }
 
             var id = Math.floor((1 + Math.random()) * 0x10000);
-            var name = $('#functionName').val();
+
+            var name = $('#'+type+'FunctionName').val();
 
             functions.push({'id':id, 'name': name, 'function': $("#" + type + "EditorTextarea").val()});
-            console.log(functions);
 
+            localStorage.setItem(type+'Functions', JSON.stringify(functions));
 
-            if(type === 'crypt')
-            {
-                localStorage.cryptFunctions = JSON.stringify(functions);
-            }
-            else if (type === 'decrypt')
-            {
-                localStorage.cryptFunctions = JSON.stringify(functions);
-            }
-            loadFunctions("-1", type);
+            loadFunctions(id, type);
+            $("#"+type+"NameFunction").val(name);
+            $("#"+type+"UpdateDiv").show();
         }
 
         function loadFunctionToEditor(type)
@@ -254,12 +223,12 @@
 
             if(id !== "-1")
             {
-                if( typeof localStorage.cryptFunctions !== 'undefined' && localStorage.cryptFunctions !== null )
+                if( typeof localStorage.getItem(type+'Functions') !== 'undefined' && localStorage.getItem(type+'Functions') !== null )
                 {
-                    var cryptFunctions = JSON.parse(localStorage.cryptFunctions);
+                    var functions = JSON.parse(localStorage.getItem(type+'Functions'));
 
 
-                    cryptFunctions.forEach(function(item, key){
+                    functions.forEach(function(item, key){
 
                         if(item['id'] == id) {
                             functionStr = item['function'];
@@ -274,89 +243,49 @@
             $('#'+type+'EditorTextarea').change();
 
             if(name !== "") {
-                $("#"+type+"Function").val(name);
-                $("#updateDiv").show();
+                $("#"+type+"NameFunction").val(name);
+                $("#"+type+"UpdateDiv").show();
             } else {
-                $("#updateDiv").hide();
+                $("#"+type+"UpdateDiv").hide();
             }
         }
 
-        /*
-            Crypt function
-         */
+        function removeFunction(type)
+        {
+            if( typeof localStorage.getItem(type+'Functions') !== 'undefined' && localStorage.getItem(type+'Functions') !== null ) {
+                var functions = JSON.parse(localStorage.getItem(type+'Functions'));
 
-        $(".loadCryptFunctionToEditor").on('click', function () {
-            loadFunctionToEditor('crypt');
-//            var id = $("#cryptFunctions").val();
-//
-//            var functionStr = "";
-//            var name = "";
-//
-//            if(id !== "-1")
-//            {
-//                if( typeof localStorage.cryptFunctions !== 'undefined' && localStorage.cryptFunctions !== null )
-//                {
-//                    var cryptFunctions = JSON.parse(localStorage.cryptFunctions);
-//
-//
-//                    cryptFunctions.forEach(function(item, key){
-//
-//                        if(item['id'] == id) {
-//                            functionStr = item['function'];
-//                            name = item['name'];
-//                            return;
-//                        }
-//                    });
-//                }
-//            }
-//
-//            $('#cryptEditorTextarea').val(functionStr);
-//            $('#cryptEditorTextarea').change();
-//
-//            if(name !== "") {
-//                $("#nameCryptFunction").val(name);
-//                $("#updateDiv").show();
-//            } else {
-//                $("#updateDiv").hide();
-//            }
-        });
+                var id = $("#"+type+"Functions").val();
 
-        $(".removeCryptFunction").on('click', function () {
-
-            if( typeof localStorage.cryptFunctions !== 'undefined' && localStorage.cryptFunctions !== null ) {
-                var cryptFunctions = JSON.parse(localStorage.cryptFunctions);
-
-                var id = $("#cryptFunctions").val();
-
-                cryptFunctions.forEach(function(item, key){
+                functions.forEach(function(item, key){
 
                     if(item['id'] == id) {
-                        cryptFunctions.splice(key,1);
+                        functions.splice(key,1);
                         return;
                     }
                 });
 
-                localStorage.cryptFunctions = JSON.stringify(cryptFunctions);
+                localStorage.setItem(type+'Functions', JSON.stringify(functions));
 
-                loadCryptFunctions();
-                $('#cryptEditorTextarea').val("");
-                $('#cryptEditorTextarea').change();
-                $("#updateDiv").hide();
+                loadFunctions("-1", type);
+
+                $('#'+type+'EditorTextarea').val("");
+                $('#'+type+'EditorTextarea').change();
+                $("#"+type+"UpdateDiv").hide();
 
             }
-        });
+        }
 
-        $(".updateCryptFunction").on('click', function () {
+        function updateFunction(type)
+        {
+            if( typeof localStorage.getItem(type+'Functions') !== 'undefined' && localStorage.getItem(type+'Functions') !== null ) {
+                var functions = JSON.parse(localStorage.getItem(type+'Functions'));
 
+                var id = $("#"+type+"Functions").val();
+                var name = $('#'+type+'NameFunction').val();
+                var functionStr = $('#'+type+'EditorTextarea').val();
 
-            if( typeof localStorage.cryptFunctions !== 'undefined' && localStorage.cryptFunctions !== null ) {
-                var cryptFunctions = JSON.parse(localStorage.cryptFunctions);
-
-                var id = $("#cryptFunctions").val();
-                var name = $('#nameCryptFunction').val();
-                var functionStr = $('#cryptEditorTextarea').val();
-
-                cryptFunctions.forEach(function(item, key){
+                functions.forEach(function(item, key){
 
                     if(item['id'] == id) {
                         item['name'] = name;
@@ -365,78 +294,92 @@
                     }
                 });
 
-                localStorage.cryptFunctions = JSON.stringify(cryptFunctions);
-
-//                loadCryptFunctions(id);
-                loadFunctions(id, "crypt");
+                localStorage.setItem(type+'Functions', JSON.stringify(functions));
+                loadFunctions(id, type);
             }
-        });
 
-        $(".clearCryptFunctionsOpenWindow").on('click', function () {
+        }
 
+        function clearAllFunctionsOpenWindow(type)
+        {
             var body = "" +
                 "    <div class='form-group'>\n" +
-                "       <p>Do you want clear all crypt functions?</p>\n"+
-                "       <button class='btn btn-danger form-control clearCryptFunctions'>Clear</button>\n" +
-                "       <button class='btn btn-default form-control cancelCryptFunctions'>Cancel</button>\n" +
+                "       <p>Do you want clear all "+type+" functions?</p>\n"+
+                "       <button class='btn btn-danger form-control "+type+"ClearFunctions'>Clear</button>\n" +
+                "       <button class='btn btn-default form-control "+type+"CancelFunctions'>Cancel</button>\n" +
                 "    </div>\n" +
                 "";
 
             var events = function(modal){
-                $(".cancelCryptFunctions").on('click', function () {
+                $("."+type+"CancelFunctions").on('click', function () {
                     modal.destroy();
                 });
 
-                $(".clearCryptFunctions").on('click', function () {
-                    localStorage.removeItem('cryptFunctions');
-//                    loadCryptFunctions();
-                    loadFunctions("-1", "crypt");
+                $("."+type+"ClearFunctions").on('click', function () {
+                    localStorage.removeItem(type+'Functions');
+                    loadFunctions("-1", type);
                     modal.destroy();
                 });
             };
 
-            AuiModalInit(body, "<h3>Clear crypt functions</h3>", "modalClearCryptFunctions",events);
-        });
+            AuiModalInit(body, "<h3>Clear "+type+" functions</h3>", type+"ModalClearFunctions",events);
+        }
 
-        $(".saveCryptOpenWindow").on('click', function () {
+        function saveOpenWindow(type)
+        {
             var body = "" +
                 "    <div class='form-group'>\n" +
-                "       <input class='form-control' type='text' id='functionName' placeholder='Function`s name'/>\n" +
-                "       <button class='btn btn-primary form-control saveCrypt'>Save</button>\n" +
+                "       <input class='form-control' type='text' id='"+type+"FunctionName' placeholder='Function`s name'/>\n" +
+                "       <button class='btn btn-primary form-control "+type+"Save'>Save</button>\n" +
                 "    </div>\n" +
                 "";
 
             var events = function(modal){
-                $(".saveCrypt").on('click', function () {
-                    saveFunction('crypt');
+                $("."+type+"Save").on('click', function () {
+                    saveFunction(type);
                     modal.destroy();
                 });
             };
 
-            AuiModalInit(body, "<h3>Save function</h3>", "modalCrypt",events);
-        });
+            AuiModalInit(body, "<h3>Save function</h3>", type+"Modal",events);
+        }
 
-        $(".testCrypt").on('click', function () {
-            var functionStr = createCryptFunction();
-            var plainText = $('#testMessageCrypt').val();
-            var key = $('#keyCrypt').val();
+
+        function testFunction(type)
+        {
+
+            if(type === 'crypt')
+            {
+                var functionStr = createCryptFunction();
+                var textVariable = 'plainText';
+                var header = '<h3>CipherText</h3>';
+            }
+            else if (type === 'decrypt')
+            {
+                var functionStr = createDecryptFunction();
+                var textVariable = 'cipherText';
+                var header = '<h3>PlainText</h3>';
+            }
+
+            var text = $('#'+type+'TestMessage').val();
+            var key = $('#'+type+'Key').val();
 
             try {
-                var cryptFunction = new Function('plainText','key',functionStr);
-                var cipherText = cryptFunction(plainText,key);
+                var fun = new Function(textVariable,'key',functionStr);
+                var newText = fun(text,key);
 
-                createAlert(cipherText,'<h3>CipherText</h3>');
+                createAlert(newText,header);
             }catch (e){
-                var annotations =  $('#cryptEditorAnnotations').val();
+                var annotations =  $('#'+type+'EditorAnnotations').val();
                 createAlert("<p>"+annotations+"</p>", '<h3>Syntax exception</h3>');
             }
-        });
+        }
 
         $(".sendMessage").on('click', function () {
 
             var functionStr = createCryptFunction();
             var plainText = $('[name="textMessage"]').val();
-            var key = $('#keyCrypt').val();
+            var key = $('#cryptKey').val();
 
             try {
                 var cryptFunction = new Function('plainText','key',functionStr);
@@ -450,87 +393,73 @@
             }
         });
 
-        $(".createHashCrypt").on('click', function () {
-            createHash('keyCrypt');
+        $(".decryptMessage").on('click', function() {
+            var functionStr = createDecryptFunction();
+            var id = $(this).attr('textMessageId');
+            var cipherText = $('#textMessage_'+id).html();
+            var key = $('#decryptKey').val();
+
+
+            console.log(key);
+            console.log(cipherText.length, cipherText);
+            console.log(functionStr, id, cipherText, key);
+
+//            try {
+//                var cryptFunction = new Function('plainText','key',functionStr);
+//                plainText var cipherText = cryptFunction(plainText,key);
+//
+//                $('[name="textMessage"]').val(cipherText);
+//            }catch (e){
+//                var annotations =  $('#cryptEditorAnnotations').val();
+//                createAlert("<p>"+annotations+"</p>", '<h3>Syntax exception</h3>');
+//                return false;
+//            }
         });
 
+        $(".cryptMessage").on('click', function() {
 
+        });
 
-//        function saveCrypt()
-//        {
-//            var cryptFunctions;
-//            if( typeof localStorage.cryptFunctions === 'undefined' || localStorage.cryptFunctions === null ) {
-//                cryptFunctions = [];
-//            } else {
-//                cryptFunctions = JSON.parse(localStorage.cryptFunctions);
-//            }
-//
-//            var id = Math.floor((1 + Math.random()) * 0x10000);
-//            var name = $('#functionName').val();
-//
-//            cryptFunctions.push({'id':id, 'name': name, 'function': $('#cryptEditorTextarea').val()});
-//
-//            console.log(cryptFunctions);
-//            localStorage.cryptFunctions = JSON.stringify(cryptFunctions);
-////            loadCryptFunctions();
-//            loadFunctions("-1", "crypt");
-//        }
+        $(".loadFunctionToEditor").on('click', function () {
+            var type = $(this).parents('.tab').attr('type');
+            loadFunctionToEditor(type);
+        });
 
-//        function loadCryptFunctions(id)
-//        {
-//            var html = "<option value='-1'>Choose function</option>";
-//
-//            if( typeof localStorage.cryptFunctions !== 'undefined' && localStorage.cryptFunctions !== null )
-//            {
-//                var cryptFunctions = JSON.parse(localStorage.cryptFunctions);
-//
-//                cryptFunctions.forEach(function(item, key){
-//
-//                    var selected = "";
-//                    if(id == item['id'] )
-//                    {
-//                        selected = "selected";
-//                    }
-//
-//                   html += "<option "+ selected +" value='"+item['id']+"'> "+ item['name'] +"</option>";
-//                });
-//            }
-//
-//            $("#cryptFunctions").html(html);
-//        }
+        $(".removeFunction").on('click', function () {
+            var type = $(this).parents('.tab').attr('type');
+            removeFunction(type);
+        });
+
+        $(".updateFunction").on('click', function () {
+            var type = $(this).parents('.tab').attr('type');
+            updateFunction(type);
+        });
+
+        $(".clearFunctionsOpenWindow").on('click', function () {
+            var type = $(this).parents('.tab').attr('type');
+            clearAllFunctionsOpenWindow(type);
+        });
+
+        $(".saveOpenWindow").on('click', function () {
+            var type = $(this).parents('.tab').attr('type');
+            saveOpenWindow(type);
+        });
+
+        $(".test").on('click', function () {
+            var type = $(this).parents('.tab').attr('type');
+            testFunction(type);
+        });
+
+        $(".createHash").on('click', function () {
+            var type = $(this).parents('.tab').attr('type');
+            createHash(type);
+        });
+
 
         function createCryptFunction()
         {
             return "var cipherText = plainText; " + $('#cryptEditorTextarea').val() + "return cipherText;";
         }
-
-        /*
-            Decrypt function
-         */
-
-        $(".testDecrypt").on('click', function () {
-            var functionStr = createDecryptFunction();
-
-            console.log(functionStr);
-            var cipherText = $('#testMessageDecrypt').val();
-            var key = $('#keyDecrypt').val();
-
-            try {
-                var decryptFunction = new Function('cipherText','key',functionStr);
-                var plainText = decryptFunction(cipherText,key);
-                alert(plainText);
-                createAlert(plainText,'PlainText');
-            }catch (e){
-                var annotations =  $('#decryptEditorAnnotations').val();
-                createAlert("<p>"+annotations+"</p>", '<h3>Syntax exception</h3>');
-            }
-        });
-
-        $(".createHashDecrypt").on('click', function () {
-            createHash('keyDecrypt');
-        });
-
-
 
         function createDecryptFunction()
         {
