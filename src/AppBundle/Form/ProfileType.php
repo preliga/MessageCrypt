@@ -28,15 +28,15 @@ class ProfileType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add(
-                'avatar',
-                FileType::class,
-                [
-                    'required' => false,
-                    'label' => "Avatar",
-                    'data_class' => null,
-                ]
-            )
+//            ->add(
+//                'avatar',
+//                FileType::class,
+//                [
+//                    'required' => false,
+//                    'label' => "Avatar",
+//                    'data_class' => null,
+//                ]
+//            )
             ->add(
                 'name',
                 TextType::class,
@@ -111,15 +111,15 @@ class ProfileType extends AbstractType
                         ]
                 ]
             )
-            ->add(
-                'brochure',
-                FileType::class,
-                [
-                    'required' => false,
-                    'label' => "Brochure (PDF file)",
-                    'data_class' => null,
-                ]
-            )
+//            ->add(
+//                'brochure',
+//                FileType::class,
+//                [
+//                    'required' => false,
+//                    'label' => "Brochure (PDF file)",
+//                    'data_class' => null,
+//                ]
+//            )
             ->add(
                 'save',
                 SubmitType::class,

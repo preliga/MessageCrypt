@@ -14,6 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\User;
 use AppBundle\Form\ProfileType;
+use Symfony\Component\HttpFoundation\Response;
 
 class ProfileController extends Controller
 {
@@ -45,30 +46,31 @@ class ProfileController extends Controller
                 /////
 
                 // brochure
-                $brochure = $user->getBrochure();
-                if(!empty($brochure)) {
-                    $brochureName = md5(uniqid()) . '.' . $brochure->guessExtension();
-                    $brochure->move(
-                        $this->getParameter('brochures_directory'),
-                        $brochureName
-                    );
-
-                }
-                $user->setBrochure($brochureName);
+//                $brochure = $user->getBrochure();
+//                if(!empty($brochure)) {
+//                    $brochureName = md5(uniqid()) . '.' . $brochure->guessExtension();
+//                    $brochure->move(
+//                        $this->getParameter('brochures_directory'),
+//                        $brochureName
+//                    );
+//
+//                }
+//                $user->setBrochure($brochureName);
                 /////
 
                 // avatar
-                $avatar = $user->getAvatar();
-                if(!empty($avatar)) {
-                    $avatarName = md5(uniqid()) . '.' . $avatar->guessExtension();
-                    $avatar->move(
-                        $this->getParameter('avatars_directory'),
-                        $avatarName
-                    );
-
-                }
-                $user->setAvatar($avatarName);
+//                $avatar = $user->getAvatar();
+//                if(!empty($avatar)) {
+//                    $avatarName = md5(uniqid()) . '.' . $avatar->guessExtension();
+//                    $avatar->move(
+//                        $this->getParameter('avatars_directory'),
+//                        $avatarName
+//                    );
+//
+//                }
+//                $user->setAvatar($avatarName);
                 /////
+
                 ///
                 ///
                 $em = $this->getDoctrine()->getManager();
@@ -93,6 +95,65 @@ class ProfileController extends Controller
                 'form' => $form->createView()
             ]
         );
+    }
+
+    /**
+     * @Route("/user/profile/uploadAvatar/", name="user_profile_uploadAvatar")
+     */
+    public function uploadAvatarAction(Request $request)
+    {
+        $avatarBase64 = $request->request->get('avatar');
+//        $avatarImage = base64_encode($request->request->get('avatar'));
+//        file_put_contents("test.jpg", $avatarImage);
+//        $x = $this->save_base64_image($avatarBase64, 'test');
+//        die(var_dump($x));
+
+        
+//        $avatar->move(
+//            $this->getParameter('avatars_directory'),
+//            $avatarName
+//        );
+
+//        die(var_dump($this->getParameter('avatars_directory')));
+
+        $avatarsDirectory = $this->getParameter('avatars_directory');
+//        die(var_dump($avatarsDirectory));
+        $splited = explode(',', substr( $avatarBase64 , 5 ) , 2);
+        $mime = $splited[0];
+        $data = $splited[1];
+
+        $mime_split_without_base64 = explode(';', $mime,2);
+        $mime_split = explode('/', $mime_split_without_base64[0],2);
+
+        if( count( $mime_split ) == 2)
+        {
+            $extension = $mime_split[1];
+            if($extension == 'jpeg'){
+                $extension = 'jpg';
+            }
+
+            $avatarName = md5(uniqid()) . '.' . $extension;
+            file_put_contents( $avatarsDirectory . '/' . $avatarName, base64_decode($data) );
+
+            $user = $this->getUser();
+
+            $avatarOld = $user->getAvatar();
+
+            if(file_exists($avatarsDirectory. '/' .$avatarOld) ) {
+                unlink($avatarsDirectory. '/' .$avatarOld);
+            }
+
+
+            $user->setAvatar($avatarName);
+
+            $em = $this->getDoctrine()->getManager();
+            $em->flush();
+
+            return new Response(json_encode(array("success" => true)));
+        }
+        else {
+            return new Response(json_encode(array("message" => 'Bad format image.', "error" => true)));
+        }
     }
 
     /**

@@ -4,33 +4,19 @@
     <h2 class="page-header">Profile</h2>
     {% form_theme form 'bootstrap_3_layout.html.twig' %}
     <div>
-        {{ form_start(form) }}
-        <div class="col-md-8">
+
+        <div class="col-md-8" style="text-align: center;">
             {% if user.avatar %}
                 <div>
-                    <img src="{{ asset('uploads/avatars/' ~ user.avatar) }}">
+                    <img class='myImage' src="{{ asset('uploads/avatars/' ~ user.avatar) }}">
                 </div>
                 <br>
             {% endif %}
-            <div>
-                {{ form_label(form.avatar) }}
-                {{ form_errors(form.avatar) }}
-                {{ form_widget(form.avatar) }}
-            </div>
-            <br>
-            <div>
-                {{ form_label(form.brochure) }}
-                {% if user.brochure %}
-                    <a href="{{ asset('uploads/brochures/' ~ user.brochure) }}" target="_blank">View brochure (PDF)</a>
-                {% endif %}
-                {{ form_errors(form.brochure) }}
-                {{ form_widget(form.brochure) }}
-            </div>
-            <br>
+            <button class="btn btn-success uploadAvatarButton">Upload Avatar</button>
         </div>
 
         <div class="col-md-4">
-
+            {{ form_start(form) }}
             <div>
                 {{ form_label(form.name) }}
                 {{ form_errors(form.name) }}
@@ -67,8 +53,112 @@
             </div>
             <br>
             <br>
+            <div style="text-align: center;">
+                {{ form_end(form) }}
+            </div>
         </div>
         <br>
-        {{ form_end(form) }}
     </div>
+{% endblock %}
+
+{% block pagescripts %}
+    <script>
+        $('.uploadAvatarButton').on('click', function () {
+            var body = ""+
+                "<div id='uploadModalDiv' style='text-align: center;'>" +
+                "   <div id='modalLoader' style='position: absolute; z-index: 2; text-align: center'></div>" +
+                "   <div class='input-group fileContent'>\n" +
+                "       <label class='input-group-btn'>\n" +
+                "           <span class='btn btn-primary'>\n" +
+                "               Choose image <input id='files' name='files' class='file' type='file' style='display: none;'>\n" +
+                "           </span>\n" +
+                "       </label>\n" +
+                "       <input type='text' class='form-control' readonly=true>\n" +
+                "   </div>" +
+                "   <div id='avatarDiv' style='display: inline-block; padding: 10px;'></div>" +
+                "   <div id='uploadAvatarDiv' hidden><button class='btn btn-success uploadAvatar'> Upload avatar </button></div>" +
+                "</div>"
+            ;
+
+            var events = function(modal){
+                function handleFileSelect(evt) {
+
+                    var files = evt.target.files; // FileList object
+
+                    // Loop through the FileList and render image files as thumbnails.
+                    for (var i = 0, f; f = files[i]; i++) {
+
+                        // Only process image files.
+                        if (!f.type.match('image.*')) {
+                            continue;
+                        }
+
+                        var reader = new FileReader();
+
+                        // Closure to capture the file information.
+                        reader.onload = (function(theFile) {
+                            return function(e) {
+                                $('#avatarDiv').html("<img class='imageAvatar' src='"+ e.target.result +"' />");
+
+                                var $image = $(".imageAvatar");
+                                $image.cropper({
+                                    aspectRatio: 1,
+                                    zoomable: false,
+                                    cropBoxResizable: true,
+                                    data: {
+                                        width: 1000,
+                                        height: 1000
+                                    },
+                                    done: function(data) {
+                                        $dataHeight.val(Math.round(data.height));
+                                        $dataWidth.val(Math.round(data.width));
+                                    }
+                                });
+
+                                $('#uploadAvatarDiv').show();
+                            };
+                        })(f);
+
+                        // Read in the image file as a data URL.
+                        reader.readAsDataURL(f);
+                    }
+                }
+
+                document.getElementById('files').addEventListener('change', handleFileSelect, false);
+
+                $('.uploadAvatar').on('click', function(){
+                    uploadAvatar(modal);
+
+                });
+            };
+
+            AuiModalInit(body, "<h3>Upload Avatar</h3>", "uploadAvatar",events);
+        });
+
+        function uploadAvatar(modal){
+            var dataURL = $(".imageAvatar").cropper('getCroppedCanvas').toDataURL();
+
+            $.ajax({
+                url: "{{ path('user_profile_uploadAvatar') }}",
+                type: 'POST',
+                dataType: 'json',
+                data:{
+                    avatar: dataURL
+                },
+                beforeSend: function (){
+                    showLoader();
+                },
+                success: function(result){
+                    hideLoader();
+                    modal.destroy();
+                    $('.myImage').attr('src', dataURL);
+                },
+                error: function (result) {
+                    AuiModalInit(result.message, "<h3>Error</h3>", 'errorUpload');
+                }
+
+            });
+        }
+
+    </script>
 {% endblock %}

@@ -23,6 +23,31 @@ $(document).ready(function() {
     );
 });
 
+/**
+ * input-file
+ * div .fileContent
+ */
+$(document).on('change', ':file', function() {
+
+    var input = $(this);
+    var label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+    input.parents('div .fileContent').children('input').val(label);
+});
+
+/**
+ * Loader
+ */
+function showLoader(){
+        var html = "<div class='preloader'><div id='imageLoader'></div></div>";
+        $('body').append(html);
+}
+
+function hideLoader(){
+    $(".preloader #imageLoader").fadeOut(); // Usuwamy grafikę ładowania
+    $(".preloader").delay(350).fadeOut("slow"); // Usuwamy diva przysłaniającego stronę
+}
+
+
 
 /**
  * AuiEditor init
@@ -74,7 +99,9 @@ function AuiModalInit(body,header,id, events)
 {
     if ( $( "#"+id ).length === 0 )
     {
-        $('body').append('<div class="yui3-skin-sam"><div id="'+id+'"></div></div>');
+        $('body').append('<div class="yui3-skin-sam" ><div id="'+id+'" style="top: 10px;"></div></div>');
+    } else {
+        $('#'+id).html('');
     }
 
     YUI().use(
@@ -91,10 +118,11 @@ function AuiModalInit(body,header,id, events)
                 }
             ).render();
 
-
             if(typeof events !== 'undefined') {
                 events(modal);
             }
+
+            $('.modal-dialog').css('top', 10);
         }
     );
 }
@@ -104,13 +132,5 @@ function AuiModalInit(body,header,id, events)
  */
 function createAlert(body,header)
 {
-    // console.log($('#alert'));
-
-    // if ( $( "#alert" ).length === 0 )
-    // {
-    //     $('body').append('<div class="yui3-skin-sam"><div id="alert"></div></div>');
-    // }
-
-
     AuiModalInit(body,header,'alert')
 }
