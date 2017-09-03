@@ -6,12 +6,14 @@
     <div>
 
         <div class="col-md-8" style="text-align: center;">
-            {% if user.avatar %}
-                <div>
+            <div>
+                {% if user.avatar %}
                     <img class='myImage' src="{{ asset('uploads/avatars/' ~ user.avatar) }}">
-                </div>
-                <br>
-            {% endif %}
+                {% else %}
+                    <img src='/images/empty.png'>
+                {% endif %}
+            </div>
+            <br>
             <button class="btn btn-success uploadAvatarButton">Upload Avatar</button>
         </div>
 
@@ -137,6 +139,7 @@
 
         function uploadAvatar(modal){
             var dataURL = $(".imageAvatar").cropper('getCroppedCanvas').toDataURL();
+
 
             $.ajax({
                 url: "{{ path('user_profile_uploadAvatar') }}",

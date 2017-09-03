@@ -25,33 +25,33 @@
                 <div class="panel-body-scroll">
                     <ul class="chat">
                         {% for msg in messages %}
-                            <div class="{% if msg.userid1.id == friendId %} chat-div-left {% else %} chat-div-right {% endif %}">
-                                <li class="{% if msg.userid1.id == friendId %} left {% else %} right {% endif %} clearfix">
-                                    <span class="chat-img {% if msg.userid1.id == friendId %} pull-left {% else %} pull-right {% endif %}">
-                                        {% if msg.userid1.avatar %}
-                                            <img src="{{ asset('uploads/avatars/' ~ msg.userid1.avatar) }}" class="avatarMsg img-circle">
+                            <div class="{% if msg.author.id == friendId %} chat-div-left {% else %} chat-div-right {% endif %}">
+                                <li class="{% if msg.author.id == friendId %} left {% else %} right {% endif %} clearfix">
+                                    <span class="chat-img {% if msg.author.id == friendId %} pull-left {% else %} pull-right {% endif %}">
+                                        {% if msg.author.avatar %}
+                                            <img src="{{ asset('uploads/avatars/' ~ msg.author.avatar) }}" class="avatarMsg img-circle">
                                         {% else %}
                                             <img src='/images/empty.png' class="avatarMsg img-circle">
                                         {% endif %}
                                     </span>
                                     <div class="chat-body clearfix">
                                         <div class="header">
-                                            {% if msg.userid1.id == friendId %}
+                                            {% if msg.author.id == friendId %}
                                                 <small class="pull-right text-muted">
                                                     <span class="glyphicon glyphicon-time"></span>
                                                     {{ msg.date | date("Y-m-d H:i:s") }}
                                                 </small>
                                                 <strong class="primary-font">
-                                                    <a href="{{ path("user_profile_profile", {'id': msg.userid1.id}) }}">
-                                                        {{ msg.userid1.name }}
-                                                        {{ msg.userid1.lastname }}
+                                                    <a href="{{ path("user_profile_profile", {'id': msg.author.id}) }}">
+                                                        {{ msg.author.name }}
+                                                        {{ msg.author.lastname }}
                                                     </a>
                                                 </strong>
                                             {% else %}
                                                 <strong class="primary-font">
-                                                    <a href="{{ path("user_profile_profile", {'id': msg.userid1.id}) }}">
-                                                        {{ msg.userid1.name }}
-                                                        {{ msg.userid1.lastname }}
+                                                    <a href="{{ path("user_profile_profile", {'id': msg.author.id}) }}">
+                                                        {{ msg.author.name }}
+                                                        {{ msg.author.lastname }}
                                                     </a>
                                                 </strong>
                                                 <small class="pull-left text-muted">

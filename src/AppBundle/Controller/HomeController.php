@@ -86,29 +86,29 @@ class HomeController extends Controller
                 /////
 
                 // brochure
-                $brochure = $user->getBrochure();
-                if(!empty($brochure)) {
-                    $brochureName = md5(uniqid()) . '.' . $brochure->guessExtension();
-                    $brochure->move(
-                        $this->getParameter('brochures_directory'),
-                        $brochureName
-                    );
-
-                }
-                $user->setBrochure($brochureName);
+//                $brochure = $user->getBrochure();
+//                if(!empty($brochure)) {
+//                    $brochureName = md5(uniqid()) . '.' . $brochure->guessExtension();
+//                    $brochure->move(
+//                        $this->getParameter('brochures_directory'),
+//                        $brochureName
+//                    );
+//
+//                }
+//                $user->setBrochure($brochureName);
                 /////
 
                 // avatar
-                $avatar = $user->getAvatar();
-                if(!empty($avatar)) {
-                    $avatarName = md5(uniqid()) . '.' . $avatar->guessExtension();
-                    $avatar->move(
-                        $this->getParameter('avatars_directory'),
-                        $avatarName
-                    );
-
-                }
-                $user->setAvatar($avatarName);
+//                $avatar = $user->getAvatar();
+//                if(!empty($avatar)) {
+//                    $avatarName = md5(uniqid()) . '.' . $avatar->guessExtension();
+//                    $avatar->move(
+//                        $this->getParameter('avatars_directory'),
+//                        $avatarName
+//                    );
+//
+//                }
+//                $user->setAvatar($avatarName);
                 /////
                 ///
 

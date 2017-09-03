@@ -47,8 +47,6 @@ function hideLoader(){
     $(".preloader").delay(350).fadeOut("slow"); // Usuwamy diva przysłaniającego stronę
 }
 
-
-
 /**
  * AuiEditor init
  */
@@ -122,7 +120,7 @@ function AuiModalInit(body,header,id, events)
                 events(modal);
             }
 
-            $('.modal-dialog').css('top', 10);
+            // $('.modal-dialog').css('top', 10);
         }
     );
 }

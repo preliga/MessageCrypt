@@ -3,20 +3,12 @@
 {% block content %}
     <h2 class="page-header">Profile</h2>
     <div>
-        <div class="col-md-8">
-
+        <div class="col-md-8" style="text-align: center;">
             <div>
                 {% if user.avatar %}
                     <img src="{{ asset('uploads/avatars/' ~ user.avatar) }}">
                 {% else %}
                     <img src='/images/empty.png'>
-                {% endif %}
-            </div>
-            <br>
-            <br>
-            <div>
-                {% if user.brochure %}
-                    <a href="{{ asset('uploads/brochures/' ~ user.brochure) }}" target="_blank">View brochure (PDF)</a>
                 {% endif %}
             </div>
             <br>

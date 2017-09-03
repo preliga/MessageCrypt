@@ -41,5 +41,5 @@ monolog:
 #    delivery_addresses: ['me@example.com']
 
 parameters:
-    brochures_directory: '%kernel.project_dir%/web/uploads/brochures'
+#    brochures_directory: '%kernel.project_dir%/web/uploads/brochures'
     avatars_directory: '%kernel.project_dir%/web/uploads/avatars'

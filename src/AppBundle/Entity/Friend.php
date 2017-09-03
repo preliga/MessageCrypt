@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Friend
  *
- * @ORM\Table(name="friend", uniqueConstraints={@ORM\UniqueConstraint(name="userId1_userId2", columns={"userId1", "userId2"})}, indexes={@ORM\Index(name="frined_user2_user_id", columns={"userId2"}), @ORM\Index(name="IDX_55EEAC61116AD761", columns={"userId1"})})
+ * @ORM\Table(name="friend", uniqueConstraints={@ORM\UniqueConstraint(name="author_recipient", columns={"author", "recipient"})}, indexes={@ORM\Index(name="friend_recipient_id", columns={"recipient"}), @ORM\Index(name="friend_author_id", columns={"author"})})
  * @ORM\Entity
  */
 class Friend
@@ -26,20 +26,20 @@ class Friend
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", fetch="EAGER")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="userId1", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="author", referencedColumnName="id")
      * })
      */
-    private $userid1;
+    private $author;
 
     /**
      * @var \AppBundle\Entity\User
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", fetch="EAGER")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="userId2", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="recipient", referencedColumnName="id")
      * })
      */
-    private $userid2;
+    private $recipient;
 
     /**
      * @return int
@@ -60,33 +60,33 @@ class Friend
     /**
      * @return User
      */
-    public function getUserid1(): User
+    public function getAuthor(): User
     {
-        return $this->userid1;
+        return $this->author;
     }
 
     /**
-     * @param User $userid1
+     * @param User $author
      */
-    public function setUserid1(User $userid1)
+    public function setAuthor(User $author)
     {
-        $this->userid1 = $userid1;
+        $this->author = $author;
     }
 
     /**
      * @return User
      */
-    public function getUserid2(): User
+    public function getRecipient(): User
     {
-        return $this->userid2;
+        return $this->recipient;
     }
 
     /**
-     * @param User $userid2
+     * @param User $recipient
      */
-    public function setUserid2(User $userid2)
+    public function setRecipient(User $recipient)
     {
-        $this->userid2 = $userid2;
+        $this->recipient = $recipient;
     }
 
 

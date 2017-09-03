@@ -25,56 +25,38 @@ class FriendsController extends Controller
     {
         $friends1 = $this->getDoctrine()->getManager()
             ->getRepository(Friend::class)
-            ->findBy(['userid1' =>  $this->getUser()])
+            ->findBy(['author' =>  $this->getUser()])
         ;
         $friends2 = $this->getDoctrine()->getManager()
             ->getRepository(Friend::class)
-            ->findBy(['userid2' =>  $this->getUser()])
+            ->findBy(['recipient' =>  $this->getUser()])
         ;
-
-//        $query = $this->getDoctrine()
-//            ->getRepository('AppBundle:Friend')
-//            ->createQueryBuilder('f')
-//            ->where('f.userid1 = :user1')
-//            ->setParameter('user1', $this->getUser() )
-//            ->getQuery();
-//
-//        $friends1 = $query->getResult();
-//
-//        $query = $this->getDoctrine()
-//            ->getRepository('AppBundle:Friend')
-//            ->createQueryBuilder('f')
-//            ->where('f.userid2 = :user2')
-//            ->setParameter('user2', $this->getUser() )
-//            ->getQuery();
-//
-//        $friends2 = $query->getResult();
 
         $friends = [];
 
         foreach($friends1 as $f)
         {
-            if(empty($friends[$f->getUserid2()->getId()])) {
-                $friends[$f->getUserid2()->getId()] = [];
+            if(empty($friends[$f->getRecipient()->getId()])) {
+                $friends[$f->getRecipient()->getId()] = [];
             }
 
-            $friends[$f->getUserId2()->getId()]['friend1'] = $f;
+            $friends[$f->getRecipient()->getId()]['friend1'] = $f;
         }
 
         foreach($friends2 as $f)
         {
-            if(empty($friends[$f->getUserid1()->getId()])) {
-                $friends[$f->getUserid1()->getId()] = [];
+            if(empty($friends[$f->getAuthor()->getId()])) {
+                $friends[$f->getAuthor()->getId()] = [];
             }
 
-            $friends[$f->getUserId1()->getId()]['friend2'] = $f;
+            $friends[$f->getAuthor()->getId()]['friend2'] = $f;
         }
 
         foreach ($friends as $key => $f)
         {
             if(!empty($f['friend1']) && !empty($f['friend2']))
             {
-                $friends[$key] = $f['friend1']->getUserid2();
+                $friends[$key] = $f['friend1']->getRecipient();
             } else {
                 unset($friends[$key]);
             }
@@ -100,8 +82,8 @@ class FriendsController extends Controller
         $query = $this->getDoctrine()
             ->getRepository('AppBundle:Friend')
             ->createQueryBuilder('f')
-            ->where('f.userid1 = :user1')
-            ->setParameter('user1', $this->getUser() )
+            ->where('f.author = :author')
+            ->setParameter('author', $this->getUser() )
             ->getQuery();
 
         $friends1 = $query->getResult();
@@ -109,8 +91,8 @@ class FriendsController extends Controller
         $query = $this->getDoctrine()
             ->getRepository('AppBundle:Friend')
             ->createQueryBuilder('f')
-            ->where('f.userid2 = :user2')
-            ->setParameter('user2', $this->getUser() )
+            ->where('f.recipient = :recipient')
+            ->setParameter('recipient', $this->getUser() )
             ->getQuery();
 
         $friends2 = $query->getResult();
@@ -119,20 +101,20 @@ class FriendsController extends Controller
 
         foreach($friends1 as $f)
         {
-            if(empty($friends[$f->getUserid2()->getId()])) {
-                $friends[$f->getUserid2()->getId()] = [];
+            if(empty($friends[$f->getRecipient()->getId()])) {
+                $friends[$f->getRecipient()->getId()] = [];
             }
 
-            $friends[$f->getUserid2()->getId()]['friend1'] = $f;
+            $friends[$f->getRecipient()->getId()]['friend1'] = $f;
         }
 
         foreach($friends2 as $f)
         {
-            if(empty($friends[$f->getUserid1()->getId()])) {
-                $friends[$f->getUserid1()->getId()] = [];
+            if(empty($friends[$f->getAuthor()->getId()])) {
+                $friends[$f->getAuthor()->getId()] = [];
             }
 
-            $friends[$f->getUserid1()->getId()]['friend2'] = $f;
+            $friends[$f->getAuthor()->getId()]['friend2'] = $f;
         }
 
         $table = $this->get('jgm.table')->createTable(new FriendsSearchTableType($friends, $this->getUser()->getId()));
@@ -151,38 +133,38 @@ class FriendsController extends Controller
     {
         $friends1 = $this->getDoctrine()->getManager()
             ->getRepository(Friend::class)
-            ->findBy(['userid1' =>  $this->getUser()])
+            ->findBy(['author' =>  $this->getUser()])
         ;
         $friends2 = $this->getDoctrine()->getManager()
             ->getRepository(Friend::class)
-            ->findBy(['userid2' =>  $this->getUser()])
+            ->findBy(['recipient' =>  $this->getUser()])
         ;
 
         $friends = [];
 
         foreach($friends1 as $f)
         {
-            if(empty($friends[$f->getUserid2()->getId()])) {
-                $friends[$f->getUserid2()->getId()] = [];
+            if(empty($friends[$f->getRecipient()->getId()])) {
+                $friends[$f->getRecipient()->getId()] = [];
             }
 
-            $friends[$f->getUserId2()->getId()]['friend1'] = $f;
+            $friends[$f->getRecipient()->getId()]['friend1'] = $f;
         }
 
         foreach($friends2 as $f)
         {
-            if(empty($friends[$f->getUserid1()->getId()])) {
-                $friends[$f->getUserid1()->getId()] = [];
+            if(empty($friends[$f->getAuthor()->getId()])) {
+                $friends[$f->getAuthor()->getId()] = [];
             }
 
-            $friends[$f->getUserId1()->getId()]['friend2'] = $f;
+            $friends[$f->getAuthor()->getId()]['friend2'] = $f;
         }
 
         foreach ($friends as $key => $f)
         {
             if(empty($f['friend1']) && !empty($f['friend2']))
             {
-                $friends[$key] = $f['friend2']->getUserid1();
+                $friends[$key] = $f['friend2']->getAuthor();
             } else {
                 unset($friends[$key]);
             }
@@ -210,7 +192,7 @@ class FriendsController extends Controller
 
             $friend1 = $this->getDoctrine()
                 ->getRepository('AppBundle:Friend')
-                ->findOneBy(['userid1' => $this->getUser(), 'userid2' => $userId]);
+                ->findOneBy(['author' => $this->getUser(), 'recipient' => $userId]);
 
             if (!empty($friend1)) {
                 $em = $this->getDoctrine()->getManager();
@@ -220,7 +202,7 @@ class FriendsController extends Controller
 
             $friend2 = $this->getDoctrine()
                 ->getRepository('AppBundle:Friend')
-                ->findOneBy(['userid1' => $userId, 'userid2' => $this->getUser()]);
+                ->findOneBy(['author' => $userId, 'recipient' => $this->getUser()]);
 
             if (!empty($friend2)) {
                 $em = $this->getDoctrine()->getManager();
@@ -260,19 +242,19 @@ class FriendsController extends Controller
             return $this->redirectToRoute('user_profile_profile', ['id' => $userId]);
         }
 
-        $user1 = $this->getUser();
-        $user2 = $this->getDoctrine()
+        $author = $this->getUser();
+        $recipient = $this->getDoctrine()
             ->getRepository('AppBundle:User')
             ->find($userId);
 
         $friend = $this->getDoctrine()
             ->getRepository('AppBundle:Friend')
-            ->findOneBy(['userid1' => $this->getUser(), 'userid2' => $user2]);
+            ->findOneBy(['author' => $this->getUser(), 'recipient' => $recipient]);
 
         if (empty($friend)) {
             $friend = new Friend();
-            $friend->setUserid1($user1);
-            $friend->setUserid2($user2);
+            $friend->setAuthor($author);
+            $friend->setRecipient($recipient);
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($friend);
@@ -305,20 +287,20 @@ class FriendsController extends Controller
      */
     public function confirmInvitationAction($userId, $redirected = 'profile', Request $request)
     {
-        $user1 = $this->getUser();
-        $user2 = $this->getDoctrine()
+        $author = $this->getUser();
+        $recipient = $this->getDoctrine()
             ->getRepository('AppBundle:User')
-            ->find($userId);
+            ->find($author);
 
         $friend = $this->getDoctrine()
             ->getRepository('AppBundle:Friend')
-            ->findOneBy(['userid1' => $user2, 'userid2' => $user1]);
+            ->findOneBy(['author' => $recipient, 'recipient' => $author]);
 
         if (!empty($friend)) {
 
             $friend1 = new Friend();
-            $friend1->setUserid1($user1);
-            $friend1->setUserid2($user2);
+            $friend1->setAuthor($author);
+            $friend1->setRecipient($recipient);
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($friend1);

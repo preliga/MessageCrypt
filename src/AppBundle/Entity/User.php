@@ -54,7 +54,7 @@ class User implements UserInterface, \Serializable
     protected $password;
 
     /**
-     * @var \Date
+     * @var \DateTime
      *
      * @ORM\Column(name="birthDate", type="date", nullable=true)
      */
@@ -77,16 +77,6 @@ class User implements UserInterface, \Serializable
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     protected $id;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="brochure", type="string", length=50, nullable=true)
-     *
-    //     * Assert\NotBlank(message="Please, upload the product brochure as a PDF file.")
-     * @Assert\File(mimeTypes={ "application/pdf" })
-     */
-    protected $brochure;
 
     /**
      * @return string
@@ -215,23 +205,6 @@ class User implements UserInterface, \Serializable
     {
         $this->id = $id;
     }
-
-    /**
-     * @return string
-     */
-    public function getBrochure()
-    {
-        return $this->brochure;
-    }
-
-    /**
-     * @param string $brochure
-     */
-    public function setBrochure($brochure)
-    {
-        $this->brochure = $brochure;
-    }
-
 
     /**
      * Returns the roles granted to the user.

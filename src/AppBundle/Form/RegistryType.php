@@ -111,15 +111,15 @@ class RegistryType extends AbstractType
                         ]
                 ]
             )
-            ->add(
-                'brochure',
-                FileType::class,
-                [
-                    'required' => false,
-                    'label' => "Brochure (PDF file)",
-                    'data_class' => null,
-                ]
-            )
+//            ->add(
+//                'brochure',
+//                FileType::class,
+//                [
+//                    'required' => false,
+//                    'label' => "Brochure (PDF file)",
+//                    'data_class' => null,
+//                ]
+//            )
             ->add(
                 'save',
                 SubmitType::class,

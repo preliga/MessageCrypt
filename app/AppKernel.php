@@ -8,7 +8,7 @@ class AppKernel extends Kernel
     public function registerBundles()
     {
         $bundles = [
-            new Bmatzner\JQueryBundle\BmatznerJQueryBundle(),
+//            new Bmatzner\JQueryBundle\BmatznerJQueryBundle(),
             new Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
             new Symfony\Bundle\SecurityBundle\SecurityBundle(),
             new Symfony\Bundle\TwigBundle\TwigBundle(),

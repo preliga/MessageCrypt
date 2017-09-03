@@ -25,8 +25,6 @@ class ProfileController extends Controller
     {
         $user = $this->getUser();
         $password = $user->getPassword();
-        $brochureName = $user->getBrochure();
-        $avatarName = $user->getAvatar();
 
         $form = $this->createForm(ProfileType::class, $user); //$this->doForm($user);
         $form->handleRequest($request);
@@ -43,32 +41,6 @@ class ProfileController extends Controller
                     $password = $encoder->encodePassword($passwordFirst, $user->getSalt());
                 }
                 $user->setPassword($password);
-                /////
-
-                // brochure
-//                $brochure = $user->getBrochure();
-//                if(!empty($brochure)) {
-//                    $brochureName = md5(uniqid()) . '.' . $brochure->guessExtension();
-//                    $brochure->move(
-//                        $this->getParameter('brochures_directory'),
-//                        $brochureName
-//                    );
-//
-//                }
-//                $user->setBrochure($brochureName);
-                /////
-
-                // avatar
-//                $avatar = $user->getAvatar();
-//                if(!empty($avatar)) {
-//                    $avatarName = md5(uniqid()) . '.' . $avatar->guessExtension();
-//                    $avatar->move(
-//                        $this->getParameter('avatars_directory'),
-//                        $avatarName
-//                    );
-//
-//                }
-//                $user->setAvatar($avatarName);
                 /////
 
                 ///
@@ -103,21 +75,9 @@ class ProfileController extends Controller
     public function uploadAvatarAction(Request $request)
     {
         $avatarBase64 = $request->request->get('avatar');
-//        $avatarImage = base64_encode($request->request->get('avatar'));
-//        file_put_contents("test.jpg", $avatarImage);
-//        $x = $this->save_base64_image($avatarBase64, 'test');
-//        die(var_dump($x));
-
-        
-//        $avatar->move(
-//            $this->getParameter('avatars_directory'),
-//            $avatarName
-//        );
-
-//        die(var_dump($this->getParameter('avatars_directory')));
 
         $avatarsDirectory = $this->getParameter('avatars_directory');
-//        die(var_dump($avatarsDirectory));
+
         $splited = explode(',', substr( $avatarBase64 , 5 ) , 2);
         $mime = $splited[0];
         $data = $splited[1];
@@ -168,16 +128,16 @@ class ProfileController extends Controller
 
         $friend1 = $this->getDoctrine()
             ->getRepository('AppBundle:Friend')
-            ->findOneBy(['userid1' => $this->getUser(), 'userid2' => $user])
+            ->findOneBy(['author' => $this->getUser(), 'recipient' => $user])
         ;
 
         $friend2 = $this->getDoctrine()
             ->getRepository('AppBundle:Friend')
-            ->findOneBy(['userid1' => $user, 'userid2' => $this->getUser()])
+            ->findOneBy(['author' => $user, 'recipient' => $this->getUser()])
         ;
 
 
-        $form = $this->createForm(ProfileType::class, $user); //$this->doForm($user);
+        $form = $this->createForm(ProfileType::class, $user);
         $form->handleRequest($request);
 
 

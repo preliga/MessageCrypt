@@ -39,8 +39,8 @@ class MessageController extends Controller
             );
         }
 
-        $user1 = $this->getUser();
-        $user2 = $this->getDoctrine()
+        $author = $this->getUser();
+        $recipient = $this->getDoctrine()
             ->getRepository('AppBundle:User')
             ->find($friendId);
 
@@ -49,10 +49,10 @@ class MessageController extends Controller
         $query = $this->getDoctrine()
             ->getRepository('AppBundle:Message')
             ->createQueryBuilder('m')
-            ->where('(m.userid1 = :user1 AND m.userid2 = :user2) OR (m.userid2 = :user1 AND m.userid1 = :user2)')
+            ->where('(m.author = :author AND m.recipient = :recipient) OR (m.recipient = :author AND m.author = :recipient)')
             ->orderBy('m.date', 'DESC')
-            ->setParameter('user1', $user1 )
-            ->setParameter('user2', $user2 )
+            ->setParameter('author', $author )
+            ->setParameter('recipient', $recipient )
             ->getQuery();
 
         $messages = $query->getResult();
@@ -90,16 +90,16 @@ class MessageController extends Controller
             $text = $post['textMessage'];
 
 
-            $user1 = $this->getUser();
-            $user2 = $this->getDoctrine()
+            $author = $this->getUser();
+            $recipient = $this->getDoctrine()
                 ->getRepository('AppBundle:User')
                 ->find($friendId);
 
 
             $message = new Message();
             $message->setText($text);
-            $message->setUserid1($user1);
-            $message->setUserid2($user2);
+            $message->setAuthor($author);
+            $message->setRecipient($recipient);
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($message);
@@ -130,11 +130,11 @@ class MessageController extends Controller
     {
         $friend1 = $this->getDoctrine()->getManager()
             ->getRepository(Friend::class)
-            ->findOneBy(['userid1' =>  $this->getUser(), 'userid2' => $friendId ])
+            ->findOneBy(['author' =>  $this->getUser(), 'recipient' => $friendId ])
         ;
         $friend2 = $this->getDoctrine()->getManager()
             ->getRepository(Friend::class)
-            ->findOneBy(['userid1' => $friendId,'userid2' =>  $this->getUser()])
+            ->findOneBy(['author' => $friendId,'recipient' =>  $this->getUser()])
         ;
 
         return !empty($friend1) && !empty($friend2);
