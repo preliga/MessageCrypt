@@ -8,18 +8,19 @@
 
 namespace AppBundle\Controller\User;
 
-use AppBundle\Entity\User;
 use AppBundle\Entity\Friend;
-//use AppBundle\Entity\Frienddictionary;
 use AppBundle\Table\FriendsSearchTableType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Resources\Controller\BaseUserController;
 
-class FriendsController extends Controller
+/**
+ * @Route("/user/friends")
+ */
+class FriendsController extends BaseUserController
 {
     /**
-     * @Route("/user/friends/myfriends", name="user_friends_myfriends")
+     * @Route("/myfriends", name="user_friends_myfriends")
      */
     public function myfriendsAction(Request $request)
     {
@@ -70,7 +71,7 @@ class FriendsController extends Controller
     }
 
     /**
-     * @Route("/user/friends/search", name="user_friends_search")
+     * @Route("/search", name="user_friends_search")
      */
     public function searchAction(Request $request)
     {
@@ -127,7 +128,7 @@ class FriendsController extends Controller
     }
 
     /**
-     * @Route("/user/friends/invitations", name="user_friends_invitations")
+     * @Route("/invitations", name="user_friends_invitations")
      */
     public function invitationsAction(Request $request)
     {
@@ -179,7 +180,7 @@ class FriendsController extends Controller
 
 
     /**
-     * @Route("/user/friends/removeFriend/{userId}/{redirected}", name="user_friends_removeFriend")
+     * @Route("/removeFriend/{userId}/{redirected}", name="user_friends_removeFriend")
      */
     public function removeFriendAction($userId, $redirected = 'profile', Request $request)
     {
@@ -229,7 +230,7 @@ class FriendsController extends Controller
 
 
     /**
-     * @Route("/user/friends/sendInvitations/{userId}/{redirected}", name="user_friends_sendInvitations")
+     * @Route("/sendInvitations/{userId}/{redirected}", name="user_friends_sendInvitations")
      */
     public function sendInvitationsAction($userId, $redirected = 'profile', Request $request)
     {
@@ -283,7 +284,7 @@ class FriendsController extends Controller
     }
 
     /**
-     * @Route("/user/friends/confirmInvitation/{userId}/{redirected}", name="user_friends_confirmInvitation")
+     * @Route("/confirmInvitation/{userId}/{redirected}", name="user_friends_confirmInvitation")
      */
     public function confirmInvitationAction($userId, $redirected = 'profile', Request $request)
     {

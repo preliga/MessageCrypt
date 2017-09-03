@@ -10,16 +10,18 @@ namespace AppBundle\Controller\User;
 
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Entity\User;
 use AppBundle\Form\ProfileType;
 use Symfony\Component\HttpFoundation\Response;
+use AppBundle\Resources\Controller\BaseUserController;
 
-class ProfileController extends Controller
+/**
+ * @Route("/user/profile")
+ */
+class ProfileController extends BaseUserController
 {
     /**
-     * @Route("/user/profile/myprofile", name="user_profile_myprofile")
+     * @Route("/myprofile", name="user_profile_myprofile")
      */
     public function myprofileAction(Request $request)
     {
@@ -70,7 +72,7 @@ class ProfileController extends Controller
     }
 
     /**
-     * @Route("/user/profile/uploadAvatar/", name="user_profile_uploadAvatar")
+     * @Route("/uploadAvatar/", name="user_profile_uploadAvatar")
      */
     public function uploadAvatarAction(Request $request)
     {
@@ -117,7 +119,7 @@ class ProfileController extends Controller
     }
 
     /**
-     * @Route("/user/profile/profile/{id}", name="user_profile_profile")
+     * @Route("/profile/{id}", name="user_profile_profile")
      */
     public function profileAction($id, Request $request)
     {

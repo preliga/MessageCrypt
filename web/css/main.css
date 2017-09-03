@@ -15,6 +15,32 @@ Avatar
 
 
 /**
+    Menu Alert
+ */
+div .mainMenuAlert {
+    text-align: center;
+    background: #b81c0b;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    position: absolute;
+    display: grid;
+    top: 40px;
+}
+div .mainMenuAlert > span {
+    margin: auto;
+    font-size: 15px;
+}
+
+
+.alertColor{
+    background: #ffccca;
+}
+
+/*/////////*/
+
+
+/**
     Loader
  */
 .preloader {

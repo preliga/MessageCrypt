@@ -40,26 +40,31 @@
                            aria-expanded="false">
                             <i class="fa fa-users fa-2x" aria-hidden="true"></i>
                             <span style="font-size: 20px;">
-                            Friends
-                        </span>
+                                Friends
+                                {%  if countInvitations > 0 %}
+                                    <div class="mainMenuAlert">
+                                        <span>{{ countInvitations }}</span>
+                                    </div>
+                                {% endif %}
+                            </span>
                             <div class="dropdown-menu list-group">
                                 <a class="list-group-item" href="{{ path('user_friends_myfriends') }}">
                                     <i class="fa fa-users" aria-hidden="true"></i>
                                     <span style="font-size: 13px;">
-                                    My friends
-                                </span>
+                                        My friends
+                                    </span>
                                 </a>
                                 <a class="list-group-item" href="{{ path('user_friends_search') }}">
                                     <i class="fa fa-search" aria-hidden="true"></i>
                                     <span style="font-size: 13px;">
-                                    Search
-                                </span>
+                                        Search
+                                    </span>
                                 </a>
-                                <a class="list-group-item" href="{{ path('user_friends_invitations') }}">
+                                <a class="list-group-item {%  if countInvitations > 0 %}alertColor{% endif %}" href="{{ path('user_friends_invitations') }}">
                                     <i class="fa fa-envelope-open-o" aria-hidden="true"></i>
                                     <span style="font-size: 13px;">
-                                    Invitations
-                                </span>
+                                        Invitations
+                                    </span>
                                 </a>
                             </div>
                     </li>

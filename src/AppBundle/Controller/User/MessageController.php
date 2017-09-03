@@ -8,17 +8,16 @@
 
 namespace AppBundle\Controller\User;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Friend;
 use AppBundle\Entity\Message;
+use AppBundle\Resources\Controller\BaseUserController;
 
 /**
  * @Route("/user/message/{friendId}")
  */
-class MessageController extends Controller
+class MessageController extends BaseUserController
 {
     /**
      * @Route("/showAll", name="user_message_showAll")

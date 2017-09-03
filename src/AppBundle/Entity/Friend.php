@@ -86,7 +86,7 @@ class Friend
      */
     public function setRecipient(User $recipient)
     {
-        $this->recipient = $recipient;
+        $this->userid2 = $userid2;
     }
 
 
