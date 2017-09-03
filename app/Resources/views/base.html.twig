@@ -13,7 +13,10 @@
         <link rel="stylesheet" href="{{ asset('lib/Alloy-3.0.1/aui-css/css/bootstrap.min.css')}}"/>
         <link rel="stylesheet" href="{{ asset('lib/Cropper/cropper.min.css')}}"/>
         <link rel="stylesheet" href="{{ asset('css/main.css') }}">
-        {% block stylesheets %}{% endblock %}
+
+        {% block stylesheets %}
+            {% block pagestyles %}{% endblock %}
+        {% endblock %}
     </head>
     <body>
         {% block body %}

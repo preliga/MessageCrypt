@@ -1,7 +1,7 @@
 security:
     encoders:
-        AppBundle\Entity\User: plaintext
-#            algorithm: bcrypt
+        AppBundle\Entity\User:
+            algorithm: bcrypt
         Symfony\Component\Security\Core\User\User: plaintext
     providers:
         chain_provider:
@@ -12,7 +12,7 @@ security:
               users:
                 test:
                     password: test
-                    roles: 'ROLE_ADMIN'
+                    roles: 'ROLE_USER'
                 test2:
                     password: test2
                     roles: 'ROLE_ADMIN'
@@ -21,10 +21,13 @@ security:
                 class: AppBundle:User
                 property: username
     firewalls:
-        dev:
-            pattern: ^/(_(profiler|wdt)|css|images|js)/
-            security: false
+#        dev:
+#            pattern: ^/(_(profiler|wdt)|css|images|js)/
+#            security: false
         main:
+            pattern:    ^/
+            http_basic: ~
+            provider: chain_provider
             anonymous: true
             logout: true
             form_login:
