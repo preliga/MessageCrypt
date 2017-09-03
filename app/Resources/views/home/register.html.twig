@@ -8,11 +8,6 @@
     <div style="width: 300px;">
         {{ form_start(form) }}
         <div>
-            {{ form_label(form.avatar) }}
-            {{ form_errors(form.avatar) }}
-            {{ form_widget(form.avatar) }}
-        </div>
-        <div>
             {{ form_label(form.name) }}
             {{ form_errors(form.name) }}
             {{ form_widget(form.name) }}
@@ -47,11 +42,6 @@
             {{ form_widget(form.birthDate) }}
         </div>
         <br>
-        {#<div>#}
-            {#{{ form_label(form.brochure) }}#}
-            {#{{ form_errors(form.brochure) }}#}
-            {#{{ form_widget(form.brochure) }}#}
-        {#</div>#}
         <br>
         {{ form_end(form) }}
     </div>

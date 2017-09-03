@@ -29,15 +29,6 @@ class RegistryType extends AbstractType
     {
         $builder
             ->add(
-                'avatar',
-                FileType::class,
-                [
-                    'required' => false,
-                    'label' => "Avatar",
-                    'data_class' => null,
-                ]
-            )
-            ->add(
                 'name',
                 TextType::class,
                 [
@@ -111,15 +102,6 @@ class RegistryType extends AbstractType
                         ]
                 ]
             )
-//            ->add(
-//                'brochure',
-//                FileType::class,
-//                [
-//                    'required' => false,
-//                    'label' => "Brochure (PDF file)",
-//                    'data_class' => null,
-//                ]
-//            )
             ->add(
                 'save',
                 SubmitType::class,
@@ -133,25 +115,6 @@ class RegistryType extends AbstractType
                 ]
             )
         ;
-
-//        $builder->get('brochure')
-//            ->addModelTransformer(new CallbackTransformer(
-//                function ($brochure) {
-//                    $file = null;
-//                    $path = "uploads/brochures/$brochure";
-//                    $file = file($path);
-////                    die(var_dump(1, $brochure, $path, $file));
-//                    return $file;
-//                    // transform the array to a string
-////                    return implode(', ', $tagsAsArray);
-//                },
-//                function ($tagsAsString) {
-//                    die(var_dump(2, $tagsAsString));
-//                    // transform the string back to an array
-//                    return explode(', ', $tagsAsString);
-//                }
-//            ))
-//        ;
     }
 
     public function configureOptions(OptionsResolver $resolver)

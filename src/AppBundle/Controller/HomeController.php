@@ -62,10 +62,8 @@ class HomeController extends Controller
      */
     public function registerAction(Request $request)
     {
-        $user = new User;//$this->getUser();
+        $user = new User;
         $password = $user->getPassword();
-        $brochureName = $user->getBrochure();
-        $avatarName = $user->getAvatar();
 
         $form = $this->createForm(RegistryType::class, $user); //$this->doForm($user);
         $form->handleRequest($request);
@@ -85,32 +83,6 @@ class HomeController extends Controller
                 $user->setPassword($password);
                 /////
 
-                // brochure
-//                $brochure = $user->getBrochure();
-//                if(!empty($brochure)) {
-//                    $brochureName = md5(uniqid()) . '.' . $brochure->guessExtension();
-//                    $brochure->move(
-//                        $this->getParameter('brochures_directory'),
-//                        $brochureName
-//                    );
-//
-//                }
-//                $user->setBrochure($brochureName);
-                /////
-
-                // avatar
-//                $avatar = $user->getAvatar();
-//                if(!empty($avatar)) {
-//                    $avatarName = md5(uniqid()) . '.' . $avatar->guessExtension();
-//                    $avatar->move(
-//                        $this->getParameter('avatars_directory'),
-//                        $avatarName
-//                    );
-//
-//                }
-//                $user->setAvatar($avatarName);
-                /////
-                ///
 
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($user);
