@@ -63,7 +63,7 @@ class User implements UserInterface, \Serializable
     /**
      * @var string
      *
-     * @ORM\Column(name="images", type="string", length=50, nullable=true)
+     * @ORM\Column(name="avatar", type="string", length=50, nullable=true)
      *
      * @Assert\File(mimeTypes={ "image/jpeg", "image/png" })
      */

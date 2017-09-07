@@ -31,7 +31,7 @@ class MessageController extends BaseUserController
                 'This user is not Your friend.'
             );
 
-            return $this->render('user/profile/profile.html.twig',
+            return $this->redirectToRoute('user_profile_profile',
                 [
                     'id' => $friendId
                 ]
