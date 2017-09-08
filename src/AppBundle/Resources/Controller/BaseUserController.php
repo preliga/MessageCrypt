@@ -3,6 +3,7 @@
 namespace AppBundle\Resources\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Response;
 
 class BaseUserController extends Controller
 {
@@ -15,11 +16,33 @@ class BaseUserController extends Controller
 
     public function preAction()
     {
+
+    }
+
+    public function render($view, array $parameters = array(), Response $response = null)
+    {
+        $this->postAction();
+        return parent::render($view, $parameters, $response);
+    }
+
+    public function postAction()
+    {
         $countInvitations = count($this->getInvitations());
         $usersToMessages = $this->getUsersToMessages();
 
+
+        $notRead = 0;
+        foreach ($usersToMessages as $user)
+        {
+            if($user['read'] == 0) {
+                $notRead++;
+            }
+        }
+
+
         $this->twig->addGlobal('countInvitations', $countInvitations);
         $this->twig->addGlobal('usersToMessages', $usersToMessages);
+        $this->twig->addGlobal('notRead', $notRead);
     }
 
 
@@ -29,7 +52,12 @@ class BaseUserController extends Controller
 
         $connection = $em->getConnection();
         $query = $connection->prepare("
-            SELECT msg.id, u.name, u.lastname, u.avatar
+            SELECT 
+                msg.id,
+                u.name,
+                u.lastname,
+                u.avatar,
+                IFNULL(r.`read`,1) as 'read'
             FROM
             (
                 SELECT m.author AS id
@@ -38,10 +66,21 @@ class BaseUserController extends Controller
                 Select m.recipient AS id
                   FROM message AS m
             ) AS msg
-            JOIN user as u on u.id = msg.id
-            WHERE msg.id <> {$this->getUser()->getId()}
-            GROUP BY msg.id
-            LIMIT 3
+            JOIN user AS u ON u.id = msg.id
+            LEFT JOIN 
+            (
+                SELECT 
+                    * 
+                FROM 
+                    message AS m 
+                WHERE 
+                    m.`read` = 0 
+                GROUP BY m.id 
+            ) AS r ON r.author = msg.id
+            WHERE 
+                msg.id <> 1
+            GROUP BY 
+                msg.id
         ");
 
         $query->execute();

@@ -1,0 +1,32 @@
+{% extends 'user/menu.html.twig' %}
+
+{% block content %}
+
+    <h2 class="page-header">Messenger</h2>
+
+
+    <div class="panel-body-scroll">
+        {% for user in usersToMessages %}
+            <a class="list-group-item {%  if user.read == 0 %}alertColor{% endif %}" href="{{ path('user_messages_showAll', {'friendId': user.id})}}">
+                {% if user.avatar %}
+                    <img class='imgInMessenger' src="{{ asset('uploads/avatars/' ~ user.avatar) }}">
+                {% else %}
+                    <img class='imgInMessenger' src='/images/empty.png'>
+                {% endif %}
+
+                <span style="font-size: 13px; ">
+                    {{  user.name }} {{ user.lastname }}
+                </span>
+            </a>
+        {% else %}
+            <span> Empty messenger</span>
+        {% endfor %}
+    </div>
+
+{% endblock %}
+
+{% block pagescripts %}
+    <script>
+
+    </script>
+{% endblock %}

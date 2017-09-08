@@ -288,20 +288,20 @@ class FriendsController extends BaseUserController
      */
     public function confirmInvitationAction($userId, $redirected = 'profile', Request $request)
     {
-        $author = $this->getUser();
-        $recipient = $this->getDoctrine()
+        $recipient = $this->getUser();
+        $author = $this->getDoctrine()
             ->getRepository('AppBundle:User')
-            ->find($author);
+            ->find($userId);
 
         $friend = $this->getDoctrine()
             ->getRepository('AppBundle:Friend')
-            ->findOneBy(['author' => $recipient, 'recipient' => $author]);
+            ->findOneBy(['author' => $author, 'recipient' => $recipient]);
 
         if (!empty($friend)) {
 
             $friend1 = new Friend();
-            $friend1->setAuthor($author);
-            $friend1->setRecipient($recipient);
+            $friend1->setAuthor($recipient);
+            $friend1->setRecipient($author);
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($friend1);

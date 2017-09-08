@@ -10,8 +10,6 @@ namespace AppBundle\Resources;
 
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
-use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
-use Symfony\Component\HttpFoundation\Response;
 
 class KernelEvents
 {
@@ -26,9 +24,9 @@ class KernelEvents
         }
 
         $controllerObject = $controller[0];
-        if(is_object($controllerObject) && method_exists($controllerObject,"preAction") )
+        if(is_object($controllerObject) && method_exists($controllerObject,"postAction") )
         {
-            $controllerObject->preAction();
+            $controllerObject->postAction();
         }
     }
 
@@ -37,5 +35,19 @@ class KernelEvents
         $response = $event->getResponse();
 
 //        die(dump($response));
+//
+//        $controller = $event->getController();
+//
+//        if(!is_array($controller))
+//        {
+//            // not a controller do nothing
+//            return;
+//        }
+//
+//        $controllerObject = $controller[0];
+//        if(is_object($controllerObject) && method_exists($controllerObject,"postAction") )
+//        {
+//            $controllerObject->postAction();
+//        }
     }
 }

@@ -102,7 +102,7 @@
 
         $(".goMessage").on('click', function () {
             var friendId = $(this).attr('id');
-            var url = "{{ path('user_message_showAll', {'friendId': 'friendId'}) }}";
+            var url = "{{ path('user_messages_showAll', {'friendId': 'friendId'}) }}";
             url = url.replace('friendId', friendId);
             $(location).attr('href', url);
         });

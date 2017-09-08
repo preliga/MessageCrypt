@@ -60,6 +60,13 @@ class Message
      */
     private $recipient;
 
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="`read`", type="boolean")
+     */
+    private $read;
+
 
     /**
      * @return string
@@ -139,6 +146,22 @@ class Message
     public function setDate(\DateTime $date)
     {
         $this->date = $date;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isRead(): bool
+    {
+        return $this->read;
+    }
+
+    /**
+     * @param bool $read
+     */
+    public function setRead(bool $read)
+    {
+        $this->read = $read;
     }
 
 }

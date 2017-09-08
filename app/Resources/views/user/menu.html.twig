@@ -73,37 +73,33 @@
                            aria-expanded="false">
                             <i class="fa fa-envelope fa-2x" aria-hidden="true"></i>
                             <span style="font-size: 20px;">
-                                Message
-                                {%  if countInvitations > 0 %}
+                                Messages
+                                {%  if notRead > 0 %}
                                     <div class="mainMenuAlert">
-                                        <span>{{ countInvitations }}</span>
+                                        <span>{{ notRead }}</span>
                                     </div>
                                 {% endif %}
                             </span>
                             <div class="dropdown-menu list-group">
-
-                                {% for user in usersToMessages %}
-                                    <a class="list-group-item" href="{{ path('user_message_showAll', {'friendId': user.id})}}">
-                                        {#<div class="col-md-6">#}
-                                            {% if user.avatar %}
-                                                <img class='littleImg' src="{{ asset('uploads/avatars/' ~ user.avatar) }}">
-                                            {% else %}
-                                                <img class='littleImg' src='/images/empty.png'>
-                                            {% endif %}
-                                        {#</div>#}
-                                        {#<div class="col-md-6" style="text-align: center;">#}
-                                            <span style="font-size: 13px; ">
-                                                {{  user.name }} {{ user.lastname }}
-                                            </span>
-                                        {#</div>#}
+                                <a class="list-group-item" href="{{ path('user_messages_messenger') }}">
+                                    <i class="fa fa-envelope" aria-hidden="true"></i>
+                                    <span style="font-size: 13px;">
+                                        Messenger
+                                    </span>
+                                </a>
+                                {% for user in usersToMessages|slice(0, 3) %}
+                                    <a class="list-group-item {%  if user.read == 0 %}alertColor{% endif %}" href="{{ path('user_messages_showAll', {'friendId': user.id})}}">
+                                        {% if user.avatar %}
+                                            <img class='littleImg' src="{{ asset('uploads/avatars/' ~ user.avatar) }}">
+                                        {% else %}
+                                            <img class='littleImg' src='/images/empty.png'>
+                                        {% endif %}
+                                        <span style="font-size: 13px; ">
+                                            {{  user.name }} {{ user.lastname }}
+                                        </span>
                                     </a>
                                 {% endfor %}
-                                {#<a class="list-group-item" href="{{ path('user_friends_search') }}">#}
-                                    {#<i class="fa fa-search" aria-hidden="true"></i>#}
-                                    {#<span style="font-size: 13px;">#}
-                                        {#Search#}
-                                    {#</span>#}
-                                {#</a>#}
+
                                 {#<a class="list-group-item {%  if countInvitations > 0 %}alertColor{% endif %}" href="{{ path('user_friends_invitations') }}">#}
                                     {#<i class="fa fa-envelope-open-o" aria-hidden="true"></i>#}
                                     {#<span style="font-size: 13px;">#}

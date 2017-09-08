@@ -15,12 +15,12 @@ use AppBundle\Entity\Message;
 use AppBundle\Resources\Controller\BaseUserController;
 
 /**
- * @Route("/user/message/{friendId}")
+ * @Route("/user/messages")
  */
-class MessageController extends BaseUserController
+class MessagesController extends BaseUserController
 {
     /**
-     * @Route("/showAll", name="user_message_showAll")
+     * @Route("/showAll/{friendId}", name="user_messages_showAll")
      */
     public function showAllAction($friendId, Request $request)
     {
@@ -56,7 +56,16 @@ class MessageController extends BaseUserController
 
         $messages = $query->getResult();
 
-        return $this->render('user/message/showAll.html.twig',
+
+
+        foreach ($messages as $msg){
+            $msg->setRead(true);
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $em->flush();
+
+        return $this->render('user/messages/showAll.html.twig',
             [
                 'friendId' => $friendId,
                 'messages' => $messages
@@ -65,7 +74,18 @@ class MessageController extends BaseUserController
     }
 
     /**
-     * @Route("/sendMessage", name="user_message_sendMessage")
+     * @Route("/messenger", name="user_messages_messenger")
+     */
+    public function messengerAction(Request $request)
+    {
+        return $this->render('user/messages/messenger.html.twig',
+            [
+            ]
+        );
+    }
+
+        /**
+     * @Route("/sendMessage/{friendId}", name="user_messages_sendMessage")
      */
     public function sendMessageAction($friendId, Request $request)
     {
