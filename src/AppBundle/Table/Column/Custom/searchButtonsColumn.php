@@ -37,19 +37,19 @@ class searchButtonsColumn extends AbstractColumn
         $html = "<div class='friendsButtons'>";
 
         if($this->options['conditions']['sendInvitation']($value)) {
-            $html .= "<button id={$value} class='btn btn-info sendInvitation'> <i class=\"fa fa-paper-plane-o\" aria-hidden=\"true\"></i> Send invitation </button><br>";
+            $html .= "<button id={$value} class='btn btn-info sendInvitation'> <i class=\"fa fa-paper-plane-o\" aria-hidden=\"true\"></i> Send </button><br>";
         }
 
         if($this->options['conditions']['confirmInvitation']($value)) {
-            $html .= "<button id={$value} class='btn btn-success confirmInvitation'> <i class=\"fa fa-check\" aria-hidden=\"true\"></i> Confirm invitation</button><br>";
+            $html .= "<button id={$value} class='btn btn-success confirmInvitation'> <i class=\"fa fa-check\" aria-hidden=\"true\"></i> Confirm</button><br>";
         }
 
         if($this->options['conditions']['cancelInvitation']($value)) {
-            $html .= "<button id={$value} class='btn btn-warning removeFriend'> <i class=\"fa fa-times\" aria-hidden=\"true\"></i> Cancel invitation</button><br>";
+            $html .= "<button id={$value} class='btn btn-warning removeFriend'> <i class=\"fa fa-times\" aria-hidden=\"true\"></i> Cancel</button><br>";
         }
 
         if($this->options['conditions']['removeFriend']($value)) {
-            $html .= "<button id={$value} class='btn btn-danger removeFriend'> <i class=\"fa fa-times\" aria-hidden=\"true\"></i> Remove friend</button><br>";
+            $html .= "<button id={$value} class='btn btn-danger removeFriend'> <i class=\"fa fa-times\" aria-hidden=\"true\"></i> Remove</button><br>";
         }
 
         $html .= "</div>";

@@ -12,13 +12,13 @@
                 <br>
                 <br>
                 <span>{{ friend.name }}</span>
-                <br>
+                {#<br>#}
                 <span>{{ friend.lastname }}</span>
             </div>
             <div class="friendsButtons">
-                <button id='{{ friend.id }}' class='btn btn-success confirmInvitation'> <i class='fa fa-check' aria-hidden='true'></i> Confirm invitation</button><br>
+                <button id='{{ friend.id }}' class='btn btn-success confirmInvitation'> <i class='fa fa-check' aria-hidden='true'></i> Confirm</button><br>
                 <br>
-                <button id='{{ friend.id }}' class='btn btn-warning removeFriend'> <i class='fa fa-times' aria-hidden='true'></i> Cancel invitation</button><br>
+                <button id='{{ friend.id }}' class='btn btn-warning removeFriend'> <i class='fa fa-times' aria-hidden='true'></i> Cancel</button><br>
             </div>
         </div>
     {% endfor %}

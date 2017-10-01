@@ -29,21 +29,20 @@ Avatar
 /**
     Menu Alert
  */
-div .mainMenuAlert {
+.mainMenuAlert {
     text-align: center;
-    background: #b81c0b;
-    border-radius: 50%;
-    width: 25px;
-    height: 25px;
+    color: #c93005;
+    background: #ffccca;
+    padding-left: 2px;
+    padding-right: 2px;
+    border-radius: 80%;
+    max-width: 100px;
+    width: 90%;
+    margin-left: -10px;
     position: absolute;
-    display: grid;
-    top: 40px;
+    font-size: 12px;
+    z-index: 1;
 }
-div .mainMenuAlert > span {
-    margin: auto;
-    font-size: 15px;
-}
-
 
 .alertColor{
     background: #ffccca;
@@ -77,12 +76,66 @@ div .mainMenuAlert > span {
 /*/////////*/
 
 
-body
-{
+/*
+MENU
+ */
+/*@import url(https://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700,700italic);*/
+body,html {
+    font-family: 'Open Sans', 'sans-serif';
+    height: 100%;
     background-image: url("/images/background.jpg");
     background-attachment: fixed;
     background-position: center;
 }
+.mega-dropdown {
+    position: static !important;
+}
+.mega-dropdown-menu {
+    padding: 20px 0px;
+    width: 100%;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    background-color: #e4e4e4;
+}
+.mega-dropdown-menu > li > ul {
+    padding: 0;
+    margin: 1px;
+}
+.mega-dropdown-menu > li > ul > li {
+    list-style: none;
+}
+.mega-dropdown-menu > li > ul > li > a {
+    display: block;
+    color: #222;
+    padding: 3px 5px;
+}
+.mega-dropdown-menu > li ul > li > a:hover,
+.mega-dropdown-menu > li ul > li > a:focus {
+    text-decoration: none;
+}
+.mega-dropdown-menu .dropdown-header {
+    font-size: 18px;
+    color: #ff3546;
+    padding: 5px 60px 5px 5px;
+    line-height: 30px;
+}
+.carousel-control .glyphicon-chevron-left,
+.carousel-control .glyphicon-chevron-right {
+    font-size: 12px;
+    background-color: #fff;
+    line-height: 30px;
+    text-shadow: none;
+    color: #333;
+    border: 1px solid #ddd;
+}
+
+.nav .open > a, .nav .open > a:focus, .nav  .open  > a:hover {
+    background-color: #fff;
+    border-color: #337ab7;
+}
+/*/////////*/
+
+
 .panel-custom-horrible-red
 {
     border-color: #ff0000;
@@ -93,6 +146,8 @@ body
     color: #ffffff;
     border-color: #ff0000;
 }
+
+
 
 /*Header*/
 h2.page-header{
@@ -135,8 +190,8 @@ div.friendsButtons>button
 div.myFriend
 {
     width: 25%;
-    /*height: 230px;*/
-    height: 100%;
+    height: 200px;
+    /*height: 100%;*/
     float: left;
     padding: 20px;
 }
@@ -171,6 +226,17 @@ div.myFriend>span
 
 
 
+/*messageButton */
+.messageButton
+{
+    width: 20%;
+    float: left;
+    /*margin-left: 2px;*/
+    /*margin-right: 2px;*/
+}
+/*/////////*/
+
+
 /* messageBox */
 div.messageBox>textarea
 {
@@ -179,7 +245,7 @@ div.messageBox>textarea
 
 div.messageBox>button
 {
-    width: 100%;
+    /*width: 100%;*/
 }
 /*/////////*/
 

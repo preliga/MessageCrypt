@@ -4,6 +4,7 @@ namespace AppBundle\Resources\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 
 class BaseUserController extends Controller
 {
@@ -14,18 +15,18 @@ class BaseUserController extends Controller
         $this->twig = $twig;
     }
 
-    public function preAction()
+    public function preAction(FilterControllerEvent $event)
     {
 
     }
 
     public function render($view, array $parameters = array(), Response $response = null)
     {
-        $this->postAction();
+        $this->prepareView();
         return parent::render($view, $parameters, $response);
     }
 
-    public function postAction()
+    public function prepareView()
     {
         $countInvitations = count($this->getInvitations());
         $usersToMessages = $this->getUsersToMessages();
@@ -52,35 +53,42 @@ class BaseUserController extends Controller
 
         $connection = $em->getConnection();
         $query = $connection->prepare("
-            SELECT 
-                msg.id,
-                u.name,
-                u.lastname,
-                u.avatar,
-                IFNULL(r.`read`,1) as 'read'
+            SELECT
+              msg.id,
+              u.name,
+              u.lastname,
+              u.avatar,
+              IFNULL(r.`read`,1) as 'read',
+              msg.d
             FROM
-            (
-                SELECT m.author AS id
-                  FROM message AS m
-            UNION ALL
-                Select m.recipient AS id
-                  FROM message AS m
-            ) AS msg
-            JOIN user AS u ON u.id = msg.id
-            LEFT JOIN 
-            (
-                SELECT 
-                    * 
-                FROM 
-                    message AS m 
-                WHERE 
-                    m.`read` = 0 
-                GROUP BY m.id 
-            ) AS r ON r.author = msg.id
-            WHERE 
-                msg.id <> 1
-            GROUP BY 
-                msg.id
+              (
+                SELECT
+                  m.author AS id,
+                  m.date AS d
+                FROM message AS m
+                UNION ALL
+                Select
+                  m.recipient AS id,
+                  m.date AS d
+                FROM message AS m
+              ) AS msg
+              JOIN user AS u ON u.id = msg.id
+              LEFT JOIN
+              (
+                SELECT
+                  *
+                FROM
+                  message AS m
+                WHERE
+                  m.`read` = 0
+                GROUP BY m.id
+              ) AS r ON r.author = msg.id
+            WHERE
+              msg.id <> 1
+            GROUP BY
+              msg.id
+            ORDER BY
+              msg.d DESC
         ");
 
         $query->execute();

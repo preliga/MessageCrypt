@@ -24,9 +24,9 @@ class KernelEvents
         }
 
         $controllerObject = $controller[0];
-        if(is_object($controllerObject) && method_exists($controllerObject,"postAction") )
+        if(is_object($controllerObject) && method_exists($controllerObject,"preAction") )
         {
-            $controllerObject->postAction();
+            $controllerObject->preAction($event);
         }
     }
 

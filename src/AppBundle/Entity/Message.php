@@ -63,9 +63,9 @@ class Message
     /**
      * @var bool
      *
-     * @ORM\Column(name="`read`", type="boolean")
+     * @ORM\Column(name="`read`", type="boolean", options={"default" : 0})
      */
-    private $read;
+    private $read = '0';
 
 
     /**

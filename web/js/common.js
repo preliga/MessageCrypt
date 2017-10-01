@@ -51,6 +51,9 @@ function hideLoader(){
  * AuiEditor init
  */
 function AuiEditorInit(id) {
+
+    $('#'+id).css('z-index', 0);
+
     $("#"+id)
         .before("<textarea id='"+id+"Textarea' hidden></textarea>")
         .before("<textarea id='"+id+"Annotations' hidden></textarea>")
@@ -64,6 +67,9 @@ function AuiEditorInit(id) {
                     boundingBox: '#'+id,
                     mode: 'javascript',
                     width: '100%',
+                    height: 600,
+                    tabSize: 6,
+                    useSoftTabs: true,
                 }
             );
             editor.render();

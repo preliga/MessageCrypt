@@ -19,7 +19,7 @@
                     <div class="form-group messageBox">
                         <textarea class="form-control" placeholder="Message" name='textMessage' rows="5"></textarea>
                         <br>
-                        <button class="btn btn-info sendMessage">Send</button>
+                        <button class="btn btn-info sendMessage" style="width: 100%;">Send</button>
                     </div>
                 </form>
                 <div class="panel-body-scroll">
@@ -79,23 +79,29 @@
                     <br>
                     <button class="btn btn-success test form-control">TEST</button>
                     <br>
-                    <input id='cryptKey' class="form-control" placeholder="Key" type="text" style="width: 80%; float: left;"/>
-                    <button class="btn btn-info createHash form-control" style="width: 20%;"> Hash </button>
+                    {#<input id='cryptKey' class="form-control" placeholder="Key" type="text" style="width: 80%; float: left;"/>#}
+                    {#<button class="btn btn-info createHash form-control messageButton" > Hash </button>#}
+                    <input id='cryptKey' class="form-control" placeholder="Key" type="text" style="width: 60%; float: left;"/>
+                    <input id='cryptLength' class="form-control messageButton" placeholder="Length" type="number" />
+                    <button class="btn btn-info createHash form-control messageButton" > Hash </button>
                     <br>
 
-                    <select id='cryptFunctions' class="form-control" style="width: 40%; float: left;">
+                    <select id='cryptFunctions' class="form-control messageButton" >
                         <option value="-1">Choose function</option>
                     </select>
-                    <button class="btn btn-warning form-control loadFunctionToEditor" style="width: 20%; float: left;">Load</button>
-                    <button class="btn btn-primary form-control saveOpenWindow" style="width: 20%; float: left;">Save</button>
-                    <button class="btn btn-danger form-control clearFunctionsOpenWindow" style="width: 20%; float: left;">Clear all Functions</button>
+                    <button class="btn btn-warning form-control loadFunctionToEditor messageButton" >Load</button>
+                    <button class="btn btn-info form-control loadDefinedFunctionToEditor messageButton" >Load defined</button>
+                    <button class="btn btn-primary form-control saveOpenWindow messageButton" >Save</button>
+                    <button class="btn btn-danger form-control clearFunctionsOpenWindow messageButton" >Clear all Functions</button>
+
                     <br>
-                    <div id="cryptUpdateDiv" hidden>
+                    <div id="cryptUpdateDiv" style="display: none">
                         <input id='cryptNameFunction' class="form-control" placeholder="Function`s name" type="text" style="width: 50%; float: left;"/>
-                        <button class="btn btn-danger form-control removeFunction" style="width: 25%; float: left;"> Remove </button>
-                        <button class="btn btn-success form-control updateFunction" style="width: 25%; float: left;"> Update </button>
+                        <button class="btn btn-danger form-control removeFunction messageButton" style="width: 25%"> Remove </button>
+                        <button class="btn btn-success form-control updateFunction messageButton" style="width: 25%"> Update </button>
                     </div>
                 </div>
+                <br><br><br><br>
                 function (plainText, key) <br>
                 { <br>
                 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; var cipherText = plainText; <br>
@@ -111,23 +117,27 @@
                     <br>
                     <button class="btn btn-success test form-control">TEST</button>
                     <br>
-                    <input id='decryptKey' class="form-control" placeholder="Key" type="text" style="width: 80%; float: left;"/>
-                    <button class="btn btn-info createHash" style="width: 20%"> Hash </button>
+                    <input id='decryptKey' class="form-control" placeholder="Key" type="text" style="width: 60%; float: left;"/>
+                    <input id='decryptLength' class="form-control messageButton" placeholder="Length" type="number" />
+                    <button class="btn btn-info createHash form-control messageButton" > Hash </button>
                     <br>
 
-                    <select id='decryptFunctions' class="form-control" style="width: 40%; float: left;">
+                    <select id='decryptFunctions' class="form-control messageButton" >
                         <option value="-1">Choose function</option>
                     </select>
-                    <button class="btn btn-warning form-control loadFunctionToEditor" style="width: 20%; float: left;">Load</button>
-                    <button class="btn btn-primary form-control saveOpenWindow" style="width: 20%; float: left;">Save</button>
-                    <button class="btn btn-danger form-control clearFunctionsOpenWindow" style="width: 20%; float: left;">Clear all Functions</button>
+                    <button class="btn btn-warning form-control loadFunctionToEditor messageButton" >Load</button>
+                    <button class="btn btn-info form-control loadDefinedFunctionToEditor messageButton" >Load defined</button>
+                    <button class="btn btn-primary form-control saveOpenWindow messageButton" >Save</button>
+                    <button class="btn btn-danger form-control clearFunctionsOpenWindow messageButton" >Clear all Functions</button>
+
                     <br>
                     <div id="decryptUpdateDiv" hidden>
                         <input id='decryptNameFunction' class="form-control" placeholder="Function`s name" type="text" style="width: 50%; float: left;"/>
-                        <button class="btn btn-danger form-control removeFunction" style="width: 25%; float: left;"> Remove </button>
-                        <button class="btn btn-success form-control updateFunction" style="width: 25%; float: left;"> Update </button>
+                        <button class="btn btn-danger form-control removeFunction messageButton" style="width: 25%"> Remove </button>
+                        <button class="btn btn-success form-control updateFunction messageButton" style="width: 25%"> Update </button>
                     </div>
                 </div>
+                <br><br><br><br>
                 function (cipherText, key) <br>
                 { <br>
                 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; var plainText = cipherText;
@@ -162,9 +172,22 @@
             var key = keyElement.val();
 
             var hex = '';
-            for(var i=0;i<key.length;i++) {
+            for(var i=0; i<key.length; i++) {
                 hex += ''+key.charCodeAt(i).toString(16).toUpperCase();
             }
+
+
+            var lengthElement = $('#' + id + "Length");
+            var length = lengthElement.val()/8;
+
+            if(length !== '') {
+                for (var i = hex.length; i < length; i++) {
+                    hex += '0';
+                }
+
+                hex = hex.substr(0, length);
+            }
+
             keyElement.val(hex);
         }
 
@@ -247,6 +270,45 @@
             } else {
                 $("#"+type+"UpdateDiv").hide();
             }
+        }
+
+        function loadDefinedFunctionToEditor(type)
+        {
+            var body = "" +
+                "    <div class='form-group'>\n" +
+                "       <p>Do you want load defined library?</p>\n" +
+                "       <select class='form-control'>\n" +
+                "           <option>Cryptico</option>" +
+                "       </select>\n" +
+                "       <button class='btn btn-success form-control "+type+"LoadDefinedFunctions'>Load</button>\n" +
+                "       <button class='btn btn-default form-control "+type+"CancelDefinedFunctions'>Cancel</button>\n" +
+                "    </div>\n" +
+                "";
+
+            var events = function(modal){
+                $("."+type+"CancelDefinedFunctions").on('click', function () {
+                    modal.destroy();
+                });
+
+                $("."+type+"LoadDefinedFunctions").on('click', function () {
+
+                    showLoader();
+
+                    readHTMLFile = $.get('/js/Cryptico/Cryptico.jsf', function(data) {
+                        $('#'+type+'EditorTextarea').val(data);
+                        $('#'+type+'EditorTextarea').change();
+                        return(data);
+                    });
+
+
+
+                    loadFunctions("-1", type);
+                    hideLoader();
+                    modal.destroy();
+                });
+            };
+
+            AuiModalInit(body, "<h3>Load defined "+type+" functions</h3>", type+"ModalClearDefinedFunctions",events);
         }
 
         function removeFunction(type)
@@ -364,13 +426,17 @@
             var key = $('#'+type+'Key').val();
 
             try {
+                console.log(functionStr);
                 var fun = new Function(textVariable,'key',functionStr);
+//                console.log(fun);
                 var newText = fun(text,key);
 
                 createAlert(newText,header);
             }catch (e){
-                var annotations =  $('#'+type+'EditorAnnotations').val();
-                createAlert("<p>"+annotations+"</p>", '<h3>Syntax exception</h3>');
+//                var annotations =  $('#'+type+'EditorAnnotations').val();
+                console.log(e);
+//                createAlert("<p>"+annotations+"</p>", '<h3>Syntax exception</h3>');
+                createAlert("<p>"+e+"</p>", '<h3>Exception</h3>');
             }
         }
 
@@ -427,6 +493,11 @@
             loadFunctionToEditor(type);
         });
 
+        $(".loadDefinedFunctionToEditor").on('click', function () {
+            var type = $(this).parents('.tab').attr('type');
+            loadDefinedFunctionToEditor(type);
+        });
+
         $(".removeFunction").on('click', function () {
             var type = $(this).parents('.tab').attr('type');
             removeFunction(type);
@@ -460,12 +531,12 @@
 
         function createCryptFunction()
         {
-            return "var cipherText = plainText; " + $('#cryptEditorTextarea').val() + "return cipherText;";
+            return "var cipherText = plainText; " + $('#cryptEditorTextarea').val() + "; return cipherText;";
         }
 
         function createDecryptFunction()
         {
-            return "var plainText = cipherText; " + $('#decryptEditorTextarea').val() + "return plainText;";
+            return "var plainText = cipherText; " + $('#decryptEditorTextarea').val() + "; return plainText;";
         }
     </script>
 {% endblock %}

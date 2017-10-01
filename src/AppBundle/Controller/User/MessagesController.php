@@ -59,7 +59,9 @@ class MessagesController extends BaseUserController
 
 
         foreach ($messages as $msg){
-            $msg->setRead(true);
+            if($msg->getAuthor() != $this->getUser()) {
+                $msg->setRead(true);
+            }
         }
 
         $em = $this->getDoctrine()->getManager();
@@ -138,7 +140,7 @@ class MessagesController extends BaseUserController
         }
 
 
-        return $this->redirectToRoute('user_message_showAll',
+        return $this->redirectToRoute('user_messages_showAll',
             [
                 'friendId' => $friendId
             ]

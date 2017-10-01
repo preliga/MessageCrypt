@@ -37,8 +37,12 @@ monolog:
         #    type: chromephp
         #    level: info
 
-#swiftmailer:
-#    delivery_addresses: ['me@example.com']
+swiftmailer:
+    stream_options:
+      ssl:
+        verify_peer: false
+        verify_peer_name: false
+        allow_self_signed: true
 
 parameters:
 #    brochures_directory: '%kernel.project_dir%/web/uploads/brochures'
