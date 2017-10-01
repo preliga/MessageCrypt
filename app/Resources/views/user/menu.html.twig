@@ -88,14 +88,6 @@
                                         </span>
                                     </a>
                                 </li>
-                                {#<li class="col-sm-4">#}
-                                    {#<a class="list-group-item {%  if countInvitations > 0 %}alertColor{% endif %}" href="{{ path('user_friends_invitations') }}">#}
-                                        {#<i class="fa fa-envelope-open-o" aria-hidden="true"></i>#}
-                                        {#<span style="font-size: 13px;">#}
-                                        {#Invitations#}
-                                    {#</span>#}
-                                    {#</a>#}
-                                {#</li>#}
                                 <li class="dropdown1 col-sm-6">
                                     <a href="#" class="dropdown-toggle list-group-item {%  if notRead > 0 %}alertColor{% endif %}" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                         Messages
@@ -136,28 +128,19 @@
 
 {% endblock %}
 
-{#{% block pagescripts %}#}
-    {#<script>#}
-        {#console.log('qwe');#}
-        {#$(document).ready(function(){#}
-            {#console.log('qwe');#}
-            {#$(".dropdown1").on('hover', function(){#}
-                {#console.log('test');#}
-{#//                $('.dropdown-menu', this).not('.in .dropdown-menu').stop(true,true).slideDown("400");#}
-                {#$(this).toggleClass('open');#}
-            {#});_#}
-
-{#//            $(".dropdown1").hover(#}
-{#//                function() {#}
-{#//                    console.log('test');#}
-{#//                    $('.dropdown-menu', this).not('.in .dropdown-menu').stop(true,true).slideDown("400");#}
-{#//                    $(this).toggleClass('open');#}
-{#//                },#}
-{#//                function() {#}
-{#//                    $('.dropdown-menu', this).not('.in .dropdown-menu').stop(true,true).slideUp("400");#}
-{#//                    $(this).toggleClass('open');#}
-{#//                }#}
-{#//            );#}
-        {#});#}
-    {#</script>#}
-{#{% endblock %}#}
+{% block menuscripts %}
+    <script>
+        $(document).ready(function(){
+            $(".dropdown1").hover(
+                function() {
+                    $('.dropdown-menu', this).not('.in .dropdown-menu').stop(true,true).slideDown("400");
+                    $(this).toggleClass('open');
+                },
+                function() {
+                    $('.dropdown-menu', this).not('.in .dropdown-menu').stop(true,true).slideUp("400");
+                    $(this).toggleClass('open');
+                }
+            );
+        });
+    </script>
+{% endblock %}
