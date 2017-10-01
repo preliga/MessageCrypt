@@ -55,37 +55,49 @@
 
         {% block javascripts %}
             <script>
-                $(document).ready(function(){
-                    //Open a WebSocket connection.
-                    var wsUri = "ws://localhost:9000/daemon.php";
-                    websocket = new WebSocket(wsUri);
+//                    //lancement serveur chat
+//                    function NotifServer(){
+//                        notif = new WebSocket("ws://localhost:8080");
+//
+//                        notif.onmessage = function (event) {
+//                            console.log(event.data);
+//                            $('.content').append('<p>'+ event.data +'</p>');
+//
+//                        }
+//
+//                        notif.onopen = function() {
+//                            $('.content').append('<p> >>> Connected</p>');
+////                            var token_user = *TOKEN_USER*;
+////                            var authElements = "{\"userData\":\""+token_user+"\"}";
+//                            var authElements = "{'user':'1'}";
+//                            notif.send(authElements);
+//                        }
+//
+//                        notif.onerror = function(error) {
+//                            $('.content').append('<p> >>> Error...</p>');
+//                            //alert('error');
+//                        }
+//
+//
+//                    }
+//
+//                    var notifServer = NotifServer();
+//                    notif.send('{"test":123123}');
+////                    var notifServer = NotifServer();
+////                    notifServer.oner
 
-                    //Connected to server
-                    websocket.onopen = function(ev) {
-                        alert('Connected to server ');
-                    }
+//                    var conn = new WebSocket('ws://localhost:8080');
+//                    conn.onopen = function(e) {
+//                        console.log("Connection established!");
+//                        conn.send('Hello World!1');
+//                    };
+//
+//                    conn.onmessage = function(e) {
+//                        console.log(e.data);
+//                    };
 
-                    //Connection close
-                    websocket.onclose = function(ev) {
-                        alert('Disconnected');
-                    };
+//                    conn.send('Hello World!2');
 
-                    //Message Receved
-                    websocket.onmessage = function(ev) {
-                        alert('Message '+ev.data);
-                    };
-
-                    //Error
-                    websocket.onerror = function(ev) {
-                        alert('Error '+ev.data);
-                    };
-
-                    //Send a Message
-                    $('#send').click(function(){
-                        var mymessage = 'This is a test message';
-                        websocket.send(mymessage);
-                    });
-                });
             </script>
 
             {% block menuscripts %}{% endblock %}
