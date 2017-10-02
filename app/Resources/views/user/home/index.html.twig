@@ -18,37 +18,41 @@
 
      $(function(){
 
+         var conn = new WebSocket('ws://localhost:8080');
 
-         $('.sendButton').on('click', function(){
-
-             var conn = new WebSocket('ws://localhost:8080');
-             var message = $('#message').val();
-//             console.log("M: "+ message);
-             conn.onopen = function(e) {
-                 console.log("Connection established!");
-                 conn.send(message);
-                 conn.send(message);
-             };
-
-             conn.onmessage = function(e) {
-                 console.log(e.data);
-             };
-         });
-
-         $('.readButton').on('click', function(){
-
-//             var message = $('#message').val();
-
-             var conn = new WebSocket('ws://localhost:8080');
-//             conn.onopen = function(e) {
-//                 console.log("Connection established!");
+         conn.onopen = function(e) {
+             console.log("Connection established!");
 //                 conn.send(message);
-//             };
+//                 conn.send(message);
 
-             conn.onmessage = function(e) {
-                 console.log(e.data);
-             };
-         });
+//             $('.sendButton').on('click', function(){
+//
+//
+//                 var message = $('#message').val();
+////             console.log("M: "+ message);
+//                conn.send(message);
+//             });
+         };
+
+         conn.onmessage = function(e) {
+             console.log(e.data);
+         };
+
+
+//         $('.readButton').on('click', function(){
+//
+////             var message = $('#message').val();
+//
+//             var conn = new WebSocket('ws://localhost:8080');
+////             conn.onopen = function(e) {
+////                 console.log("Connection established!");
+////                 conn.send(message);
+////             };
+//
+//             conn.onmessage = function(e) {
+//                 console.log(e.data);
+//             };
+//         });
      });
 
  </script>
