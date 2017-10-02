@@ -15,6 +15,9 @@ use Ratchet\MessageComponentInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 //use UserCrmBundle\Entity\User;
 
+
+use React\EventLoop\LoopInterface;
+
 class Notification implements MessageComponentInterface
 {
 
@@ -22,10 +25,33 @@ class Notification implements MessageComponentInterface
 
     protected $container;
 
-    public function __construct(ContainerInterface $container)
+//    public function __construct(ContainerInterface $container)
+//    {
+//        $this->container = $container;
+//
+//    }
+
+    public function __construct(LoopInterface $loop)
     {
-        $this->container = $container;
+//        global $clients;
+//        $clients = new \SplObjectStorage;
+//        die(var_dump($loop));
+        // Breathe life into the game
+        $loop->addPeriodicTimer(3, function()
+        {
+
+            foreach ($this->connections as $conn){
+                $conn->send('test');
+            }
+//            $this->doTick();
+        });
     }
+
+//    public function doTick()
+//    {
+//        global $clients;
+//        $update = new Update($clients);
+//    }
 
     /**
      * A new websocket connection
