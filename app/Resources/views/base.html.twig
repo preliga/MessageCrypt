@@ -55,53 +55,14 @@
 
         {% block javascripts %}
             <script>
-//                    //lancement serveur chat
-//                    function NotifServer(){
-//                        notif = new WebSocket("ws://localhost:8080");
-//
-//                        notif.onmessage = function (event) {
-//                            console.log(event.data);
-//                            $('.content').append('<p>'+ event.data +'</p>');
-//
-//                        }
-//
-//                        notif.onopen = function() {
-//                            $('.content').append('<p> >>> Connected</p>');
-////                            var token_user = *TOKEN_USER*;
-////                            var authElements = "{\"userData\":\""+token_user+"\"}";
-//                            var authElements = "{'user':'1'}";
-//                            notif.send(authElements);
-//                        }
-//
-//                        notif.onerror = function(error) {
-//                            $('.content').append('<p> >>> Error...</p>');
-//                            //alert('error');
-//                        }
-//
-//
-//                    }
-//
-//                    var notifServer = NotifServer();
-//                    notif.send('{"test":123123}');
-////                    var notifServer = NotifServer();
-////                    notifServer.oner
-
-//                    var conn = new WebSocket('ws://localhost:8080');
-//                    conn.onopen = function(e) {
-//                        console.log("Connection established!");
-//                        conn.send('Hello World!1');
-//                    };
-//
-//                    conn.onmessage = function(e) {
-//                        console.log(e.data);
-//                    };
-
-//                    conn.send('Hello World!2');
-
+            var authToken = "{{ authToken }}";
+            var notReadBase = "{{ notRead }}";
+            var countInvitationsBase = "{{ countInvitations }}";
             </script>
-
             {% block menuscripts %}{% endblock %}
             {% block pagescripts %}{% endblock %}
         {% endblock %}
+
+        <script type="text/javascript" src="{{ asset('js/webSocket.js') }}"></script>
     </body>
 </html>

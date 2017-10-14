@@ -6,10 +6,10 @@
  * Time: 19:44
  */
 
-namespace AppBundle\Command;
+namespace AppBundle\Ratchet\Command;
 
 
-use AppBundle\Server\Notification;
+use AppBundle\Ratchet\Server\Server;
 use Ratchet\Http\HttpServer;
 use Ratchet\Server\IoServer;
 use Ratchet\WebSocket\WsServer;
@@ -38,25 +38,19 @@ class ServerCommand extends ContainerAwareCommand
         $loop = LoopFactory::create();
         $socket = new Reactor('127.0.0.1:8080', $loop);
 
-//        $server = IoServer::factory(new HttpServer(
-//            new WsServer(
-//                new Notification($loop)
-//            )
-//        ), 8080);
-        $server = new IoServer(new HttpServer(new WsServer(new Notification($loop))), $socket, $loop);
+        $server = new IoServer(
+            new HttpServer(
+                new WsServer(
+                    new Server(
+                        $this->getContainer(),
+                        $loop
+                    )
+                )
+            ),
+            $socket,
+            $loop
+        );
 
-//        $server->loop->nextTick(function(){
-//
-//        });
-
-//        $conn = $this->getContainer();
-
-//        for($i = 0; $i < 100; $i++)
-//        {
-//            $conn->send($i);
-//            sleep(1);
-//        }
-//
         $server->run();
 
     }

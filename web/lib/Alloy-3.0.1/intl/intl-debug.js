@@ -132,7 +132,7 @@ Y.mix(Y.namespace("Intl"), {
 Y.augment(Y.Intl, Y.EventTarget);
 
 /**
- * Notification event to indicate when the lang for a module has changed. There is no default behavior associated with this event,
+ * Server event to indicate when the lang for a module has changed. There is no default behavior associated with this event,
  * so the on and after moments are equivalent.
  *
  * @event intl:langChange

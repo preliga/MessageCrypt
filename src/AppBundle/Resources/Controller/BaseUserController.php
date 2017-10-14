@@ -17,7 +17,16 @@ class BaseUserController extends Controller
 
     public function preAction(FilterControllerEvent $event)
     {
+        $authToken = sha1(uniqid());
 
+        $user = $this->getUser();
+
+        $user->setToken($authToken);
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($user);
+        $em->flush();
+
+        $this->twig->addGlobal('authToken', $authToken);
     }
 
     public function render($view, array $parameters = array(), Response $response = null)
@@ -50,6 +59,8 @@ class BaseUserController extends Controller
     private function getUsersToMessages()
     {
         $em = $this->getDoctrine()->getManager();
+
+        $id = $this->getUser()->getId();
 
         $connection = $em->getConnection();
         $query = $connection->prepare("
@@ -84,7 +95,7 @@ class BaseUserController extends Controller
                 GROUP BY m.id
               ) AS r ON r.author = msg.id
             WHERE
-              msg.id <> 1
+              msg.id <> $id
             GROUP BY
               msg.id
             ORDER BY

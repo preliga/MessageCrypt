@@ -397,7 +397,7 @@ Y.extend(Widget, Y.Base, {
         }
 
         /**
-         * Notification event, which widget implementations can fire, when
+         * Server event, which widget implementations can fire, when
          * they change the content of the widget. This event has no default
          * behavior and cannot be prevented, so the "on" or "after"
          * moments are effectively equivalent (with on listeners being invoked before

@@ -622,7 +622,7 @@ Y.ScrollView = Y.extend(ScrollView, Y.Widget, {
         }
         else {
             /**
-             * Notification event fired at the end of a scroll transition
+             * Server event fired at the end of a scroll transition
              *
              * @event scrollEnd
              * @param e {EventFacade} The default event facade.

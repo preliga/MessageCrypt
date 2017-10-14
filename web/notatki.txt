@@ -3,3 +3,10 @@ php bin/console doctrine:mapping:import --force AppBundle xml
 php bin/console doctrine:schema:validate
 
 php bin/console doctrine:schema:update --force --complete
+
+
+
+
+Server
+
+php bin/console Project:notification:server

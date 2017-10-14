@@ -32,11 +32,13 @@
                                 <i class="fa fa-users fa-1x" aria-hidden="true"></i>
                                 <span>
                                     Friends
-                                    {%  if countInvitations > 0 %}
-                                        <div class="mainMenuAlert">
-                                            <span>{{ countInvitations }} invitation{%  if countInvitations != 1  %}s{% endif %} </span>
-                                        </div>
-                                    {% endif %}
+                                    <div class="invitationsAlert">
+                                        {%  if countInvitations > 0 %}
+                                            <div class="mainMenuAlert">
+                                                <span>{{ countInvitations }} invitation{%  if countInvitations != 1  %}s{% endif %} </span>
+                                            </div>
+                                        {% endif %}
+                                    </div>
                                 </span>
                             </a>
                             <ul class="dropdown-menu mega-dropdown-menu">
@@ -57,7 +59,7 @@
                                     </a>
                                 </li>
                                 <li class="col-sm-4">
-                                    <a class="list-group-item {%  if countInvitations > 0 %}alertColor{% endif %}" href="{{ path('user_friends_invitations') }}">
+                                    <a class="list-group-item invitationsLabel {%  if countInvitations > 0 %}alertColor{% endif %}" href="{{ path('user_friends_invitations') }}">
                                         <i class="fa fa-envelope-open-o" aria-hidden="true"></i>
                                         <span style="font-size: 13px;">
                                             Invitations
@@ -72,11 +74,13 @@
                                 <span>
                                     <i class="fa fa-envelope fa-1x" aria-hidden="true"></i>
                                     Messages
-                                    {%  if notRead > 0 %}
-                                        <div class="mainMenuAlert">
-                                            <span>{{ notRead }} message{%  if notRead != 1  %}s{% endif %}</span>
-                                        </div>
-                                    {% endif %}
+                                    <div class="messagesAlert">
+                                        {%  if notRead > 0 %}
+                                            <div class="mainMenuAlert">
+                                                <span>{{ notRead }} messages{%  if notRead != 1  %}s{% endif %}</span>
+                                            </div>
+                                        {% endif %}
+                                    </div>
                                 </span>
                             </a>
                             <ul class="dropdown-menu mega-dropdown-menu">
@@ -89,10 +93,10 @@
                                     </a>
                                 </li>
                                 <li class="dropdown1 col-sm-6">
-                                    <a href="#" class="dropdown-toggle list-group-item {%  if notRead > 0 %}alertColor{% endif %}" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                    <a href="#" class="dropdown-toggle list-group-item messagesLabel {%  if notRead > 0 %}alertColor{% endif %}" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                                         Messages
                                     </a>
-                                    <ul class="dropdown-menu">
+                                    <ul class="dropdown-menu messagesList">
                                         <li>
                                             {% for user in usersToMessages|slice(0, 3) %}
                                                 <a class="list-group-item {%  if user.read == 0 %}alertColor{% endif %}" href="{{ path('user_messages_showAll', {'friendId': user.id})}}">
